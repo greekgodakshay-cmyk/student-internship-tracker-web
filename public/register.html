@@ -1,0 +1,82 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Student Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <section id="register-page">
+      <div class="auth-brand"><img src="/images/student-tracker-logo.jpg" alt="Student Internship &amp; Skill Tracker logo"><span>Student Internship<br>&amp; Skill Tracker</span></div>
+      <h1>Create your account</h1>
+      <p>Start tracking your skills, projects, courses and internships.</p>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your full name"
+            maxlength="100"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            maxlength="254"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="At least 8 characters"
+            minlength="8"
+            maxlength="72"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
+        <div class="consent-panel">
+          <label class="consent-option" for="ageConsent">
+            <input type="checkbox" id="ageConsent" name="ageConsent" value="true" required>
+            <span>I confirm that I am at least 13 years old. If I am under 18, I have permission from a parent or legal guardian to use this service.</span>
+          </label>
+          <label class="consent-option" for="termsConsent">
+            <input type="checkbox" id="termsConsent" name="termsConsent" value="true" required>
+            <span>I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Service</a> and acknowledge the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+        </div>
+
+        <button type="submit">Create Account</button>
+        <p id="registerMessage" role="status" aria-live="polite"></p>
+      </form>
+
+      <p>Already have an account? <a href="login.html">Log in</a></p>
+      <footer class="auth-footer"><a href="/privacy-policy.html">Privacy Policy</a><span>·</span><a href="/terms.html">Terms of Service</a><span>·</span><a href="mailto:akshayaravind.rv@gmail.com">Contact</a></footer>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
+

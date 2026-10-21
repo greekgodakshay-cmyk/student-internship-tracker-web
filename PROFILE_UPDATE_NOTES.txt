@@ -1,0 +1,13 @@
+STUDENT INTERNSHIP TRACKER — UPDATE NOTES
+
+- Added opt-in public profile visibility to the User model.
+- Added authenticated community search for public users and active internship listings.
+- Added public-profile endpoint returning selected profile fields, skills, and existing certificate links only when the profile is public.
+- Added persistent likes and comments for public profiles and certificate entries.
+- Added profile/certificate share links.
+- Added course completion endpoints using the existing Progress model.
+- Added dashboard analytics based on existing APIs and stored user data.
+- Replaced the unrelated gaming-statistics reference with student learning/career analytics.
+- Updated app and auth-page colors to a high-contrast LinkedIn/Indeed-inspired light palette.
+- Existing core API route paths remain unchanged; new endpoints are mounted under /api/community and /api/progress.
+- This archive intentionally excludes .env and node_modules. Restore your private .env locally and run npm install.

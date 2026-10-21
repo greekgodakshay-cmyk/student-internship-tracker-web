@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f5f1">
+  <meta name="description" content="Your personal learning, skills, projects and internship workspace.">
+  <title>Student Tracker — Career Workspace</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    /* =====================================================
+       STUDENT TRACKER — PREMIUM DESIGN SYSTEM
+       Warm ivory / midnight navy / restrained brass
+       ===================================================== */
+
+    :root {
+      color-scheme: light;
+      --bg: #f6f5f1;
+      --surface: #ffffff;
+      --surface-soft: #f0efe9;
+      --ink: #19252f;
+      --muted: #777e83;
+      --line: #e5e3dc;
+      --navy: #172735;
+      --navy-soft: #263b4a;
+      --accent: #a77b3d;
+      --green: #39765d;
+      --red: #a54842;
+      --radius: 16px;
+      --shadow: 0 2px 5px rgba(28, 38, 43, .025),
+                0 12px 32px rgba(28, 38, 43, .045);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    button, a, input, textarea, select {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, a {
+      transition: background .18s ease, color .18s ease,
+        border-color .18s ease, transform .18s ease,
+        box-shadow .18s ease;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible, a:focus-visible,
+    input:focus-visible, textarea:focus-visible,
+    select:focus-visible {
+      outline: 3px solid rgba(167, 123, 61, .4);
+      outline-offset: 3px;
+    }
+
+    /* App layout */
+
+    body > header {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 248px;
+      padding: 30px 19px 20px;
+      overflow-y: auto;
+      background: var(--navy);
+      color: #f5f3ec;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+
+    body > header h1 {
+      margin: 0 0 6px;
+      padding: 0 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 500;
+      letter-spacing: -1px;
+    }
+
+    body > header::after {
+      content: "CAREER DEVELOPMENT";
+      order: 1;
+      margin: 0 12px 18px;
+      color: #aab5ba;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    body > header nav {
+      order: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 16px;
+    }
+
+    body > header nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 43px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      color: #bdc7cc;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    body > header nav a::before {
+      display: inline-grid;
+      width: 18px;
+      place-items: center;
+      color: #aab8bf;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    body > header nav a[href="#dashboard"]::before {
+      content: "⌂";
+    }
+
+    body > header nav a[href="#learning"]::before {
+      content: "▤";
+    }
+
+    body > header nav a[href="#skills"]::before {
+      content: "⌘";
+    }
+
+    body > header nav a[href="#projects"]::before {
+      content: "▣";
+    }
+
+    body > header nav a[href="#internships"]::before {
+      content: "↗";
+    }
+
+    body > header nav a[href="#profile"]::before {
+      content: "◉";
+    }
+
+    body > header nav a[href="#adminCourses"]::before {
+      content: "▧";
+    }
+
+    body > header nav a:hover {
+      background: rgba(255,255,255,.055);
+      color: #fff;
+    }
+
+    body:has(#dashboard:target) nav a[href="#dashboard"],
+    body:has(#learning:target) nav a[href="#learning"],
+    body:has(#skills:target) nav a[href="#skills"],
+    body:has(#projects:target) nav a[href="#projects"],
+    body:has(#internships:target) nav a[href="#internships"],
+    body:has(#profile:target) nav a[href="#profile"],
+    body:has(#adminCourses:target) nav a[href="#adminCourses"] {
+      color: #fff;
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.08);
+      box-shadow: inset 3px 0 #c9a56d;
+    }
+
+    #logoutButton {
+      order: 3;
+      margin: auto 0 0;
+      padding: 11px 13px;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 9px;
+      background: transparent;
+      color: #dce1e3;
+      font-size: 12px;
+    }
+
+    #logoutButton:hover {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+    }
+
+    main {
+      width: min(1440px, calc(100% - 248px));
+      min-height: calc(100vh - 70px);
+      margin-left: 248px;
+      padding: 42px clamp(24px, 4vw, 64px) 64px;
+    }
+
+    /* Hash-based section navigation.
+       The JavaScript IDs and form IDs remain unchanged. */
+
+    /* JavaScript controls which page is visible */
+main > section {
+  display: none;
+  animation: enter .24s ease both;
+}
+
+main > section.is-active {
+  display: block;
+}
+
+main > section[hidden] {
+  display: none !important;
+}
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Headings */
+
+    main > section > h2 {
+      margin: 0 0 7px;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 3vw, 41px);
+      font-weight: 400;
+      letter-spacing: -1.4px;
+      line-height: 1.2;
+    }
+
+    main > section > p {
+      max-width: 680px;
+      margin: 0 0 29px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: -.2px;
+    }
+
+    h4 {
+      color: var(--ink);
+    }
+
+    hr {
+      height: 1px;
+      margin: 32px 0;
+      border: 0;
+      background: var(--line);
+    }
+
+    /* Dashboard hero */
+
+    #dashboard {
+      position: relative;
+    }
+
+    #dashboard > h2 {
+      max-width: 780px;
+      font-size: clamp(34px, 4vw, 50px);
+    }
+
+    #dashboard > h2::before {
+      content: "YOUR CAREER WORKSPACE";
+      display: block;
+      margin-bottom: 16px;
+      color: var(--accent);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 2.2px;
+    }
+
+    #dashboard > p {
+      max-width: 560px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    /* Overview cards */
+
+    .dashboard-card {
+      min-width: 0;
+      margin: 0 0 20px;
+      padding: 25px;
+      overflow-wrap: anywhere;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    #dashboard > .dashboard-card {
+      position: relative;
+      min-height: 158px;
+      padding: 24px;
+    }
+
+    #dashboard > .dashboard-card h3 {
+      margin-bottom: 13px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+
+    #dashboard > .dashboard-card > p {
+      margin: 0 0 18px;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 23px;
+      line-height: 1.4;
+    }
+
+    .dashboard-card a:not([class]) {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .dashboard-card a:not([class])::after {
+      content: "↗";
+      color: var(--accent);
+    }
+
+    .dashboard-card a:not([class]):hover {
+      color: var(--accent);
+    }
+
+    #dashboardProjectsList,
+    #applicationsList {
+      margin-bottom: 12px;
+    }
+
+    /* Course, skill, project and internship lists */
+
+    #coursesList, #skillsList, #projectsList,
+    #internshipsList, #adminCoursesList,
+    #adminInternshipsList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    #coursesList > *, #skillsList > *,
+    #projectsList > *, #internshipsList > *,
+    #adminCoursesList > *, #adminInternshipsList > * {
+      min-width: 0;
+      padding: 21px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+      box-shadow: 0 3px 12px rgba(28,38,43,.025);
+    }
+
+    #dashboardProjectsList > *,
+    #applicationsList > * {
+      margin-bottom: 10px;
+      padding: 15px 17px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg);
+    }
+
+    /* Forms */
+
+    form {
+      width: 100%;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 19px;
+    }
+
+    .form-group label {
+      color: #39444b;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      min-width: 0;
+      padding: 12px 13px;
+      border: 1px solid #deded7;
+      border-radius: 9px;
+      background: #fbfbf9;
+      color: var(--ink);
+      font-size: 13px;
+      transition: border-color .18s ease, box-shadow .18s ease,
+        background .18s ease;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #a2a5a3;
+    }
+
+    input:hover, textarea:hover, select:hover {
+      border-color: #c4c5bd;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #8b9ca5;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 61, 76, .07);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 105px;
+      resize: vertical;
+    }
+
+    small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    button[type="submit"],
+    .dashboard-card button,
+    #skillsList button,
+    #projectsList button,
+    #coursesList button,
+    #internshipsList button,
+    #adminCoursesList button,
+    #adminInternshipsList button {
+      padding: 10px 16px;
+      border: 1px solid var(--navy);
+      border-radius: 8px;
+      background: var(--navy);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    button[type="submit"]:hover,
+    .dashboard-card button:hover {
+      background: var(--navy-soft);
+      box-shadow: 0 4px 12px rgba(23,39,53,.12);
+      transform: translateY(-1px);
+    }
+
+    button[type="button"] {
+      padding: 10px 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    #cancelProjectEdit:not([hidden]) {
+      margin-left: 6px;
+    }
+
+    [role="status"] {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Learning / course catalogue */
+
+    .section-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-heading h3,
+    .section-heading p {
+      margin: 0;
+    }
+
+    #coursesLoading, #skillsLoading, #projectsLoading,
+    #internshipsLoading, #adminCoursesLoading,
+    #adminInternshipsLoading {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Profile */
+
+    #profile .dashboard-card {
+      max-width: 720px;
+      padding: 12px 26px;
+    }
+
+    #profile .dashboard-card p {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 14px 0;
+      margin: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    #profile .dashboard-card p:last-child {
+      border-bottom: 0;
+    }
+
+    #profile .dashboard-card strong {
+      width: 90px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Application status chips, if status is rendered in markup */
+
+    .status, [class*="status-badge"] {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface-soft);
+      color: #46535a;
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    /* Footer */
+
+    body > footer {
+      margin-left: 248px;
+      padding: 18px 32px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+    }
+
+    body > footer p {
+      margin: 0;
+    }
+
+    /* Responsive layout */
+
+    @media (min-width: 1100px) {
+      #dashboard {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 20px;
+      }
+
+      #dashboard > h2,
+      #dashboard > p {
+        grid-column: 1 / -1;
+      }
+
+      #dashboard > .dashboard-card {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      body > header {
+        width: 205px;
+        padding: 24px 13px 16px;
+      }
+
+      main {
+        width: calc(100% - 205px);
+        margin-left: 205px;
+        padding: 32px 24px 48px;
+      }
+
+      body > footer {
+        margin-left: 205px;
+      }
+
+      body > header h1 {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body > header {
+        position: sticky;
+        inset: 0 0 auto;
+        width: 100%;
+        padding: 14px 16px 12px;
+        overflow: visible;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+      }
+
+      body > header h1 {
+        margin: 0 0 12px;
+        padding: 0;
+        font-size: 22px;
+      }
+
+      body > header::after {
+        display: none;
+      }
+
+      body > header nav {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        margin: 0;
+        padding-bottom: 4px;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+
+      body > header nav a {
+        flex: 0 0 auto;
+        min-height: 36px;
+        padding: 8px 11px;
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 8px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      body > header nav a::before {
+        display: none;
+      }
+
+      #logoutButton {
+        position: absolute;
+        top: 15px;
+        right: 16px;
+        margin: 0;
+        padding: 7px 10px;
+        font-size: 10px;
+      }
+
+      main {
+        width: 100%;
+        min-height: 75vh;
+        margin: 0;
+        padding: 29px 17px 44px;
+      }
+
+      main > section > h2 {
+        font-size: 33px;
+      }
+
+      #dashboard > h2 {
+        font-size: 36px;
+      }
+
+      .dashboard-card {
+        padding: 19px;
+        border-radius: 13px;
+      }
+
+      #dashboard > .dashboard-card {
+        min-height: 0;
+        padding: 20px;
+      }
+
+      #coursesList, #skillsList, #projectsList,
+      #internshipsList, #adminCoursesList,
+      #adminInternshipsList {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      body > footer {
+        margin: 0;
+        padding: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* LinkedIn / Indeed-inspired light professional system: legibility first */
+    :root { color-scheme: light; --bg:#f3f6f8; --surface:#ffffff; --surface-soft:#eef3f7; --ink:#1f2933; --muted:#52616d; --line:#d7e0e7; --navy:#173b57; --navy-soft:#245b80; --blue:#0a66c2; --accent:#0a66c2; --green:#167d55; --red:#a33a3a; --radius:10px; --shadow:0 1px 3px rgba(24,48,66,.08); }
+    body { background:#f3f6f8; color:#1f2933; font-size:16px; line-height:1.65; }
+    body > header { background:#fff; color:#243746; border-right:1px solid #d7e0e7; box-shadow:2px 0 8px rgba(23,59,87,.04); }
+    body > header h1 { color:#0a66c2; font-family:Inter,Arial,sans-serif; font-size:25px; font-weight:800; letter-spacing:-.8px; }
+    body > header nav a { color:#354957; font-size:15px; font-weight:650; min-height:46px; }
+    body > header nav a::before { color:#526b7c; }
+    body > header nav a:hover, body:has(#dashboard:target) nav a[href="#dashboard"], body:has(#learning:target) nav a[href="#learning"], body:has(#skills:target) nav a[href="#skills"],
+    body:has(#projects:target) nav a[href="#projects"], body:has(#internships:target) nav a[href="#internships"], body:has(#profile:target) nav a[href="#profile"], body:has(#community:target) nav a[href="#community"], body:has(#adminCourses:target) nav a[href="#adminCourses"] { color:#0a66c2; background:#eaf4fc; border-color:#d1e6f7; box-shadow:inset 3px 0 #0a66c2; }
+    body > header::after { color:#52616d; font-size:10px; }
+    main > section > h2, #dashboard > h2 { color:#183b53; font-family:Inter,Arial,sans-serif; font-weight:800; letter-spacing:-1px; font-size:clamp(32px,3vw,42px); }
+    main > section > p, #dashboard > p { color:#52616d; font-size:16px; }
+    h3 { color:#203b4e; font-size:19px; font-weight:750; letter-spacing:-.25px; }
+    .dashboard-card, #coursesList > *, #skillsList > *, #projectsList > *, #internshipsList > *, #adminCoursesList > *, #adminInternshipsList > * { background:#fff; border:1px solid #d7e0e7; border-radius:10px; box-shadow:0 1px 3px rgba(24,48,66,.06); }
+    #dashboard > .dashboard-card h3 { color:#354957; font-size:14px; }
+    #dashboard > .dashboard-card > p { color:#203b4e; font-family:Inter,Arial,sans-serif; font-size:23px; font-weight:750; }
+    .dashboard-card a:not([class]), #login-page a, #register-page a { color:#0a66c2; font-size:15px; }
+    button, input, textarea, select { font-size:16px; }
+    button { font-weight:700; }
+    button:not(.button-secondary) { border-radius:7px; }
+    input, textarea, select { color:#1f2933; background:#fff; border-color:#9fb0bc; font-size:16px; min-height:44px; }
+    input::placeholder, textarea::placeholder { color:#657785; opacity:1; }
+    body > footer.site-footer { background:#fff; border-top:1px solid #d7e0e7; }
+    body > footer.site-footer { margin-left:248px; padding:24px clamp(24px,4vw,64px) 28px; color:#52616d; }
+    .site-footer .footer-brand { display:flex; gap:12px; align-items:baseline; flex-wrap:wrap; }
+    .site-footer .footer-brand strong { color:#183b53; font-size:18px; }
+    .site-footer .footer-brand span, .footer-disclaimer { font-size:13px; }
+    .site-footer nav { display:flex; flex-wrap:wrap; gap:12px 24px; margin:14px 0; }
+    .site-footer nav a { color:#0a66c2; text-decoration:underline; text-underline-offset:4px; }
+    .site-footer nav a:hover { color:#004182; }
+    .footer-disclaimer { max-width:900px; margin:10px 0 0; }
+    .profile-avatar-fallback { background:#eaf4fc !important; border:1px solid #c6dce9; }
+    .profile-avatar-fallback svg { stroke:#0a548f; }
+    #login-page, #register-page { background:#fff; border-color:#d7e0e7; color:#1f2933; box-shadow:0 8px 28px rgba(23,59,87,.09); }
+    #login-page h1, #register-page h1, #login-page h2, #register-page h2 { color:#173b57; font-family:Inter,Arial,sans-serif; font-weight:800; }
+    #login-page > p, #register-page > p { color:#52616d; }
+    #login-page label, #register-page label { color:#263b4a; font-size:15px; }
+    #login-page input, #register-page input { background:#fff; border-color:#9fb0bc; color:#1f2933; }
+    #login-page button[type="submit"], #register-page button[type="submit"] { background:#0a66c2; border-color:#0a66c2; color:#fff; }
+    #login-page button[type="submit"]:hover, #register-page button[type="submit"]:hover { background:#004182; }
+    #login-page a, #register-page a { color:#0a66c2; }
+    .consent-panel { background:#f3f6f8; border-color:#d7e0e7; border-left-color:#0a66c2; }
+    #register-page .consent-option { color:#354957; font-size:15px; }
+    #dashboard > h2::before { color:#0a66c2; font-size:11px; }
+    .student-analytics, .community-panel { margin-top:30px; padding:26px; background:#fff; border:1px solid #d7e0e7; border-radius:10px; }
+    .analytics-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:22px; }
+    .analytics-heading h3 { margin:0; font-size:24px; }
+    .analytics-heading > p { max-width:340px; margin:0; color:#52616d; font-size:14px; }
+    .section-kicker { margin:0 0 5px; color:#0a66c2; font-size:11px; font-weight:800; letter-spacing:1.4px; }
+
+    /* Career analytics: restrained enterprise charts, placed before the metric cards. */
+    .career-chart-panel { margin-top:26px; padding:24px; background:#fff; border:1px solid #d7e0e7; border-radius:10px; }
+    .career-chart-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:18px; }
+    .career-chart-heading h3 { margin:0; color:#183b53; font-size:23px; }
+    .career-chart-heading > p { max-width:420px; margin:0; color:#52616d; font-size:13px; line-height:1.5; }
+    .career-chart-layout { display:grid; grid-template-columns:minmax(280px,0.9fr) minmax(320px,1.1fr); gap:22px; }
+    .career-radar-wrap,.career-bars-wrap { min-width:0; padding:18px; border:1px solid #e0e7ec; border-radius:8px; background:#fbfcfd; }
+    .career-radar-wrap h4,.career-bars-wrap h4 { margin:0 0 12px; color:#354957; font-size:14px; font-weight:750; }
+    .career-radar-chart { display:flex; justify-content:center; align-items:center; min-height:300px; }
+    .career-radar-chart svg { display:block; width:100%; max-width:430px; height:auto; overflow:visible; }
+    .career-bar-chart { display:grid; gap:13px; padding:8px 0; }
+    .career-bar-row { display:grid; grid-template-columns:minmax(105px,1fr) minmax(80px,2fr) 28px; align-items:center; gap:12px; }
+    .career-bar-label { color:#354957; font-size:12px; line-height:1.3; }
+    .career-bar-track { height:10px; overflow:hidden; border-radius:2px; background:#e5ebef; }
+    .career-bar-fill { display:block; height:100%; min-width:0; background:#3976a8; border-radius:2px; }
+    .career-bar-value { color:#183b53; text-align:right; font-size:13px; font-weight:750; font-variant-numeric:tabular-nums; }
+    @media(max-width:760px) { .career-chart-layout { grid-template-columns:1fr; } .career-chart-heading { display:block; } .career-chart-heading > p { margin-top:8px; } }
+    @media(max-width:440px) { .career-chart-panel { padding:15px; } .career-radar-wrap,.career-bars-wrap { padding:12px; } .career-bar-row { grid-template-columns:100px minmax(50px,1fr) 22px; gap:8px; } .career-radar-chart { min-height:230px; } }
+
+    .analytics-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .analytics-metric { padding:17px; border:1px solid #d7e0e7; border-radius:8px; background:#f8fafb; }
+    .analytics-metric-top { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+    .analytics-metric strong { color:#183b53; font-size:28px; line-height:1.2; font-weight:800; }
+    .analytics-metric h4 { margin:0 0 9px; color:#354957; font-size:14px; font-weight:750; }
+    .analytics-metric p { margin:6px 0 0; color:#52616d; font-size:13px; }
+    .metric-track { height:8px; margin-top:13px; overflow:hidden; border-radius:2px; background:#e1e9ee; }
+    .metric-bar { display:block; height:100%; width:0; background:#0a66c2; transition:width .25s ease; }
+    .analytics-metric:nth-child(2) .metric-bar, .analytics-metric:nth-child(5) .metric-bar { background:#16805d; }
+    .analytics-metric:nth-child(3) .metric-bar { background:#b07a24; }
+    .analytics-loading { color:#52616d; }
+    .community-search-form { display:flex; gap:10px; margin:18px 0 8px; }
+    .community-search-form input { flex:1; min-width:0; padding:12px 15px; border:1px solid #9fb0bc; border-radius:7px; }
+    .community-search-form button, .community-action { padding:10px 16px; background:#0a66c2; color:#fff; border:1px solid #0a66c2; border-radius:7px; }
+    #communitySearchMessage { color:#52616d; font-size:14px; }
+    .community-results-columns { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px; }
+    .community-results-columns h4 { margin:0 0 10px; font-size:18px; color:#203b4e; }
+    .community-results { display:grid; gap:12px; }
+    .community-result-card { min-width:0; padding:16px; border:1px solid #d7e0e7; border-radius:8px; background:#fff; }
+    .community-result-card h5 { margin:0 0 4px; color:#183b53; font-size:17px; }
+    .community-result-card p { margin:4px 0; color:#52616d; overflow-wrap:anywhere; }
+    .community-result-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .community-result-actions button, .community-result-actions a { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:8px 12px; border:1px solid #a9bbc7; border-radius:6px; background:#fff; color:#0a548f; font-weight:700; cursor:pointer; }
+    .public-profile-view { margin-top:24px; padding:22px; border:1px solid #c5d8e5; border-radius:8px; background:#f8fbfd; }
+    .public-profile-view h4 { color:#183b53; font-size:19px; }
+    .public-profile-view .public-skills { display:flex; flex-wrap:wrap; gap:8px; }
+    .public-skill { padding:5px 9px; background:#eaf4fc; color:#164e78; border:1px solid #d1e6f7; border-radius:5px; font-size:14px; }
+    .social-comment { margin-top:8px; padding:8px 10px; border-left:3px solid #c6dce9; background:#fff; color:#354957; font-size:14px; }
+    .profile-visibility-control { margin:18px 0; padding:16px; border:1px solid #d7e0e7; border-radius:8px; background:#f8fafb; }
+    .profile-visibility-control > div > p { margin:4px 0; color:#52616d; font-size:14px; }
+    .visibility-switch { display:flex; gap:10px; align-items:center; margin-top:12px; font-weight:750; }
+    .visibility-switch input { width:20px; min-height:20px; accent-color:#0a66c2; }
+    #profileVisibilityMessage { margin:8px 0 0; color:#167d55; }
+    /* Dashboard top bar: centered search with circular notification and profile actions */
+    #dashboard > .dashboard-topbar { grid-column: 1 / -1; }
+    .dashboard-topbar {
+      display: grid;
+      grid-auto-flow: row;
+      grid-template-columns: 44px minmax(0, 1fr) 46px 46px 46px;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 0 30px;
+    }
+    .dashboard-sidebar-toggle {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:44px; height:44px; padding:0; border:1px solid #cbd8e1;
+      border-radius:12px; background:#fff; color:#174c79;
+      box-shadow:0 3px 12px rgba(20,50,75,.06); font-size:22px;
+    }
+    .dashboard-sidebar-toggle:hover { background:#edf5fc; border-color:#0a66c2; }
+    body.sidebar-collapsed > header { transform:translateX(-100%); }
+    body.sidebar-collapsed main { width:100%; margin-left:0; }
+    body.sidebar-collapsed > footer { margin-left:0; }
+    body > header { transition:transform .22s ease; }
+    .dashboard-topbar .dashboard-quick-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      padding: 7px 9px 7px 16px;
+      border: 1px solid #cbd8e1;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 3px 14px rgba(24,48,66,.07);
+    }
+    .dashboard-topbar .dashboard-quick-search > span {
+      color: #526b7c;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .dashboard-topbar .dashboard-quick-search input {
+      flex: 1;
+      min-width: 0;
+      min-height: 40px;
+      padding: 8px 4px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .dashboard-topbar .dashboard-quick-search input:focus {
+      border: 0;
+      box-shadow: none;
+    }
+    .dashboard-topbar .dashboard-quick-search button {
+      flex: 0 0 auto;
+      min-height: 38px;
+      padding: 8px 16px;
+      border: 1px solid #0a66c2;
+      border-radius: 999px;
+      background: #0a66c2;
+      color: #fff;
+    }
+    .dashboard-topbar .dashboard-quick-search button:hover {
+      background: #004182;
+    }
+    .dashboard-icon-button,
+    .dashboard-profile-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid #cbd8e1;
+      border-radius: 50%;
+      background: #fff;
+      color: #174c79;
+      box-shadow: 0 3px 12px rgba(20,50,75,.08);
+      cursor: pointer;
+    }
+    .dashboard-icon-button:hover,
+    .dashboard-profile-button:hover {
+      border-color: #0a66c2;
+      background: #edf5fc;
+    }
+    .dashboard-icon-button svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .dashboard-profile-button img,
+    .dashboard-profile-button > span,
+    .sidebar-profile-avatar img,
+    .sidebar-profile-avatar > span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .dashboard-profile-button > span,
+    .sidebar-profile-avatar > span {
+      display: grid;
+      place-items: center;
+      background: #e8f1fa;
+      color: #174c79;
+    }
+    .dashboard-profile-button > span svg,
+    .sidebar-profile-avatar > span svg {
+      width: 23px;
+      height: 23px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    body > header nav a.sidebar-profile-link {
+      gap: 11px;
+    }
+    body > header nav a.sidebar-profile-link::before {
+      content: none;
+      display: none;
+    }
+    .sidebar-profile-avatar {
+      display: inline-flex;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      overflow: hidden;
+      border: 1px solid #cbd8e1;
+      border-radius: 50%;
+    }
+    .sidebar-profile-avatar > span {
+      background: #e4edf6;
+      color: #174c79;
+    }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @media(max-width:1000px) { .analytics-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:700px) {
+      .dashboard-topbar { grid-template-columns:38px minmax(0,1fr) 40px 40px 40px; gap:7px; margin-bottom:24px; }
+      .dashboard-sidebar-toggle { width:38px; height:40px; border-radius:10px; }
+      .dashboard-icon-button, .dashboard-profile-button { width:40px; height:40px; }
+      .dashboard-topbar .dashboard-quick-search { gap:5px; padding:5px 7px 5px 11px; }
+      .dashboard-topbar .dashboard-quick-search button { min-height:34px; padding:7px 10px; }
+      .dashboard-topbar .dashboard-quick-search input { font-size:14px; }
+    }
+    @media(max-width:380px) {
+      .dashboard-topbar .dashboard-quick-search button { padding:7px 8px; }
+      .dashboard-topbar .dashboard-quick-search > span { display:none; }
+    }
+    @media(max-width:1000px) { .analytics-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:700px) { .analytics-heading { display:block; } .analytics-heading > p { margin-top:8px; } .community-results-columns { grid-template-columns:1fr; } .community-search-form { flex-direction:column; } .student-analytics,.community-panel { padding:18px; } }
+    @media(max-width:440px) { .analytics-grid { grid-template-columns:1fr; } }
+    @media(max-width:420px) {
+      .dashboard-topbar { grid-template-columns:34px minmax(0,1fr) 36px 36px 36px; gap:5px; }
+      .dashboard-sidebar-toggle, .dashboard-icon-button, .dashboard-profile-button { width:36px; height:38px; }
+      .dashboard-topbar .dashboard-quick-search button { font-size:12px; padding:6px 8px; }
+    }
+    /* Search results open in a dedicated side sheet, not in the dashboard flow. */
+    #community.community-panel {
+      display:none; position:fixed; inset:0; z-index:1000; margin:0; padding:18px;
+      align-items:stretch; justify-content:flex-end; overflow:hidden;
+      background:rgba(15,31,44,.48); border:0; border-radius:0; box-shadow:none;
+    }
+    body.search-sheet-open #community.community-panel { display:flex !important; }
+    .community-sheet-content {
+      width:min(920px,100%); height:100%; max-height:100%; overflow-y:auto;
+      padding:clamp(18px,3vw,32px); background:#fff; border:1px solid #d7e0e7;
+      border-radius:16px; box-shadow:0 18px 60px rgba(10,30,45,.22);
+    }
+    .community-sheet-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+    .community-sheet-heading .analytics-heading { flex:1; min-width:0; margin-bottom:0; }
+    #closeCommunitySheet { flex:0 0 auto; min-width:42px; min-height:42px; padding:8px; font-size:22px; line-height:1; }
+    body.sidebar-collapsed .dashboard-topbar { max-width:1500px; }
+    @media(max-width:700px) {
+      #community.community-panel { padding:8px; }
+      .community-sheet-content { width:100%; padding:16px; border-radius:12px; }
+      .community-sheet-heading { gap:8px; }
+    }
+  
+
+    /* Full-width career analytics: give the charts the complete dashboard row. */
+    #dashboard > .career-chart-panel,
+    #dashboard > .student-analytics {
+      grid-column: 1 / -1;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    #dashboard > .career-chart-panel {
+      margin-top: 8px;
+      padding: clamp(22px, 3vw, 38px);
+    }
+    .career-chart-heading { margin-bottom: 28px; }
+    .career-chart-heading h3 { font-size: clamp(23px, 2vw, 28px); }
+    .career-chart-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(18px, 2.5vw, 32px);
+      align-items: stretch;
+    }
+    .career-radar-wrap, .career-bars-wrap {
+      min-height: 470px;
+      padding: clamp(20px, 2.5vw, 32px);
+      display: flex;
+      flex-direction: column;
+    }
+    .career-radar-chart {
+      flex: 1;
+      min-height: 400px;
+      width: 100%;
+    }
+    .career-radar-chart svg {
+      width: 100%;
+      max-width: 620px;
+      max-height: 470px;
+    }
+    .career-bar-chart {
+      flex: 1;
+      align-content: center;
+      gap: 24px;
+      padding: 16px 0;
+    }
+    .career-bar-row {
+      grid-template-columns: minmax(125px, 1fr) minmax(100px, 2.4fr) 38px;
+      gap: 16px;
+      font-size: 14px;
+    }
+    #dashboard > .student-analytics { margin-top: 24px; }
+    @media (min-width: 1100px) {
+      #dashboard > .career-chart-panel,
+      #dashboard > .student-analytics { grid-column: 1 / -1; }
+    }
+    @media (max-width: 760px) {
+      .career-chart-layout { grid-template-columns: 1fr; }
+      .career-radar-wrap, .career-bars-wrap { min-height: 0; }
+      .career-radar-chart { min-height: 320px; }
+      .career-radar-chart svg { max-width: 520px; }
+      .career-bar-chart { gap: 16px; }
+    }
+    @media (max-width: 440px) {
+      #dashboard > .career-chart-panel { padding: 16px; }
+      .career-radar-wrap, .career-bars-wrap { padding: 14px; }
+      .career-radar-chart { min-height: 270px; }
+      .career-bar-row { grid-template-columns: 100px minmax(45px, 1fr) 25px; gap: 8px; }
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1 class="dashboard-brand"><img src="/images/student-tracker-logo.jpg" alt="" class="dashboard-brand-logo"> <span>Student Tracker</span></h1>
+    <nav aria-label="Main navigation">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#learning">Learning</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#internships">Internships</a>
+      <a href="#profile" id="sidebarProfileLink" class="sidebar-profile-link">
+        <span class="sidebar-profile-avatar">
+          <img id="sidebarProfileImage" alt="" hidden>
+          <span id="sidebarProfileFallback" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 21v-2a8 8 0 0 1 16 0v2z"></path>
+            </svg>
+          </span>
+        </span>
+        <span>Profile</span>
+      </a>
+      <a href="#community">Network &amp; Search</a>
+      <a href="#adminCourses" id="adminNavLink" hidden>Course Management</a>
+    </nav>
+    <button type="button" id="logoutButton">↗ &nbsp; Logout</button>
+  </header>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+      <div class="dashboard-topbar">
+        <button type="button" id="dashboardSidebarToggle" class="dashboard-sidebar-toggle" aria-label="Collapse sidebar" aria-pressed="false" title="Collapse sidebar">☰</button>
+        <form id="dashboardQuickSearch" class="dashboard-quick-search" role="search">
+          <label class="sr-only" for="dashboardQuickSearchInput">Search courses, skills, people and internships</label>
+          <span aria-hidden="true">⌕</span>
+          <input id="dashboardQuickSearchInput" type="search" minlength="2" maxlength="100" placeholder="Search courses, skills, people, internships…" autocomplete="off">
+          <button type="submit">Search</button>
+        </form>
+
+        <button type="button" id="dashboardNotificationButton" class="dashboard-icon-button" aria-label="Notifications" title="Notifications">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M10 21h4"></path>
+          </svg>
+          <span id="notificationUnreadBadge" class="notification-unread-badge" hidden>0</span>
+        </button>
+
+        <button type="button" id="dashboardMessagesButton" class="dashboard-icon-button" aria-label="Messages" title="Messages">✉</button>
+        <button type="button" id="dashboardProfileButton" class="dashboard-profile-button" aria-label="Open your profile" title="My profile">
+          <img id="dashboardProfileImage" alt="" hidden>
+          <span id="dashboardProfileFallback" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 21v-2a8 8 0 0 1 16 0v2z"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <section id="socialInboxPanel" class="social-inbox-panel" hidden aria-live="polite">
+        <div class="social-inbox-heading"><h3 id="socialInboxTitle">Notifications</h3><button type="button" id="socialInboxClose" aria-label="Close panel">×</button></div>
+        <div id="socialInboxContent"><p>Loading…</p></div>
+      </section>
+      <h2 id="welcomeHeading">Welcome to Your Dashboard</h2>
+      <p>Build your skills. Track your progress. Prepare for your career.</p>
+
+      <div class="dashboard-card">
+        <h3>Learning Progress</h3>
+        <p id="dashboardCourseSummary">Your course progress will appear here.</p>
+        <a href="#learning">Explore courses</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>My Skills</h3>
+        <p id="skillSummary">Loading your skills...</p>
+        <a href="#skills">Manage my skills</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>My Projects</h3>
+        <p id="dashboardProjectSummary">Loading your projects...</p>
+        <div id="dashboardProjectsList"></div>
+        <a href="#projects">Manage my projects</a>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>Internship Applications</h3>
+        <p id="applicationsSummary">Loading your applications...</p>
+        <div id="applicationsList" hidden></div>
+        <button type="button" id="manageApplicationsButton" class="community-action">Manage Applications</button>
+        <a href="#internships">View internships</a>
+      </div>
+      <section class="career-chart-panel" aria-labelledby="careerChartTitle">
+        <div class="career-chart-heading">
+          <div><p class="section-kicker">PERFORMANCE OVERVIEW</p><h3 id="careerChartTitle">Career activity matrix</h3></div>
+          <p>Live totals from your saved account data. The radar compares relative counts, not career scores.</p>
+        </div>
+        <div class="career-chart-layout">
+          <div class="career-radar-wrap"><h4>Activity profile</h4><div id="careerRadarChart" class="career-radar-chart" role="img" aria-label="Radar chart comparing career activity counts"><p class="analytics-loading">Loading chart…</p></div></div>
+          <div class="career-bars-wrap"><h4>Activity breakdown</h4><div id="careerBarChart" class="career-bar-chart" role="img" aria-label="Bar chart showing career activity counts"><p class="analytics-loading">Loading chart…</p></div></div>
+        </div>
+      </section>
+      <section class="student-analytics" aria-labelledby="analyticsTitle">
+        <div class="analytics-heading"><div><p class="section-kicker">YOUR ACTIVITY, AT A GLANCE</p><h3 id="analyticsTitle">Progress analytics</h3></div><p>Counts update from your saved account data. No sample metrics.</p></div>
+        <div id="analyticsGrid" class="analytics-grid" aria-live="polite">
+          <p class="analytics-loading">Loading your learning and career activity…</p>
+        </div>
+      </section>
+
+      <section id="community" class="community-panel" aria-labelledby="communityTitle" aria-modal="true" role="dialog" aria-hidden="true">
+        <div class="community-sheet-content">
+        <div class="community-sheet-heading"><div class="analytics-heading"><div><p class="section-kicker">PROFESSIONAL NETWORK</p><h3 id="communityTitle">Find people and opportunities</h3></div><p>Search public profiles and active internship listings.</p></div><button type="button" id="closeCommunitySheet" aria-label="Close search results" title="Close">×</button></div>
+        <form id="communitySearchForm" class="community-search-form" role="search">
+          <label class="sr-only" for="communitySearchInput">Search public users or internships</label>
+          <input id="communitySearchInput" type="search" maxlength="100" placeholder="Search people, skills, colleges, roles or internships…" autocomplete="off" required>
+          <button type="submit" id="communitySearchButton">Search</button>
+        </form>
+        <p id="communitySearchMessage" role="status" aria-live="polite">Only profiles marked public appear in people search.</p>
+        <div class="community-results-columns"><section><h4>People</h4><div id="communityUsersResults" class="community-results"></div></section><section><h4>Internships</h4><div id="communityInternshipResults" class="community-results"></div></section></div>
+        <section id="publicProfileView" class="public-profile-view" hidden aria-live="polite"></section>
+        </div>
+      </section>
+    </section>
+
+    <!-- LEARNING -->
+    <section id="learning">
+      <h2>Learning &amp; Courses</h2>
+      <p>Build valuable skills through structured learning and track your progress.</p>
+
+      <div class="dashboard-card">
+        <div class="section-heading">
+          <h3>Available Courses</h3>
+          <p id="courseSummary">Courses will appear here.</p>
+        </div>
+
+        <p id="coursesLoading" role="status" aria-live="polite">Loading courses...</p>
+        <div id="coursesList"></div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <p>Track the skills you are developing and your proficiency in each one.</p>
+
+      <div class="dashboard-card">
+        <h3>Add a Skill</h3>
+
+        <form id="skillForm">
+          <div class="form-group">
+            <label for="skillName">Skill name</label>
+            <input type="text" id="skillName" name="name"
+              placeholder="e.g. Python" maxlength="100" required>
+          </div>
+
+          <div class="form-group">
+            <label for="skillCategory">Category</label>
+            <select id="skillCategory" name="category" required>
+              <option value="Programming">Programming</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Database">Database</option>
+              <option value="AI & Machine Learning">AI &amp; Machine Learning</option>
+              <option value="Cloud Computing">Cloud Computing</option>
+              <option value="Tools">Tools</option>
+              <option value="Soft Skills">Soft Skills</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="skillProficiency">Proficiency</label>
+            <select id="skillProficiency" name="proficiency" required>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+
+          <button type="submit" id="addSkillButton">Add Skill</button>
+          <p id="skillMessage" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <h3>My Saved Skills</h3>
+      <p id="skillsLoading">Loading skills...</p>
+      <div id="skillsList" class="dashboard-card"></div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>Showcase your work, technologies and certificates.</p>
+
+      <h3>My Projects</h3>
+
+      <div class="dashboard-card">
+        <h3 id="projectFormHeading">Add a Project</h3>
+
+        <form id="projectForm">
+          <div class="form-group">
+            <label for="projectTitle">Project title</label>
+            <input type="text" id="projectTitle" maxlength="150"
+              placeholder="e.g. AI Internship Tracker" required>
+          </div>
+
+          <div class="form-group">
+            <label for="projectDescription">Description</label>
+            <textarea id="projectDescription" maxlength="2000" rows="4"
+              placeholder="What does your project do?" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="projectTechnologies">Technologies</label>
+            <input type="text" id="projectTechnologies"
+              placeholder="Python, React, MongoDB">
+            <small>Separate technologies with commas.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="projectUrl">Project or GitHub URL</label>
+            <input type="url" id="projectUrl"
+              placeholder="https://github.com/yourname/project">
+          </div>
+
+          <div class="form-group">
+            <label for="certificateUrl">Certificate URL (optional)</label>
+            <input type="url" id="certificateUrl"
+              placeholder="https://example.com/certificate">
+          </div>
+
+          <div class="form-group">
+            <label for="projectCompletedAt">Completion date (optional)</label>
+            <input type="date" id="projectCompletedAt">
+          </div>
+
+          <button type="submit" id="saveProjectButton">Save Project</button>
+          <button type="button" id="cancelProjectEdit" hidden>Cancel Edit</button>
+          <p id="projectMessage" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <h3>My Saved Projects</h3>
+      <p id="projectsLoading" role="status" aria-live="polite">Loading projects...</p>
+      <div id="projectsList"></div>
+    </section>
+
+    <!-- INTERNSHIPS -->
+    <section id="internships">
+      <h2>Internships</h2>
+      <p>Discover opportunities, organise applications and manage your career pipeline.</p>
+
+      <div id="adminInternshipManagement" hidden>
+        <div class="dashboard-card">
+          <h3>Create an Internship Listing</h3>
+
+          <form id="internshipForm">
+            <div class="form-group">
+              <label for="internshipTitle">Internship title</label>
+              <input id="internshipTitle" name="title" type="text"
+                maxlength="200" placeholder="e.g. Web Development Intern" required>
+            </div>
+
+            <div class="form-group">
+              <label for="internshipCompany">Company</label>
+              <input id="internshipCompany" name="company" type="text"
+                maxlength="150" placeholder="Company name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="internshipDescription">Description</label>
+              <textarea id="internshipDescription" name="description"
+                maxlength="3000" rows="4"
+                placeholder="Describe the internship and responsibilities" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="internshipLocation">Location</label>
+              <input id="internshipLocation" name="location" type="text"
+                maxlength="200" placeholder="e.g. Bengaluru or India">
+            </div>
+
+            <div class="form-group">
+              <label for="internshipWorkMode">Work mode</label>
+              <select id="internshipWorkMode" name="workMode">
+                <option value="Not specified">Not specified</option>
+                <option value="Remote">Remote</option>
+                <option value="On-site">On-site</option>
+                <option value="Hybrid">Hybrid</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="internshipSkills">Required skills</label>
+              <input id="internshipSkills" name="requiredSkills" type="text"
+                placeholder="JavaScript, HTML, CSS">
+              <small>Separate skills with commas.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="internshipApplicationUrl">Application URL</label>
+              <input id="internshipApplicationUrl" name="applicationUrl"
+                type="url" maxlength="2048"
+                placeholder="https://example.com/apply" required>
+            </div>
+
+            <div class="form-group">
+              <label for="internshipDeadline">Application deadline</label>
+              <input id="internshipDeadline" name="deadline" type="date">
+            </div>
+
+            <div class="form-group">
+              <label for="internshipIsActive">Listing status</label>
+              <select id="internshipIsActive" name="isActive">
+                <option value="true">Active — visible to students</option>
+                <option value="false">Inactive — hidden from students</option>
+              </select>
+            </div>
+
+            <button type="submit" id="saveInternshipButton">Create Internship</button>
+            <p id="internshipFormMessage" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <h3>Manage Internship Listings</h3>
+        <p id="adminInternshipsLoading">Loading internship listings...</p>
+        <div id="adminInternshipsList"></div>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>Available Internships</h3>
+        <p id="internshipsLoading">Loading internships...</p>
+        <div id="internshipsList"></div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile">
+      <div class="profile-heading">
+        <div>
+          <p class="profile-eyebrow">YOUR PROFESSIONAL IDENTITY</p>
+          <h2>My Profile</h2>
+          <p>Make your profile yours. Your details are saved to your account.</p>
+        </div>
+      </div>
+
+      <div class="profile-social-stats" aria-label="Profile statistics">
+        <div><strong id="myFollowersCount">0</strong><span>Followers</span></div>
+        <div><strong id="myFollowingCount">0</strong><span>Following</span></div>
+        <div><strong id="myCertificatesCount">0</strong><span>Certificates</span></div>
+      </div>
+
+      <section class="profile-certificate-feed dashboard-card" aria-labelledby="certificateFeedTitle">
+        <div class="profile-card-heading">
+          <div><h3 id="certificateFeedTitle">Certificate showcase</h3><p>Share credentials you've earned by adding a certificate link to a project below.</p></div>
+          <a class="profile-add-certificate" href="#projects">Add certificate</a>
+        </div>
+        <div id="myCertificateFeed" class="certificate-feed-list"><p>Your certificate posts will appear here.</p></div>
+      </section>
+
+      <div class="profile-summary dashboard-card">
+        <div class="profile-avatar-wrap">
+          <img id="profilePhotoDisplay" class="profile-avatar" alt="Your profile photo" hidden>
+          <div id="profileAvatarFallback" class="profile-avatar profile-avatar-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" role="presentation"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-14 9-22 22-22s21 8 22 22"/></svg></div>
+        </div>
+        <div class="profile-summary-copy">
+          <h3 id="profileDisplayName">Loading profile...</h3>
+          <p id="profileHeadline">Add your profession and education to introduce yourself.</p>
+          <p class="profile-account-line"><span id="profileEmail">Loading...</span><span class="profile-dot">•</span><span id="profileRole">Loading...</span></p>
+        </div>
+      </div>
+
+      <div class="dashboard-card profile-editor-card">
+        <div class="profile-card-heading">
+          <div>
+            <h3>Edit profile</h3>
+            <p>Fields marked optional can be left blank and completed later.</p>
+          </div>
+        </div>
+
+        <form id="profileForm">
+          <div class="profile-form-section">
+            <h4>Personal details</h4>
+            <div class="profile-photo-editor">
+              <div class="profile-avatar-wrap profile-avatar-wrap-small">
+                <img id="profilePhotoPreview" class="profile-avatar" alt="Selected profile photo preview" hidden>
+                <div id="profilePhotoFallback" class="profile-avatar profile-avatar-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" role="presentation"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-14 9-22 22-22s21 8 22 22"/></svg></div>
+              </div>
+              <div class="profile-photo-controls">
+                <label for="profilePhotoInput">Profile photo</label>
+                <input type="file" id="profilePhotoInput" accept="image/png,image/jpeg,image/webp">
+                <p class="profile-help">PNG, JPG or WebP. Maximum 850 KB. Your photo is stored with your profile.</p>
+                <button type="button" id="removeProfilePhoto" class="button-secondary">Remove photo</button>
+              </div>
+            </div>
+
+            <div class="profile-form-grid">
+              <div class="form-group">
+                <label for="profileAge">Age</label>
+                <input type="number" id="profileAge" name="age" min="13" max="120" step="1" placeholder="e.g. 21">
+                <small>Age is for your account profile; it is not publicly listed.</small>
+              </div>
+              <div class="form-group">
+                <label for="profileProfession">What best describes you?</label>
+                <select id="profileProfession" name="professionType">
+                  <option value="student">Student</option>
+                  <option value="working professional">Working professional</option>
+                  <option value="freelancer">Freelancer</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-form-section">
+            <h4>Education and work</h4>
+            <div class="profile-form-grid">
+              <div class="form-group">
+                <label for="profileCollege">College / University</label>
+                <input type="text" id="profileCollege" name="college" maxlength="160" placeholder="e.g. Your college or university">
+              </div>
+              <div class="form-group">
+                <label for="profileDegree">Degree / Course</label>
+                <input type="text" id="profileDegree" name="degree" maxlength="120" placeholder="e.g. B.E. Computer Science">
+              </div>
+              <div class="form-group">
+                <label for="profileStudyYear">Current year / role</label>
+                <input type="text" id="profileStudyYear" name="studyYear" maxlength="60" placeholder="e.g. 3rd year or Software Engineer">
+              </div>
+              <div class="form-group">
+                <label for="profileFieldOfStudy">Field / Specialization</label>
+                <input type="text" id="profileFieldOfStudy" name="fieldOfStudy" maxlength="120" placeholder="e.g. Applied AI">
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-form-section">
+            <h4>A little about you</h4>
+            <div class="profile-form-grid">
+              <div class="form-group">
+                <label for="profileLocation">City / Region</label>
+                <input type="text" id="profileLocation" name="location" maxlength="120" autocomplete="address-level2" placeholder="City or region only">
+                <small>For privacy, don't enter your full home address.</small>
+              </div>
+              <div class="form-group">
+                <label for="profileHobbies">Hobbies and interests</label>
+                <input type="text" id="profileHobbies" name="hobbies" maxlength="300" placeholder="e.g. Coding, fitness, design">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="profileBio">Bio</label>
+              <textarea id="profileBio" name="bio" rows="5" maxlength="600" placeholder="Tell us what you're learning, building, or working toward..."></textarea>
+              <small><span id="profileBioCount">0</span>/600 characters</small>
+            </div>
+          </div>
+
+          <p id="profilePrivacyNote" class="profile-privacy-note" role="note">Your profile is currently private to your signed-in account. Public profile sharing is not enabled.</p>
+          <div class="profile-visibility-control"><div><strong>Profile visibility</strong><p>Public profiles can appear in search. Your skills and certificate links are visible only when your profile is public.</p></div><label class="visibility-switch"><input type="checkbox" id="publicProfileToggle"><span>Make my profile public</span></label><p id="profileVisibilityMessage" role="status" aria-live="polite"></p></div>
+          <p id="profileMessage" class="profile-message" role="status" aria-live="polite"></p>
+          <div class="profile-form-actions">
+            <button type="submit" id="saveProfileButton">Save profile</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ADMIN COURSE MANAGEMENT -->
+    <section id="adminCourses" hidden>
+      <h2>Course Management</h2>
+      <p>Create and publish learning experiences for students.</p>
+
+      <div class="dashboard-card">
+        <h3>Create a Course</h3>
+
+        <form id="courseForm">
+          <div class="form-group">
+            <label for="courseTitle">Course title</label>
+            <input type="text" id="courseTitle" name="title"
+              maxlength="200" placeholder="e.g. Introduction to Python" required>
+          </div>
+
+          <div class="form-group">
+            <label for="courseDescription">Description</label>
+            <textarea id="courseDescription" name="description"
+              maxlength="2000" rows="4"
+              placeholder="What will students learn?" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="courseCategory">Category</label>
+            <input type="text" id="courseCategory" name="category"
+              maxlength="100" value="Programming" required>
+          </div>
+
+          <div class="form-group">
+            <label for="courseLevel">Difficulty</label>
+            <select id="courseLevel" name="level" required>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="courseInstructor">Instructor</label>
+            <input type="text" id="courseInstructor" name="instructor"
+              maxlength="100" placeholder="Instructor name">
+          </div>
+
+          <div class="form-group">
+            <label for="coursePublish">Publication status</label>
+            <select id="coursePublish" name="isPublished" required>
+              <option value="false">Save as draft</option>
+              <option value="true">Publish immediately</option>
+            </select>
+          </div>
+
+          <button type="submit" id="createCourseButton">Create Course</button>
+          <p id="courseFormMessage" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <h3>Existing Courses</h3>
+      <p id="adminCoursesLoading">Loading course catalogue...</p>
+      <div id="adminCoursesList"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand"><strong>Student Tracker</strong><span>Learning today. Building tomorrow.</span></div>
+    <nav aria-label="Legal and contact links"><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="mailto:akshayaravind.rv@gmail.com">akshayaravind.rv@gmail.com</a><a href="tel:+918000000000">+91 80000 00000</a></nav>
+    <p class="footer-disclaimer">No testimonials or user reviews are published unless genuinely collected and verified. Contact phone number is a placeholder and must be replaced before public launch.</p>
+  </footer>
+
+  <script src="/js/script.js"></script>
+  
+<!-- Floating AI Career Assistant -->
+<div id="ai-chat-widget">
+  <button id="ai-chat-toggle" type="button"
+    aria-label="Open AI Career Assistant"
+    aria-expanded="false">
+    
+<img
+  src="/images/career-assistant-logo.png"
+  alt=""
+  class="ai-chat-logo"
+>
+
+  </button>
+
+  <section id="ai-chat-panel" role="dialog"
+    aria-label="AI Career Assistant" hidden>
+    <header class="ai-chat-header">
+      <div>
+        <strong>Career Assistant</strong>
+        <p>Ask about skills, courses and internships</p>
+      </div>
+      <button id="ai-chat-close" type="button"
+        aria-label="Close chat">×</button>
+    </header>
+
+    <div id="ai-chat-messages" aria-live="polite">
+      <div class="ai-chat-message ai-chat-bot">
+        Hi! How can I help with your career journey today?
+      </div>
+    </div>
+
+    <div id="ai-chat-faq" class="ai-chat-faq">
+      <p class="ai-chat-faq-title">How can I help you today?</p>
+      <div class="ai-chat-faq-list">
+        <button class="ai-chat-faq-button" type="button" data-faq-question="How can I find internships and apply?">Find internships and apply</button>
+        <button class="ai-chat-faq-button" type="button" data-faq-question="How can I find students, seniors, or recruiters?">Connect with students, seniors, or recruiters</button>
+        <button class="ai-chat-faq-button" type="button" data-faq-question="How do I explore courses and track my learning progress?">Explore courses and track learning</button>
+        <button class="ai-chat-faq-button" type="button" data-faq-question="How can I add skills, projects, and certificates to my profile?">Add skills, projects, and certificates</button>
+        <button class="ai-chat-faq-button" type="button" data-faq-question="How can I manage my profile and privacy settings?">Manage my profile and privacy</button>
+        <button class="ai-chat-faq-button" type="button" data-faq-question="Can you help me improve my resume and prepare for interviews?">Get resume and interview tips</button>
+      </div>
+    </div>
+
+    <form id="ai-chat-form">
+      <label class="ai-chat-sr-only" for="ai-chat-input">
+        Your message
+      </label>
+      <input id="ai-chat-input" type="text"
+        placeholder="Ask a question..." maxlength="1000"
+        autocomplete="off" required>
+      <button id="ai-chat-send" type="submit">Send</button>
+    </form>
+    <p id="ai-chat-status" role="status"></p>
+  </section>
+</div>
+
+<link rel="stylesheet" href="/css/ai-chat.css">
+<script src="/js/ai-chat.js" defer></script>
+</body>
+</html>

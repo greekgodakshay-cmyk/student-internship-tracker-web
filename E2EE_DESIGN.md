@@ -1,0 +1,24 @@
+# Private messaging encryption status and proposed E2EE design
+
+## Current verified state — not end-to-end encrypted
+
+The application contains private user-to-user messaging (`models/Message.js` and `/api/social/messages/:id`). Today the message body is stored as ordinary application text in MongoDB and is returned to authorized conversation participants by the server. HTTPS protects traffic in transit when correctly configured, and Atlas encryption at rest protects underlying storage, but neither is end-to-end encryption. Password hashing is unrelated to message encryption. **Do not advertise current messaging as E2EE.** Database/application operators with sufficient access can read message bodies.
+
+## Proposed design; implementation intentionally gated
+
+Use a maintained, reviewed Signal Protocol implementation (for example, the official maintained `libsignal` implementation where it is supported for the target web platform), implementing asynchronous session setup with the library's supported pre-key protocol and Double Ratchet. Do not implement custom key exchange, a home-grown ratchet, or custom cryptographic primitives. Before coding, verify the library's current maintenance status, supported browser/runtime, license, API stability, security review history, and deployment suitability. If a suitable maintained implementation cannot be used in the browser, select a reviewed E2EE client rather than approximating the protocol with a single AES key.
+
+### Protocol and lifecycle requirements
+
+1. **Keys:** generate identity keys and per-device session/pre-keys on the user's device using the vetted implementation and cryptographically secure randomness. Private keys must never be uploaded to the application server. Store device private-key material only in a supported secure local store (for web, evaluate IndexedDB plus a user/device-bound wrapping key and its limitations; do not treat ordinary localStorage as secure).
+2. **Identity verification:** expose a stable identity-key fingerprint or QR verification flow so users can compare identity out-of-band. Clearly notify users when a contact's identity key changes; require acknowledgement and re-verification for high-risk conversations.
+3. **Device changes:** model each device as a separate cryptographic endpoint, publish only public identity/pre-key material to the server, support per-device sessions, and require explicit approval for adding a device. A device that is removed must not receive future session keys.
+4. **Recovery:** do not create a server-side plaintext recovery key. Explain that lost device keys may make historical messages unrecoverable. If account recovery is required, design an optional user-controlled encrypted backup with a recovery secret that the server cannot derive; threat-model weak passwords and recovery abuse before enabling it.
+5. **Message storage and API:** send and persist only authenticated ciphertext plus the minimum routing/version/nonce metadata required by the selected library. The server must not have decryption keys. Authenticate and authorize sender/recipient and connection status as today; validate ciphertext envelope sizes and protocol version. Do not use message plaintext for server-side search, moderation, AI summarization, notifications, or analytics. Notifications must remain content-free.
+6. **Metadata:** E2EE does not hide who talks to whom, approximate timestamps, delivery/read state, IP addresses, account identities, or message sizes from the service. Minimize retention of those metadata and state the limitation in the privacy policy.
+7. **XSS and endpoints:** E2EE does not protect messages if a sender's or recipient's device is compromised or malicious JavaScript is served. Keep CSP strict, minimize third-party scripts, protect deployments and dependencies, and test DOM-XSS paths because an XSS flaw can steal plaintext and keys from the browser.
+8. **Migration:** do not silently reinterpret existing plaintext records as ciphertext. Keep legacy messages clearly marked as legacy plaintext (or make them unavailable until the user exports/deletes them), agree on a user-visible migration plan, and do not claim old messages have been retroactively protected.
+
+## Verification gate before implementation
+
+Before implementation, document the exact library and protocol version, browser support, key formats, server-side envelope schema, identity-change UX, multi-device behavior, backup/recovery behavior, downgrade prevention, rate limits, metadata retention, and migration plan. Have the design reviewed by a security engineer familiar with the chosen protocol; then add client/server integration tests, interoperability tests, device-change tests, tamper/replay tests, and a security review. This release does **not** implement E2EE because a correct implementation requires those choices and verification; inventing a partial protocol would create a false sense of security.

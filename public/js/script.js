@@ -2258,6 +2258,7 @@ async function loadAdminCourses() {
         editLessonButton.addEventListener("click", () => { editLessonForm.hidden = !editLessonForm.hidden; });
         editLessonForm.addEventListener("submit", async event => {
           event.preventDefault(); saveLesson.disabled = true; editMessage.textContent = "Saving…";
+
           try {
             const r = await fetch(`/api/courses/${encodeURIComponent(course._id)}/lessons/${encodeURIComponent(lesson._id)}`, { method: "PATCH", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ title: et.input.value.trim(), description: ed.input.value.trim(), videoUrl: ev.input.value.trim(), resourceUrl: er.input.value.trim() }) });
             const d = await r.json(); if (!r.ok) throw new Error(d.message || "Unable to update lesson.");

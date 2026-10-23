@@ -1166,6 +1166,7 @@ main > section[hidden] {
     <h1 class="dashboard-brand"><img src="/images/student-tracker-logo.jpg" alt="" class="dashboard-brand-logo"> <span>Student Tracker</span></h1>
     <nav aria-label="Main navigation">
       <a href="#dashboard">Dashboard</a>
+      <a href="#socialFeed">Community Feed</a>
       <a href="#learning">Learning</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
@@ -1284,6 +1285,22 @@ main > section[hidden] {
         <section id="publicProfileView" class="public-profile-view" hidden aria-live="polite"></section>
         </div>
       </section>
+    </section>
+
+    <!-- PROFESSIONAL SOCIAL FEED -->
+    <section id="socialFeed" class="social-feed-section" aria-labelledby="socialFeedTitle">
+      <div class="section-heading">
+        <div><p class="profile-eyebrow">STUDENT COMMUNITY</p><h2 id="socialFeedTitle">Community Feed</h2><p>Share progress, celebrate milestones, and learn from public profiles.</p></div>
+      </div>
+      <div class="dashboard-card social-post-composer-card">
+        <form id="socialPostForm" class="social-post-composer">
+          <label for="socialPostContent">Share a professional update</label>
+          <textarea id="socialPostContent" name="content" maxlength="2000" rows="3" placeholder="What are you learning or working on?" required></textarea>
+          <div class="social-post-composer-footer"><small>Up to 2,000 characters. Posts appear in the feed when your profile is public.</small><button type="submit" id="socialPostSubmit">Publish post</button></div>
+          <p id="socialPostStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div id="socialFeedList" class="social-post-feed" aria-live="polite"><p>Loading community posts…</p></div>
     </section>
 
     <!-- LEARNING -->
@@ -1508,18 +1525,11 @@ main > section[hidden] {
       </div>
 
       <div class="profile-social-stats" aria-label="Profile statistics">
-        <div><button type="button" class="profile-stat-button" data-profile-view="followers" aria-controls="profileConnectionsPanel"><strong id="myFollowersCount">0</strong><span>Followers</span></button></div>
-        <div><button type="button" class="profile-stat-button" data-profile-view="following" aria-controls="profileConnectionsPanel"><strong id="myFollowingCount">0</strong><span>Following</span></button></div>
+        <div><button type="button" class="profile-stat-button" data-profile-view="followers"><strong id="myFollowersCount">0</strong><span>Followers</span></button></div>
+        <div><button type="button" class="profile-stat-button" data-profile-view="following"><strong id="myFollowingCount">0</strong><span>Following</span></button></div>
         <div><button type="button" class="profile-stat-button" data-profile-view="certificates" aria-controls="myCertificateFeed"><strong id="myCertificatesCount">0</strong><span>Certificates</span></button></div>
       </div>
 
-      <section id="profileConnectionsPanel" class="dashboard-card profile-connections-panel" aria-labelledby="profileConnectionsTitle" hidden>
-        <div class="profile-card-heading">
-          <div><h3 id="profileConnectionsTitle">Your connections</h3><p id="profileConnectionsDescription">People in your professional network.</p></div>
-          <button type="button" id="closeProfileConnections" class="button-secondary">Back to profile</button>
-        </div>
-        <div id="profileConnectionsList" class="profile-connections-list" aria-live="polite"><p>Choose Followers or Following to view your network.</p></div>
-      </section>
 
       <section class="profile-certificate-feed dashboard-card" aria-labelledby="certificateFeedTitle">
         <div class="profile-card-heading">
@@ -1527,6 +1537,11 @@ main > section[hidden] {
           <a class="profile-add-certificate" href="#projects">Add certificate</a>
         </div>
         <div id="myCertificateFeed" class="certificate-feed-list"><p>Your certificate posts will appear here.</p></div>
+      </section>
+
+      <section class="profile-posts-section dashboard-card" aria-labelledby="myPostsTitle">
+        <div class="profile-card-heading"><div><h3 id="myPostsTitle">My posts</h3><p>Your updates in a structured profile grid.</p></div><a class="profile-add-certificate" href="#socialFeed">Create a post</a></div>
+        <div id="myPostsGrid" class="profile-post-grid"><p>Loading your posts…</p></div>
       </section>
 
       <div class="profile-summary dashboard-card">
@@ -1704,6 +1719,7 @@ main > section[hidden] {
   </footer>
 
   <script src="/js/script.js"></script>
+  <script src="/js/posts.js"></script>
 
 <!-- Floating AI Career Assistant -->
 <div id="ai-chat-widget">

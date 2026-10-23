@@ -30,7 +30,7 @@ router.get('/search', async (req,res)=>{
 router.get('/users/:id', async(req,res)=>{
  try {
   if(!mongoose.isValidObjectId(req.params.id)) return res.status(400).json({message:'Invalid profile.'});
-  const user=await User.findOne({_id:req.params.id,publicProfile:true}).select('name college degree studyYear fieldOfStudy location bio createdAt').lean();
+  const user=await User.findOne({_id:req.params.id,publicProfile:true}).select('name college degree studyYear fieldOfStudy location bio createdAt +photoData').lean();
   if(!user) return res.status(404).json({message:'This profile is private or unavailable.'});
   const [skills,projects]=await Promise.all([
    Skill.find({user:user._id}).select('name category proficiency createdAt').sort({createdAt:-1}).lean(),

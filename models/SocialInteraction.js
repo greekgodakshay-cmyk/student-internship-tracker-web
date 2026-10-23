@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const socialInteractionSchema = new mongoose.Schema({
-  targetType: { type: String, enum: ['profile', 'certificate'], required: true },
+  targetType: { type: String, enum: ['profile', 'certificate', 'post'], required: true },
   targetId: { type: mongoose.Schema.Types.ObjectId, required: true, index: true },
   actor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   action: { type: String, enum: ['like', 'comment'], required: true },

@@ -22,6 +22,7 @@ const applicationRoutes = require("./routes/applications");
 const communityRoutes = require("./routes/community");
 const progressRoutes = require("./routes/progress");
 const socialFeatureRoutes = require("./routes/socialFeatures");
+const postRoutes = require("./routes/posts");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -179,6 +180,7 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/community", communityRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/social", socialFeatureRoutes);
+app.use("/api/posts", postRoutes);
 
 // Keep unknown API routes and malformed requests on a consistent JSON error path.
 app.use("/api", (req, res) => {
@@ -231,6 +233,11 @@ app.get("/register.html", (req, res) => {
 // Protected dashboard
 app.get("/index.html", requireAuth, (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
+});
+
+// Dedicated follower/following view; its data remains behind authenticated APIs.
+app.get("/connections.html", requireAuth, (req, res) => {
+  res.sendFile(path.join(publicPath, "connections.html"));
 });
 
 // Serve CSS and JavaScript assets

@@ -14,6 +14,8 @@ const FIELD_RULES = [
   ["POST", /^\/api\/chat\/?$/, ["message"]],
   ["POST", /^\/api\/skills\/?$/, ["name", "category", "proficiency"]],
   ["POST", /^\/api\/projects\/?$/, ["title", "description", "technologies", "projectUrl", "certificateUrl", "completedAt"]],
+  ["POST", /^\/api\/posts\/?$/, ["content"]],
+  ["POST", /^\/api\/posts\/[^/]+\/comments$/, ["text"]],
   ["PUT", /^\/api\/projects\/[^/]+$/, ["title", "description", "technologies", "projectUrl", "certificateUrl", "completedAt"]],
   ["POST", /^\/api\/applications\/?$/, ["internshipId", "status", "notes"]],
   ["PATCH", /^\/api\/applications\/[^/]+$/, ["status", "notes"]],

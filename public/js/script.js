@@ -14,7 +14,6 @@ function safeHttpUrl(value) {
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeThemeToggle();
-  initializeScrollReveal();
   initializeSectionNavigation();
 
   initializeLogin();
@@ -41,9 +40,31 @@ function initializeThemeToggle() {
   const systemPrefersDark = window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  const iconMarkup = (dark) => dark
-    ? '<svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>'
-    : '<svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/></svg>';
+  const createThemeIcon = (dark) => {
+    const ns = "http://www.w3.org/2000/svg";
+    const icon = document.createElementNS(ns, "svg");
+    icon.setAttribute("aria-hidden", "true");
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("width", "19");
+    icon.setAttribute("height", "19");
+    icon.setAttribute("fill", "none");
+    icon.setAttribute("stroke", "currentColor");
+    icon.setAttribute("stroke-width", "1.8");
+    icon.setAttribute("stroke-linecap", "round");
+    icon.setAttribute("stroke-linejoin", "round");
+    if (dark) {
+      const circle = document.createElementNS(ns, "circle");
+      circle.setAttribute("cx", "12"); circle.setAttribute("cy", "12"); circle.setAttribute("r", "4");
+      const rays = document.createElementNS(ns, "path");
+      rays.setAttribute("d", "M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l-1.42 1.42m11.3-11.3 1.42-1.42");
+      icon.append(circle, rays);
+    } else {
+      const moon = document.createElementNS(ns, "path");
+      moon.setAttribute("d", "M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z");
+      icon.append(moon);
+    }
+    return icon;
+  };
 
   let button = document.getElementById("themeToggle");
   if (!button) {
@@ -59,7 +80,7 @@ function initializeThemeToggle() {
     document.documentElement.style.colorScheme = theme;
     document.querySelectorAll("#themeToggle, .floating-theme-toggle").forEach((control) => {
       const dark = theme === "dark";
-      control.innerHTML = iconMarkup(dark);
+      control.replaceChildren(createThemeIcon(dark));
       control.setAttribute("aria-pressed", String(dark));
       control.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
       control.setAttribute("title", dark ? "Switch to light mode" : "Switch to dark mode");
@@ -2063,6 +2084,7 @@ function initializeCommunitySearch() {
       const shareUrl=`${window.location.origin}/index.html?profile=${encodeURIComponent(id)}`;await socialControls(profileView,'profile',id,shareUrl);
       profileView.appendChild(node('h4','Certificates'));if(!d.certificates.length)profileView.appendChild(node('p','No certificate links are shared on this profile.'));
       for (const cert of d.certificates) { const card=node('article',undefined,'community-result-card');card.appendChild(node('h5',cert.title));if(cert.description)card.appendChild(node('p',cert.description));const href=safeUrl(cert.certificateUrl);if(href){const a=node('a','View certificate');a.href=href;a.target='_blank';a.rel='noopener noreferrer';card.appendChild(a);}await socialControls(card,'certificate',cert._id,href||shareUrl);profileView.appendChild(card); }
+      if (window.StudentPosts && typeof window.StudentPosts.renderPublicProfile === 'function') await window.StudentPosts.renderPublicProfile(profileView, id);
       profileView.scrollIntoView({behavior:'smooth',block:'start'});
     } catch(e){profileView.replaceChildren(node('p',e.message));profileView.hidden=false;}
   }
@@ -2103,49 +2125,29 @@ async function initializeProfileShowcase() {
   }catch(e){feed.replaceChildren(safeText("p",e.message||"Certificate showcase is temporarily unavailable."));}
 }
 function initializeProfileConnections() {
-  const panel=document.getElementById("profileConnectionsPanel");
-  const list=document.getElementById("profileConnectionsList");
-  const title=document.getElementById("profileConnectionsTitle");
-  const description=document.getElementById("profileConnectionsDescription");
-  const close=document.getElementById("closeProfileConnections");
-  const feed=document.querySelector(".profile-certificate-feed");
-  if(!panel||!list||!title||!description||!close)return;
-  const make=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
-  const safePhoto=value=>typeof value==="string"&&/^data:image\/(?:png|jpeg|webp);base64,/i.test(value);
-  async function showConnections(kind){
-    const isFollowers=kind==="followers";
-    title.textContent=isFollowers?"Followers":"Following";
-    description.textContent=isFollowers?"People who follow your profile.":"People you follow.";
-    list.replaceChildren(make("p","Loading list…","profile-connection-empty"));
-    panel.hidden=false;
-    panel.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
-    try{
-      const response=await fetch(`/api/social/${kind}`,{headers:{Accept:"application/json"}});
-      const data=await response.json();
-      if(!response.ok)throw new Error(data.message||`Unable to load ${kind}.`);
-      list.replaceChildren();
-      const users=Array.isArray(data.users)?data.users:[];
-      if(!users.length){list.append(make("p",isFollowers?"You don't have any followers yet.":"You're not following anyone yet.","profile-connection-empty"));return;}
-      users.forEach(user=>{
-        const row=make("div",undefined,"profile-connection-row");
-        const label=(user.name||"Student").trim()||"Student";
-        let avatar;
-        if(safePhoto(user.photoData)){avatar=make("img",undefined,"profile-connection-avatar");avatar.src=user.photoData;avatar.alt=`${label} profile photo`;avatar.loading="lazy";}
-        else avatar=make("span",label.charAt(0).toUpperCase(),"profile-connection-avatar");
-        row.append(avatar,make("span",label,"profile-connection-name"));
-        list.append(row);
-      });
-    }catch(error){list.replaceChildren(make("p",error.message||`Unable to load ${kind}.`,"profile-connection-empty"));}
-  }
-  document.querySelectorAll(".profile-stat-button[data-profile-view]").forEach(button=>button.addEventListener("click",()=>{
-    const kind=button.dataset.profileView;
-    if(kind==="followers"||kind==="following"){showConnections(kind);return;}
-    panel.hidden=true;
-    if(feed){feed.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});const heading=document.getElementById("certificateFeedTitle");if(heading){heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true});}}
-  }));
-  close.addEventListener("click",()=>{panel.hidden=true;const stats=document.querySelector(".profile-social-stats");if(stats)stats.scrollIntoView({behavior:"auto",block:"start"});});
+  const feed = document.querySelector(".profile-certificate-feed");
+  document.querySelectorAll(".profile-stat-button[data-profile-view]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const kind = button.dataset.profileView;
+      if (kind === "followers" || kind === "following") {
+        window.location.href = `/connections.html?type=${encodeURIComponent(kind)}`;
+        return;
+      }
+      if (feed) {
+        feed.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          block: "start"
+        });
+        const heading = document.getElementById("certificateFeedTitle");
+        if (heading) {
+          heading.setAttribute("tabindex", "-1");
+          heading.focus({ preventScroll: true });
+        }
+      }
+    });
+  });
 }
-document.addEventListener("DOMContentLoaded",initializeProfileConnections);
+document.addEventListener("DOMContentLoaded", initializeProfileConnections);
 document.addEventListener("DOMContentLoaded",initializeProfileShowcase);
 
 /* Persistent notification inbox and direct messages */
@@ -2380,11 +2382,12 @@ async function loadAdminCourses() {
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduced || !("IntersectionObserver" in window) || !document.body) return;
     const selector = [
-      "#dashboard > *", "#learning > *", "#skills > *", "#projects > *",
+      "#dashboard > *", "#socialFeed > *", "#learning > *", "#skills > *", "#projects > *",
       "#internships > *", "#profile > *", "#community > *", "#adminCourses > *",
       ".dashboard-card", ".dashboard-grid", ".course-card", ".skill-card",
       ".project-card", ".internship-card", ".application-card", ".certificate-card",
-      ".analytics-card", ".analytics-metric", ".social-inbox-panel", ".community-panel"
+      ".analytics-card", ".analytics-metric", ".social-inbox-panel", ".community-panel",
+      ".social-post-card", ".profile-posts-section"
     ].join(",");
     const observed = new WeakSet();
     const observer = new IntersectionObserver((entries) => {

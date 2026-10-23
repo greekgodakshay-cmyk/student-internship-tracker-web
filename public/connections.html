@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f5f1">
+  <title>Connections — Student Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/connections.css">
+</head>
+<body class="connections-page">
+  <main class="connections-main">
+    <a class="connections-back" href="/index.html#profile">← Back to profile</a>
+    <section class="connections-card" aria-labelledby="connectionsTitle">
+      <header class="connections-heading">
+        <div>
+          <p class="connections-eyebrow">YOUR PROFESSIONAL NETWORK</p>
+          <h1 id="connectionsTitle">Connections</h1>
+          <p id="connectionsDescription">People in your network.</p>
+        </div>
+        <span id="connectionsTotal" class="connections-total" aria-live="polite">—</span>
+      </header>
+      <div id="connectionsList" class="connections-list" aria-live="polite" aria-busy="true">
+        <p class="connections-state">Loading your network…</p>
+      </div>
+    </section>
+  </main>
+  <button type="button" id="connectionsThemeToggle" class="connections-theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
+  <script src="/js/connections.js" defer></script>
+</body>
+</html>

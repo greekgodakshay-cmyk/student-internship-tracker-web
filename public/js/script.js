@@ -13,6 +13,8 @@ function safeHttpUrl(value) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initializeThemeToggle();
+  initializeScrollReveal();
   initializeSectionNavigation();
 
   initializeLogin();
@@ -29,6 +31,72 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeCommunitySearch();
   initializeDashboardQuickSearch();
 });
+
+// Theme preference is stored locally; no backend or account data is involved.
+function initializeThemeToggle() {
+  const savedTheme = (() => {
+    try { return localStorage.getItem("student-tracker-theme"); }
+    catch { return null; }
+  })();
+  const systemPrefersDark = window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const applyTheme = (theme) => {
+    document.body.dataset.theme = theme;
+    document.querySelectorAll("#themeToggle, .floating-theme-toggle").forEach((button) => {
+      const dark = theme === "dark";
+      button.textContent = dark ? "☀" : "☾";
+      button.setAttribute("aria-pressed", String(dark));
+      button.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+      button.setAttribute("title", dark ? "Switch to light mode" : "Switch to dark mode");
+    });
+  };
+  let button = document.getElementById("themeToggle");
+  if (!button) {
+    button = document.createElement("button");
+    button.type = "button";
+    button.className = "floating-theme-toggle";
+    button.id = "themeToggle";
+    button.textContent = "☾";
+    button.setAttribute("aria-label", "Switch to dark mode");
+    button.setAttribute("title", "Switch to dark mode");
+    document.body.appendChild(button);
+  }
+  applyTheme(savedTheme === "dark" || savedTheme === "light" ? savedTheme : (systemPrefersDark ? "dark" : "light"));
+  button.addEventListener("click", () => {
+    const nextTheme = document.body.dataset.theme === "dark" ? "light" : "dark";
+    applyTheme(nextTheme);
+    try { localStorage.setItem("student-tracker-theme", nextTheme); } catch { /* Storage may be unavailable. */ }
+  });
+}
+
+function initializeScrollReveal() {
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const selectors = [
+    "#dashboard > .dashboard-card", "#dashboard > .dashboard-grid",
+    "#dashboard .analytics-card", "#learning .dashboard-card",
+    "#skills .dashboard-card", "#projects .dashboard-card",
+    "#internships .dashboard-card", "#profile .dashboard-card",
+    "#community .dashboard-card", ".profile-card", ".course-card",
+    ".skill-card", ".project-card", ".internship-card", ".application-card",
+    ".certificate-card", ".analytics-card"
+  ];
+  const elements = [...new Set(selectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
+  if (!elements.length || reduceMotion || !("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" });
+  elements.forEach((element) => {
+    element.classList.add("reveal-on-scroll");
+    observer.observe(element);
+  });
+}
+
 // LOGIN
 function initializeLogin() {
   const form = document.getElementById("loginForm");

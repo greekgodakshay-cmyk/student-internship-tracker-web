@@ -67,3 +67,32 @@
   .feature-visual { min-height: 220px; }
   .about-mark { max-width: 100%; aspect-ratio: 4 / 3; }
 }
+
+
+/* Theme and scroll-reveal enhancements */
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;padding:8px 11px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.reveal-on-scroll{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.65,.25,1);will-change:opacity,transform}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+body[data-theme="dark"]{color-scheme:dark;--paper:#111820;--white:#19232d;--ink:#edf2f5;--navy:#e8eef2;--muted:#b0bdc5;--line:#34434e;--accent:#d6ad72;--mint:#243a32;--blue:#9bc4ce;background:var(--paper);color:var(--ink)}
+body[data-theme="dark"] .site-header{background:rgba(17,24,32,.96);border-color:var(--line)}
+body[data-theme="dark"] .brand-name span{color:#b0bdc5}
+body[data-theme="dark"] .button{background:#d6ad72;border-color:#d6ad72;color:#17232c}
+body[data-theme="dark"] .button:hover{background:#e6c18a}
+body[data-theme="dark"] .hero-art,
+body[data-theme="dark"] .feature-visual,
+body[data-theme="dark"] .feature-card,
+body[data-theme="dark"] .step-card,
+body[data-theme="dark"] .about-mark,
+body[data-theme="dark"] .quote-card{border-color:var(--line)}
+body[data-theme="dark"] .feature-card,
+body[data-theme="dark"] .step-card,
+body[data-theme="dark"] .quote-card{background:var(--white);color:var(--ink)}
+body[data-theme="dark"] .hero-description,
+body[data-theme="dark"] .section-intro,
+body[data-theme="dark"] .feature-card p,
+body[data-theme="dark"] .step-card p,
+body[data-theme="dark"] footer{color:var(--muted)}
+body[data-theme="dark"] .site-footer{background:#0d151c;color:#edf2f5}
+body[data-theme="dark"] .site-footer a{color:#d6ad72}
+body[data-theme="dark"] .menu-toggle span{background:var(--ink)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal-on-scroll{opacity:1;transform:none}}

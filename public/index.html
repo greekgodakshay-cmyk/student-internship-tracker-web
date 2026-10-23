@@ -1076,6 +1076,73 @@ main > section[hidden] {
       .career-bar-row { grid-template-columns: 100px minmax(45px, 1fr) 25px; gap: 8px; }
     }
 
+
+    /* Accessible dark theme: preserve the existing dashboard layout and components. */
+    body[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #111820;
+      --surface: #19232d;
+      --surface-soft: #202d38;
+      --ink: #edf2f5;
+      --muted: #b0bdc5;
+      --line: #34434e;
+      --navy: #0d151c;
+      --navy-soft: #263b4a;
+      --accent: #d6ad72;
+      --green: #83c6a2;
+      --red: #f09a91;
+      --shadow: 0 8px 28px rgba(0,0,0,.22);
+      background: var(--bg);
+      color: var(--ink);
+    }
+    body[data-theme="dark"] main,
+    body[data-theme="dark"] section,
+    body[data-theme="dark"] .dashboard-card,
+    body[data-theme="dark"] .profile-card,
+    body[data-theme="dark"] .analytics-card,
+    body[data-theme="dark"] .social-inbox-panel,
+    body[data-theme="dark"] .community-panel,
+    body[data-theme="dark"] .course-card,
+    body[data-theme="dark"] .skill-card,
+    body[data-theme="dark"] .project-card,
+    body[data-theme="dark"] .internship-card,
+    body[data-theme="dark"] .application-card,
+    body[data-theme="dark"] .certificate-card {
+      color: var(--ink);
+    }
+    body[data-theme="dark"] input,
+    body[data-theme="dark"] textarea,
+    body[data-theme="dark"] select {
+      background-color: #121b23;
+      color: #edf2f5;
+      border-color: #43535f;
+    }
+    body[data-theme="dark"] input::placeholder,
+    body[data-theme="dark"] textarea::placeholder { color: #9eacb5; }
+    body[data-theme="dark"] table,
+    body[data-theme="dark"] th,
+    body[data-theme="dark"] td { border-color: var(--line); }
+    body[data-theme="dark"] .dashboard-topbar { background: rgba(17,24,32,.94); }
+    body[data-theme="dark"] .dashboard-card,
+    body[data-theme="dark"] .profile-card,
+    body[data-theme="dark"] .analytics-card,
+    body[data-theme="dark"] .course-card,
+    body[data-theme="dark"] .skill-card,
+    body[data-theme="dark"] .project-card,
+    body[data-theme="dark"] .internship-card,
+    body[data-theme="dark"] .application-card,
+    body[data-theme="dark"] .certificate-card,
+    body[data-theme="dark"] .social-inbox-panel { border-color: var(--line); }
+    body[data-theme="dark"] .dashboard-card h3,
+    body[data-theme="dark"] h1,
+    body[data-theme="dark"] h2,
+    body[data-theme="dark"] h3,
+    body[data-theme="dark"] h4 { color: #f0f4f6; }
+    body[data-theme="dark"] .dashboard-card p,
+    body[data-theme="dark"] .muted,
+    body[data-theme="dark"] small { color: var(--muted); }
+    body[data-theme="dark"] .theme-toggle { color: #f7d9a3; }
+
   </style>
 </head>
 
@@ -1117,6 +1184,8 @@ main > section[hidden] {
           <input id="dashboardQuickSearchInput" type="search" minlength="2" maxlength="100" placeholder="Search courses, skills, people, internships…" autocomplete="off">
           <button type="submit">Search</button>
         </form>
+
+        <button type="button" id="themeToggle" class="dashboard-icon-button theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">☾</button>
 
         <button type="button" id="dashboardNotificationButton" class="dashboard-icon-button" aria-label="Notifications" title="Notifications">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">

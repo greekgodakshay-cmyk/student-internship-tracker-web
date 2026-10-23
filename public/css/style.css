@@ -1084,3 +1084,17 @@ body[data-theme="dark"] .social-post-composer-footer button { background: #0a66c
     padding: 12px 6px;
   }
 }
+
+
+/* Message timestamps and presence indicators */
+.social-thread-heading { display:flex; align-items:center; gap:10px; }
+.social-thread-heading-copy { display:flex; flex-direction:column; min-width:0; gap:1px; }
+.social-thread-heading-copy h4 { margin:0; }
+.social-presence { display:flex; align-items:center; gap:6px; color:var(--muted,#60717d); font-size:.78rem; }
+.social-presence::before { content:""; width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:#9aa6b2; }
+.social-presence.is-online { color:#16834a; }
+.social-presence.is-online::before { background:#20a45a; box-shadow:0 0 0 3px rgba(32,164,90,.12); }
+.social-message-wrap { display:flex; flex-direction:column; align-items:flex-start; gap:3px; margin:8px 0; }
+.social-message-wrap:has(.social-message.mine) { align-items:flex-end; }
+.social-message-time { color:var(--muted,#60717d); font-size:.72rem; padding:0 5px; }
+.social-message { max-width:min(88%,620px); overflow-wrap:anywhere; }

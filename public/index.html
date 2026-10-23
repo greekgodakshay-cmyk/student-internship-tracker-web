@@ -1158,6 +1158,78 @@ main > section[hidden] {
     @media (prefers-reduced-motion: reduce) {
       .reveal-on-scroll { opacity: 1; transform: none; transition: none; will-change: auto; }
     }
+
+    /* Global sticky application toolbar: shared by every in-app section. */
+    main > .dashboard-topbar {
+      position: fixed;
+      z-index: 1200;
+      top: 0;
+      left: 280px;
+      right: 0;
+      width: auto;
+      max-width: none;
+      min-height: 68px;
+      margin: 0;
+      padding: 10px 24px;
+      grid-template-columns: 44px minmax(180px, 1fr) 42px 46px 46px 46px;
+      background: rgba(246,245,241,.96);
+      border-bottom: 1px solid #e5e3dc;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    main { padding-top: 88px !important; }
+    body.sidebar-collapsed main > .dashboard-topbar { left: 0; }
+    body.sidebar-collapsed main { margin-left: 0; }
+    body.sidebar-collapsed main > .dashboard-topbar { left: 0; }
+    .dashboard-topbar .dashboard-quick-search { max-width: none; }
+    .social-feed-section { padding-bottom: 110px; }
+    .social-post-composer-card {
+      position: fixed;
+      z-index: 1100;
+      left: 280px;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 10px 22px calc(10px + env(safe-area-inset-bottom));
+      border: 1px solid #d8e1e8;
+      border-bottom: 0;
+      border-radius: 14px 14px 0 0;
+      background: rgba(255,255,255,.97);
+      box-shadow: 0 -8px 28px rgba(23,39,53,.10);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .social-post-composer { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 8px 14px; }
+    .social-post-composer label { grid-column: 1 / -1; margin: 0; font-size: 12px; }
+    .social-post-composer textarea {
+      min-height: 42px;
+      max-height: 72px;
+      resize: vertical;
+      padding: 9px 13px;
+      border-radius: 999px;
+      line-height: 1.35;
+    }
+    .social-post-composer-footer { display: contents; }
+    .social-post-composer-footer small { display: none; }
+    .social-post-composer-footer button { align-self: center; min-height: 42px; white-space: nowrap; }
+    #socialPostStatus { grid-column: 1 / -1; }
+    @media (max-width: 900px) {
+      main > .dashboard-topbar { left: 0; padding: 8px 12px; gap: 7px; }
+      .social-post-composer-card { left: 0; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); }
+      .dashboard-topbar { grid-template-columns: 38px minmax(0,1fr) 38px 38px 38px 38px; }
+    }
+    @media (max-width: 520px) {
+      main { padding-top: 76px !important; }
+      main > .dashboard-topbar { min-height: 64px; grid-template-columns: 36px minmax(0,1fr) 34px 34px 34px 34px; padding: 7px 8px; gap: 5px; }
+      .dashboard-sidebar-toggle { width: 36px; height: 38px; }
+      .dashboard-icon-button, .dashboard-profile-button { width: 34px; height: 34px; }
+      .dashboard-topbar .dashboard-quick-search button { font-size: 12px; padding: 6px 8px; }
+      .social-post-composer { grid-template-columns: minmax(0,1fr) auto; }
+      .social-post-composer-card { padding-left: 8px; padding-right: 8px; }
+      .social-post-composer textarea { min-height: 40px; font-size: 13px; }
+      .social-post-composer-footer button { padding: 7px 10px; font-size: 12px; }
+    }
+
 </style>
 </head>
 
@@ -1190,9 +1262,7 @@ main > section[hidden] {
   </header>
 
   <main>
-    <!-- DASHBOARD -->
-    <section id="dashboard">
-      <div class="dashboard-topbar">
+    <div class="dashboard-topbar">
         <button type="button" id="dashboardSidebarToggle" class="dashboard-sidebar-toggle" aria-label="Collapse sidebar" aria-pressed="false" title="Collapse sidebar">☰</button>
         <form id="dashboardQuickSearch" class="dashboard-quick-search" role="search">
           <label class="sr-only" for="dashboardQuickSearchInput">Search courses, skills, people and internships</label>
@@ -1222,6 +1292,10 @@ main > section[hidden] {
           </span>
         </button>
       </div>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+
       <section id="socialInboxPanel" class="social-inbox-panel" hidden aria-live="polite">
         <div class="social-inbox-heading"><h3 id="socialInboxTitle">Notifications</h3><button type="button" id="socialInboxClose" aria-label="Close panel">×</button></div>
         <div id="socialInboxContent"><p>Loading…</p></div>

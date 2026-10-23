@@ -35,13 +35,16 @@
       if (root instanceof Element && root.matches(revealSelector)) items.push(root);
       if (root.querySelectorAll) items.push(...root.querySelectorAll(revealSelector));
       items.forEach((item) => {
-        if (observed.has(item) || item.hidden || item.getClientRects().length === 0) return;
+        if (observed.has(item) || item.hidden || item.closest("[hidden]")) return;
         observed.add(item); item.classList.add("reveal-on-scroll"); observer.observe(item);
       });
     };
     scan(document);
-    const mutationObserver = new MutationObserver((records) => records.forEach((record) => record.addedNodes.forEach((node) => { if (node instanceof Element) scan(node); })));
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
+    const mutationObserver = new MutationObserver((records) => records.forEach((record) => {
+      if (record.type === "attributes" && record.target instanceof Element) scan(record.target);
+      record.addedNodes.forEach((node) => { if (node instanceof Element) scan(node); });
+    }));
+    mutationObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden", "class", "style"] });
   }
 
   const toggle = document.querySelector(".menu-toggle");

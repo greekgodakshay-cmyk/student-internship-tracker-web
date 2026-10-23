@@ -79,55 +79,6 @@ function initializeThemeToggle() {
   });
 }
 
-function initializeScrollReveal() {
-  const reduceMotion = window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion || !("IntersectionObserver" in window)) return;
-
-  const selectors = [
-    "#dashboard > *", "#learning > *", "#skills > *", "#projects > *",
-    "#internships > *", "#profile > *", "#community > *",
-    ".dashboard-card", ".dashboard-grid", ".profile-card", ".course-card",
-    ".skill-card", ".project-card", ".internship-card", ".application-card",
-    ".certificate-card", ".analytics-card", ".social-inbox-panel",
-    ".community-panel", ".section-heading", ".dashboard-section"
-  ];
-  const seen = new WeakSet();
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.06, rootMargin: "0px 0px -24px 0px" });
-
-  const observeElements = (root) => {
-    if (!(root instanceof Element || root instanceof Document)) return;
-    const found = [];
-    if (root instanceof Element && selectors.some((selector) => {
-      try { return root.matches(selector); } catch { return false; }
-    })) found.push(root);
-    selectors.forEach((selector) => {
-      try { found.push(...root.querySelectorAll(selector)); } catch { /* Ignore invalid selector. */ }
-    });
-    [...new Set(found)].forEach((element) => {
-      if (seen.has(element)) return;
-      seen.add(element);
-      element.classList.add("reveal-on-scroll");
-      observer.observe(element);
-    });
-  };
-
-  observeElements(document);
-  // Dashboard cards are often rendered after API responses; observe those too.
-  const mutationObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => {
-      if (node instanceof Element) observeElements(node);
-    }));
-  });
-  mutationObserver.observe(document.body, { childList: true, subtree: true });
-}
 
 // LOGIN
 function initializeLogin() {
@@ -1399,7 +1350,7 @@ function initializeProjectsTracker() {
 
   loadProjects();
 }
- 
+
 
 /* STUDENT INTERNSHIP APPLICATION TRACKER */
 function initializeApplicationTracker() {
@@ -1457,7 +1408,7 @@ function initializeApplicationTracker() {
         const location = document.createElement("p");
         location.textContent = `Location: ${internship?.location || "Not specified"}`;
 
-       
+
 const statusLabel = document.createElement("label");
 statusLabel.textContent = "Application status: ";
 
@@ -1590,7 +1541,7 @@ statusLabel.appendChild(status);
   loadApplications();
 }
 
- 
+
  // SECTION NAVIGATION — keeps dashboard views separate
 function initializeSectionNavigation() {
   const main = document.querySelector("main");
@@ -1767,7 +1718,7 @@ function initializeInternships() {
         card.appendChild(status);
       }
 
-      
+
 if (!isAdmin) {
   const trackButton = document.createElement("button");
   trackButton.type = "button";
@@ -2132,9 +2083,11 @@ async function initializeProfileShowcase() {
     if(id){try{const sr=await fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`,{headers:{Accept:"application/json"}});if(sr.ok){const st=await sr.json();document.getElementById("myFollowersCount").textContent=st.followers??0;document.getElementById("myFollowingCount").textContent=st.following??0;document.getElementById("myCertificatesCount").textContent=st.certificates??0;}}catch(_){}}
     const response=await fetch("/api/projects",{headers:{Accept:"application/json"}});const result=await response.json();if(!response.ok)throw new Error(result.message||"Unable to load certificates.");
     const projects=(result.projects||[]).filter(p=>typeof p.certificateUrl==="string"&&p.certificateUrl.trim());feed.replaceChildren();
-    if(!projects.length){feed.append(safeText("p","No certificates listed yet. Add a project with a certificate URL to showcase your achievement."));return;}
+    if(!projects.length){feed.append(safeText("p","No certificates posted yet."));return;}
     for(const project of projects){const card=safeText("article",undefined,"certificate-feed-card");const head=safeText("div",undefined,"certificate-feed-author");
-      const avatar=safeText("span",(user.name||"U").trim().charAt(0).toUpperCase(),"certificate-feed-avatar");
+      const hasPhoto=typeof user.photoData==="string"&&/^data:image\/(?:png|jpeg|webp);base64,/i.test(user.photoData);
+      const avatar=hasPhoto?safeText("img",undefined,"certificate-feed-avatar"):safeText("span",(user.name||"U").trim().charAt(0).toUpperCase(),"certificate-feed-avatar");
+      if(hasPhoto){avatar.src=user.photoData;avatar.alt=`${user.name||"Your profile"} profile photo`;avatar.loading="lazy";}
       const author=safeText("div",undefined,"certificate-feed-author-copy");author.append(safeText("strong",user.name||"Your profile"),safeText("small","Certificate / achievement"));head.append(avatar,author);card.append(head,safeText("h4",project.title||"Certificate"));if(project.description)card.append(safeText("p",project.description));
       const href=safeHref(project.certificateUrl);if(href){if(/\.(png|jpe?g|webp|gif)(?:$|[?#])/i.test(href)){const preview=safeText("img");preview.src=href;preview.alt=`Certificate image for ${project.title||"achievement"}`;preview.loading="lazy";preview.className="certificate-feed-image";card.append(preview);}const link=safeText("a","View certificate");link.href=href;link.target="_blank";link.rel="noopener noreferrer";link.className="certificate-view-link";card.append(link);}
       const actions=safeText("div",undefined,"certificate-feed-actions");const appreciate=safeText("button","☆ Appreciate");appreciate.type="button";const commentToggle=safeText("button","Comment");commentToggle.type="button";const share=safeText("button","Share");share.type="button";actions.append(appreciate,commentToggle,share);card.append(actions);
@@ -2149,6 +2102,50 @@ async function initializeProfileShowcase() {
     }
   }catch(e){feed.replaceChildren(safeText("p",e.message||"Certificate showcase is temporarily unavailable."));}
 }
+function initializeProfileConnections() {
+  const panel=document.getElementById("profileConnectionsPanel");
+  const list=document.getElementById("profileConnectionsList");
+  const title=document.getElementById("profileConnectionsTitle");
+  const description=document.getElementById("profileConnectionsDescription");
+  const close=document.getElementById("closeProfileConnections");
+  const feed=document.querySelector(".profile-certificate-feed");
+  if(!panel||!list||!title||!description||!close)return;
+  const make=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
+  const safePhoto=value=>typeof value==="string"&&/^data:image\/(?:png|jpeg|webp);base64,/i.test(value);
+  async function showConnections(kind){
+    const isFollowers=kind==="followers";
+    title.textContent=isFollowers?"Followers":"Following";
+    description.textContent=isFollowers?"People who follow your profile.":"People you follow.";
+    list.replaceChildren(make("p","Loading list…","profile-connection-empty"));
+    panel.hidden=false;
+    panel.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+    try{
+      const response=await fetch(`/api/social/${kind}`,{headers:{Accept:"application/json"}});
+      const data=await response.json();
+      if(!response.ok)throw new Error(data.message||`Unable to load ${kind}.`);
+      list.replaceChildren();
+      const users=Array.isArray(data.users)?data.users:[];
+      if(!users.length){list.append(make("p",isFollowers?"You don't have any followers yet.":"You're not following anyone yet.","profile-connection-empty"));return;}
+      users.forEach(user=>{
+        const row=make("div",undefined,"profile-connection-row");
+        const label=(user.name||"Student").trim()||"Student";
+        let avatar;
+        if(safePhoto(user.photoData)){avatar=make("img",undefined,"profile-connection-avatar");avatar.src=user.photoData;avatar.alt=`${label} profile photo`;avatar.loading="lazy";}
+        else avatar=make("span",label.charAt(0).toUpperCase(),"profile-connection-avatar");
+        row.append(avatar,make("span",label,"profile-connection-name"));
+        list.append(row);
+      });
+    }catch(error){list.replaceChildren(make("p",error.message||`Unable to load ${kind}.`,"profile-connection-empty"));}
+  }
+  document.querySelectorAll(".profile-stat-button[data-profile-view]").forEach(button=>button.addEventListener("click",()=>{
+    const kind=button.dataset.profileView;
+    if(kind==="followers"||kind==="following"){showConnections(kind);return;}
+    panel.hidden=true;
+    if(feed){feed.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});const heading=document.getElementById("certificateFeedTitle");if(heading){heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true});}}
+  }));
+  close.addEventListener("click",()=>{panel.hidden=true;const stats=document.querySelector(".profile-social-stats");if(stats)stats.scrollIntoView({behavior:"auto",block:"start"});});
+}
+document.addEventListener("DOMContentLoaded",initializeProfileConnections);
 document.addEventListener("DOMContentLoaded",initializeProfileShowcase);
 
 /* Persistent notification inbox and direct messages */
@@ -2377,35 +2374,46 @@ async function loadAdminCourses() {
 }
 
 
-// Reliable scroll-reveal fallback, independent of other dashboard initializers.
+// Scroll reveal uses static CSS in /css/style.css so it is not dependent on runtime style injection.
 (() => {
   const startScrollReveal = () => {
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduced || !("IntersectionObserver" in window) || !document.body) return;
-    if (!document.getElementById("abi-scroll-reveal-styles")) {
-      const style = document.createElement("style");
-      style.id = "abi-scroll-reveal-styles";
-      style.textContent = `.abi-scroll-reveal{opacity:0!important;transform:translate3d(0,22px,0)!important;transition:opacity 650ms ease,transform 650ms cubic-bezier(.2,.65,.25,1)!important;will-change:opacity,transform}.abi-scroll-reveal.abi-scroll-visible{opacity:1!important;transform:translate3d(0,0,0)!important}@media(prefers-reduced-motion:reduce){.abi-scroll-reveal{opacity:1!important;transform:none!important;transition:none!important}}`;
-      document.head.appendChild(style);
-    }
-    const selector = ["#dashboard > .dashboard-card", "#dashboard > .career-chart-panel", "#dashboard > .student-analytics", "#learning > *", "#skills > *", "#projects > *", "#internships > *", "#profile > *", "#community > *", ".dashboard-card", ".course-card", ".skill-card", ".project-card", ".internship-card", ".application-card", ".certificate-card", ".analytics-card", ".analytics-metric", ".social-inbox-panel", ".community-panel", ".feature-card", ".step-card"].join(",");
+    const selector = [
+      "#dashboard > *", "#learning > *", "#skills > *", "#projects > *",
+      "#internships > *", "#profile > *", "#community > *", "#adminCourses > *",
+      ".dashboard-card", ".dashboard-grid", ".course-card", ".skill-card",
+      ".project-card", ".internship-card", ".application-card", ".certificate-card",
+      ".analytics-card", ".analytics-metric", ".social-inbox-panel", ".community-panel"
+    ].join(",");
     const observed = new WeakSet();
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-      if (entry.isIntersecting) { entry.target.classList.add("abi-scroll-visible"); observer.unobserve(entry.target); }
-    }), { threshold: 0.04, rootMargin: "0px 0px -30px 0px" });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("abi-scroll-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.03, rootMargin: "0px 0px -18px 0px" });
     const scan = (root) => {
       if (!(root instanceof Element || root instanceof Document)) return;
       const items = [];
       if (root instanceof Element && root.matches(selector)) items.push(root);
-      items.push(...root.querySelectorAll(selector));
+      if (root.querySelectorAll) items.push(...root.querySelectorAll(selector));
       items.forEach((item) => {
-        if (observed.has(item) || item.hidden || item.closest('[hidden]') || item.getClientRects().length === 0) return;
-        observed.add(item); item.classList.add("abi-scroll-reveal"); observer.observe(item);
+        if (observed.has(item) || item.hidden || item.closest("[hidden]")) return;
+        observed.add(item);
+        item.classList.add("abi-scroll-reveal");
+        observer.observe(item);
       });
     };
     scan(document);
-    const mutations = new MutationObserver((records) => records.forEach((record) => record.addedNodes.forEach((node) => { if (node instanceof Element) scan(node); })));
-    mutations.observe(document.body, { childList: true, subtree: true });
+    const mutations = new MutationObserver((records) => records.forEach((record) => {
+      if (record.type === "attributes" && record.target instanceof Element) scan(record.target);
+      record.addedNodes?.forEach((node) => { if (node instanceof Element) scan(node); });
+    }));
+    mutations.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden", "class", "style"] });
   };
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startScrollReveal, { once: true }); else startScrollReveal();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startScrollReveal, { once: true });
+  else startScrollReveal();
 })();

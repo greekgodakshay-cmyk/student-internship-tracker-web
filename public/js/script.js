@@ -2375,3 +2375,37 @@ async function loadAdminCourses() {
     if (loading) loading.textContent = error.message || "Unable to load course catalogue.";
   }
 }
+
+
+// Reliable scroll-reveal fallback, independent of other dashboard initializers.
+(() => {
+  const startScrollReveal = () => {
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !("IntersectionObserver" in window) || !document.body) return;
+    if (!document.getElementById("abi-scroll-reveal-styles")) {
+      const style = document.createElement("style");
+      style.id = "abi-scroll-reveal-styles";
+      style.textContent = `.abi-scroll-reveal{opacity:0!important;transform:translate3d(0,22px,0)!important;transition:opacity 650ms ease,transform 650ms cubic-bezier(.2,.65,.25,1)!important;will-change:opacity,transform}.abi-scroll-reveal.abi-scroll-visible{opacity:1!important;transform:translate3d(0,0,0)!important}@media(prefers-reduced-motion:reduce){.abi-scroll-reveal{opacity:1!important;transform:none!important;transition:none!important}}`;
+      document.head.appendChild(style);
+    }
+    const selector = ["#dashboard > .dashboard-card", "#dashboard > .career-chart-panel", "#dashboard > .student-analytics", "#learning > *", "#skills > *", "#projects > *", "#internships > *", "#profile > *", "#community > *", ".dashboard-card", ".course-card", ".skill-card", ".project-card", ".internship-card", ".application-card", ".certificate-card", ".analytics-card", ".analytics-metric", ".social-inbox-panel", ".community-panel", ".feature-card", ".step-card"].join(",");
+    const observed = new WeakSet();
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add("abi-scroll-visible"); observer.unobserve(entry.target); }
+    }), { threshold: 0.04, rootMargin: "0px 0px -30px 0px" });
+    const scan = (root) => {
+      if (!(root instanceof Element || root instanceof Document)) return;
+      const items = [];
+      if (root instanceof Element && root.matches(selector)) items.push(root);
+      items.push(...root.querySelectorAll(selector));
+      items.forEach((item) => {
+        if (observed.has(item) || item.hidden || item.closest('[hidden]') || item.getClientRects().length === 0) return;
+        observed.add(item); item.classList.add("abi-scroll-reveal"); observer.observe(item);
+      });
+    };
+    scan(document);
+    const mutations = new MutationObserver((records) => records.forEach((record) => record.addedNodes.forEach((node) => { if (node instanceof Element) scan(node); })));
+    mutations.observe(document.body, { childList: true, subtree: true });
+  };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startScrollReveal, { once: true }); else startScrollReveal();
+})();

@@ -25,11 +25,23 @@
 
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!reduceMotion && "IntersectionObserver" in window) {
-    const revealItems = document.querySelectorAll(".hero-copy, .hero-art, .feature-card, .step-card, .about-content, .about-mark, .section-heading, .learning-team-photo");
+    const revealSelector = ".hero-copy, .hero-art, .feature-card, .step-card, .about-content, .about-mark, .section-heading, .learning-team-photo";
+    const observed = new WeakSet();
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
-    }), { threshold: 0.08, rootMargin: "0px 0px -35px 0px" });
-    revealItems.forEach((item) => { item.classList.add("reveal-on-scroll"); observer.observe(item); });
+    }), { threshold: 0.04, rootMargin: "0px 0px -25px 0px" });
+    const scan = (root) => {
+      const items = [];
+      if (root instanceof Element && root.matches(revealSelector)) items.push(root);
+      if (root.querySelectorAll) items.push(...root.querySelectorAll(revealSelector));
+      items.forEach((item) => {
+        if (observed.has(item) || item.hidden || item.getClientRects().length === 0) return;
+        observed.add(item); item.classList.add("reveal-on-scroll"); observer.observe(item);
+      });
+    };
+    scan(document);
+    const mutationObserver = new MutationObserver((records) => records.forEach((record) => record.addedNodes.forEach((node) => { if (node instanceof Element) scan(node); })));
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
   }
 
   const toggle = document.querySelector(".menu-toggle");

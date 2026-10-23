@@ -787,7 +787,7 @@ function initializeCourses() {
       }
 
       if (dashboardSummary) {
-        dashboardSummary.textContent = `${completedCourseIds.size} completed Â· ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
+        dashboardSummary.textContent = `${completedCourseIds.size} completed · ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
       }
 
       if (courses.length === 0) {
@@ -811,7 +811,7 @@ function initializeCourses() {
 
         const details = document.createElement("p");
         details.textContent =
-          `${course.category || "General"} Â· ${course.level || "Beginner"}`;
+          `${course.category || "General"} · ${course.level || "Beginner"}`;
 
         const lessons = Array.isArray(course.lessons) ? course.lessons : [];
         const count = course.lessonCount ?? lessons.length;
@@ -886,7 +886,7 @@ function initializeCourses() {
               if (videoHref) {
                 const videoLink = document.createElement("a");
                 videoLink.href = videoHref;
-                videoLink.textContent = "â–¶ Watch lesson on YouTube";
+                videoLink.textContent = "–¶ Watch lesson on YouTube";
                 videoLink.target = "_blank";
                 videoLink.rel = "noopener noreferrer";
                 videoLink.style.display = "inline-block";
@@ -915,7 +915,7 @@ function initializeCourses() {
         const completionButton = document.createElement("button");
         completionButton.type = "button";
         completionButton.className = "course-completion-button";
-        completionButton.textContent = completedCourseIds.has(String(course._id)) ? "Completed âœ“" : "Mark course completed";
+        completionButton.textContent = completedCourseIds.has(String(course._id)) ? "Completed “" : "Mark course completed";
         completionButton.setAttribute("aria-pressed", String(completedCourseIds.has(String(course._id))));
         completionButton.addEventListener("click", async () => {
           completionButton.disabled = true;
@@ -927,9 +927,9 @@ function initializeCourses() {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || "Unable to update course status.");
             if (done) completedCourseIds.delete(String(course._id)); else completedCourseIds.add(String(course._id));
-            completionButton.textContent = done ? "Mark course completed" : "Completed âœ“";
+            completionButton.textContent = done ? "Mark course completed" : "Completed œ“";
             completionButton.setAttribute("aria-pressed", String(!done));
-            if (dashboardSummary) dashboardSummary.textContent = `${completedCourseIds.size} completed Â· ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
+            if (dashboardSummary) dashboardSummary.textContent = `${completedCourseIds.size} completed · ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
             window.dispatchEvent(new Event("studentAnalyticsRefresh"));
           } catch (error) { alert(error.message); }
           finally { completionButton.disabled = false; }
@@ -1563,7 +1563,7 @@ statusLabel.appendChild(status);
 }
 
 
- // SECTION NAVIGATION â€” keeps dashboard views separate
+ // SECTION NAVIGATION €” keeps dashboard views separate
 function initializeSectionNavigation() {
   const main = document.querySelector("main");
   if (!main) return;

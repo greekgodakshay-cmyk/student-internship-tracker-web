@@ -1143,7 +1143,22 @@ main > section[hidden] {
     body[data-theme="dark"] small { color: var(--muted); }
     body[data-theme="dark"] .theme-toggle { color: #f7d9a3; }
 
-  </style>
+  
+    /* Scroll reveal for dashboard sections and cards */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.2,.65,.25,1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+    body[data-theme="dark"] main,
+    body[data-theme="dark"] #login-page,
+    body[data-theme="dark"] #register-page { color: var(--ink, #edf2f5); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; will-change: auto; }
+    }
+</style>
 </head>
 
 <body>

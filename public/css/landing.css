@@ -96,3 +96,5 @@ body[data-theme="dark"] .site-footer{background:#0d151c;color:#edf2f5}
 body[data-theme="dark"] .site-footer a{color:#d6ad72}
 body[data-theme="dark"] .menu-toggle span{background:var(--ink)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal-on-scroll{opacity:1;transform:none}}
+
+.theme-toggle svg{display:block;flex:none}.theme-toggle{border-radius:12px;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}.theme-toggle:hover{transform:translateY(-1px)}.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}

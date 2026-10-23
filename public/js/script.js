@@ -34,55 +34,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Theme preference is stored locally; no backend or account data is involved.
 function initializeThemeToggle() {
+  const themeKey = "student-tracker-theme";
   const savedTheme = (() => {
-    try { return localStorage.getItem("student-tracker-theme"); }
-    catch { return null; }
+    try { return localStorage.getItem(themeKey); } catch { return null; }
   })();
   const systemPrefersDark = window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const applyTheme = (theme) => {
-    document.body.dataset.theme = theme;
-    document.querySelectorAll("#themeToggle, .floating-theme-toggle").forEach((button) => {
-      const dark = theme === "dark";
-      button.textContent = dark ? "☀" : "☾";
-      button.setAttribute("aria-pressed", String(dark));
-      button.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
-      button.setAttribute("title", dark ? "Switch to light mode" : "Switch to dark mode");
-    });
-  };
+
+  const iconMarkup = (dark) => dark
+    ? '<svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>'
+    : '<svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/></svg>';
+
   let button = document.getElementById("themeToggle");
   if (!button) {
     button = document.createElement("button");
     button.type = "button";
-    button.className = "floating-theme-toggle";
+    button.className = "floating-theme-toggle theme-toggle";
     button.id = "themeToggle";
-    button.textContent = "☾";
-    button.setAttribute("aria-label", "Switch to dark mode");
-    button.setAttribute("title", "Switch to dark mode");
     document.body.appendChild(button);
   }
-  applyTheme(savedTheme === "dark" || savedTheme === "light" ? savedTheme : (systemPrefersDark ? "dark" : "light"));
-  button.addEventListener("click", () => {
-    const nextTheme = document.body.dataset.theme === "dark" ? "light" : "dark";
-    applyTheme(nextTheme);
-    try { localStorage.setItem("student-tracker-theme", nextTheme); } catch { /* Storage may be unavailable. */ }
+
+  const applyTheme = (theme) => {
+    document.body.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    document.querySelectorAll("#themeToggle, .floating-theme-toggle").forEach((control) => {
+      const dark = theme === "dark";
+      control.innerHTML = iconMarkup(dark);
+      control.setAttribute("aria-pressed", String(dark));
+      control.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+      control.setAttribute("title", dark ? "Switch to light mode" : "Switch to dark mode");
+    });
+  };
+
+  applyTheme(savedTheme === "dark" || savedTheme === "light"
+    ? savedTheme : (systemPrefersDark ? "dark" : "light"));
+
+  // One delegated listener also supports a toggle inserted by another page script.
+  document.addEventListener("click", (event) => {
+    const control = event.target.closest("#themeToggle, .floating-theme-toggle");
+    if (!control) return;
+    const next = document.body.dataset.theme === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem(themeKey, next); } catch { /* Storage may be unavailable. */ }
   });
 }
 
 function initializeScrollReveal() {
   const reduceMotion = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion || !("IntersectionObserver" in window)) return;
+
   const selectors = [
-    "#dashboard > .dashboard-card", "#dashboard > .dashboard-grid",
-    "#dashboard .analytics-card", "#learning .dashboard-card",
-    "#skills .dashboard-card", "#projects .dashboard-card",
-    "#internships .dashboard-card", "#profile .dashboard-card",
-    "#community .dashboard-card", ".profile-card", ".course-card",
+    "#dashboard > *", "#learning > *", "#skills > *", "#projects > *",
+    "#internships > *", "#profile > *", "#community > *",
+    ".dashboard-card", ".dashboard-grid", ".profile-card", ".course-card",
     ".skill-card", ".project-card", ".internship-card", ".application-card",
-    ".certificate-card", ".analytics-card"
+    ".certificate-card", ".analytics-card", ".social-inbox-panel",
+    ".community-panel", ".section-heading", ".dashboard-section"
   ];
-  const elements = [...new Set(selectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
-  if (!elements.length || reduceMotion || !("IntersectionObserver" in window)) return;
+  const seen = new WeakSet();
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -90,11 +100,33 @@ function initializeScrollReveal() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" });
-  elements.forEach((element) => {
-    element.classList.add("reveal-on-scroll");
-    observer.observe(element);
+  }, { threshold: 0.06, rootMargin: "0px 0px -24px 0px" });
+
+  const observeElements = (root) => {
+    if (!(root instanceof Element || root instanceof Document)) return;
+    const found = [];
+    if (root instanceof Element && selectors.some((selector) => {
+      try { return root.matches(selector); } catch { return false; }
+    })) found.push(root);
+    selectors.forEach((selector) => {
+      try { found.push(...root.querySelectorAll(selector)); } catch { /* Ignore invalid selector. */ }
+    });
+    [...new Set(found)].forEach((element) => {
+      if (seen.has(element)) return;
+      seen.add(element);
+      element.classList.add("reveal-on-scroll");
+      observer.observe(element);
+    });
+  };
+
+  observeElements(document);
+  // Dashboard cards are often rendered after API responses; observe those too.
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => {
+      if (node instanceof Element) observeElements(node);
+    }));
   });
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 // LOGIN

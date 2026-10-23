@@ -1008,3 +1008,51 @@ body[data-theme="dark"] textarea::placeholder { color: #9eacb5; }
   }
   .reveal-on-scroll { opacity: 1; transform: none; }
 }
+
+
+/* Shared theme control and authentication-page contrast */
+.theme-toggle,
+.floating-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--border, #d8dee4);
+  border-radius: 12px;
+  background: var(--surface, #ffffff);
+  color: var(--ink, #202a33);
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.theme-toggle:hover,
+.floating-theme-toggle:hover { transform: translateY(-1px); }
+.theme-toggle:focus-visible,
+.floating-theme-toggle:focus-visible { outline: 2px solid var(--accent, #d6ad72); outline-offset: 3px; }
+.floating-theme-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+  box-shadow: 0 6px 22px rgba(0,0,0,.15);
+}
+body[data-theme="dark"] {
+  background: #111820;
+  color: #edf2f5;
+}
+body[data-theme="dark"] main { color: #edf2f5; }
+body[data-theme="dark"] #login-page,
+body[data-theme="dark"] #register-page {
+  background: #19232d;
+  color: #edf2f5;
+  border-color: #34434e;
+  box-shadow: 0 12px 36px rgba(0,0,0,.24);
+}
+body[data-theme="dark"] #login-page p,
+body[data-theme="dark"] #register-page p,
+body[data-theme="dark"] .auth-footer { color: #b0bdc5; }
+body[data-theme="dark"] #login-page a,
+body[data-theme="dark"] #register-page a { color: #a8c8ff; }
+body[data-theme="dark"] .consent-panel { background: #202d38; border-color: #34434e; }
+body[data-theme="dark"] button:not(.theme-toggle):not(.floating-theme-toggle) { color: inherit; }

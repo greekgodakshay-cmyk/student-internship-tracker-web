@@ -1226,8 +1226,8 @@ main > section[hidden] {
         <div class="social-inbox-heading"><h3 id="socialInboxTitle">Notifications</h3><button type="button" id="socialInboxClose" aria-label="Close panel">×</button></div>
         <div id="socialInboxContent"><p>Loading…</p></div>
       </section>
-      <h2 id="welcomeHeading">Welcome to Your Dashboard</h2>
-      <p>Build your skills. Track your progress. Prepare for your career.</p>
+      <h2 id="welcomeHeading">Ready to Level Up?</h2>
+      <p>Let’s learn new skills, build meaningful projects, and discover opportunities that move your career forward.</p>
 
       <div class="dashboard-card">
         <h3>Learning Progress</h3>
@@ -1324,6 +1324,10 @@ main > section[hidden] {
       <h2>Skills</h2>
       <p>Track the skills you are developing and your proficiency in each one.</p>
 
+      <h3>My Saved Skills</h3>
+      <p id="skillsLoading">Loading skills...</p>
+      <div id="skillsList" class="dashboard-card"></div>
+
       <div class="dashboard-card">
         <h3>Add a Skill</h3>
 
@@ -1362,9 +1366,6 @@ main > section[hidden] {
         </form>
       </div>
 
-      <h3>My Saved Skills</h3>
-      <p id="skillsLoading">Loading skills...</p>
-      <div id="skillsList" class="dashboard-card"></div>
     </section>
 
     <!-- PROJECTS -->
@@ -1372,7 +1373,9 @@ main > section[hidden] {
       <h2>Projects</h2>
       <p>Showcase your work, technologies and certificates.</p>
 
-      <h3>My Projects</h3>
+      <h3>My Saved Projects</h3>
+      <p id="projectsLoading" role="status" aria-live="polite">Loading projects...</p>
+      <div id="projectsList"></div>
 
       <div class="dashboard-card">
         <h3 id="projectFormHeading">Add a Project</h3>
@@ -1420,15 +1423,18 @@ main > section[hidden] {
         </form>
       </div>
 
-      <h3>My Saved Projects</h3>
-      <p id="projectsLoading" role="status" aria-live="polite">Loading projects...</p>
-      <div id="projectsList"></div>
     </section>
 
     <!-- INTERNSHIPS -->
     <section id="internships">
       <h2>Internships</h2>
       <p>Discover opportunities, organise applications and manage your career pipeline.</p>
+
+      <div class="dashboard-card">
+        <h3>Available Internships</h3>
+        <p id="internshipsLoading">Loading internships...</p>
+        <div id="internshipsList"></div>
+      </div>
 
       <div id="adminInternshipManagement" hidden>
         <div class="dashboard-card">
@@ -1507,20 +1513,19 @@ main > section[hidden] {
         <div id="adminInternshipsList"></div>
       </div>
 
-      <div class="dashboard-card">
-        <h3>Available Internships</h3>
-        <p id="internshipsLoading">Loading internships...</p>
-        <div id="internshipsList"></div>
-      </div>
     </section>
 
     <!-- PROFILE -->
     <section id="profile">
-      <div class="profile-heading">
-        <div>
-          <p class="profile-eyebrow">YOUR PROFESSIONAL IDENTITY</p>
-          <h2>My Profile</h2>
-          <p>Make your profile yours. Your details are saved to your account.</p>
+      <div class="profile-summary dashboard-card">
+        <div class="profile-avatar-wrap">
+          <img id="profilePhotoDisplay" class="profile-avatar" alt="Your profile photo" hidden>
+          <div id="profileAvatarFallback" class="profile-avatar profile-avatar-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" role="presentation"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-14 9-22 22-22s21 8 22 22"/></svg></div>
+        </div>
+        <div class="profile-summary-copy">
+          <h3 id="profileDisplayName">Loading profile...</h3>
+          <p id="profileHeadline">Add your profession and education to introduce yourself.</p>
+          <p class="profile-account-line"><span id="profileEmail">Loading...</span><span class="profile-dot">•</span><span id="profileRole">Loading...</span></p>
         </div>
       </div>
 
@@ -1544,17 +1549,7 @@ main > section[hidden] {
         <div id="myPostsGrid" class="profile-post-grid"><p>Loading your posts…</p></div>
       </section>
 
-      <div class="profile-summary dashboard-card">
-        <div class="profile-avatar-wrap">
-          <img id="profilePhotoDisplay" class="profile-avatar" alt="Your profile photo" hidden>
-          <div id="profileAvatarFallback" class="profile-avatar profile-avatar-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" role="presentation"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-14 9-22 22-22s21 8 22 22"/></svg></div>
-        </div>
-        <div class="profile-summary-copy">
-          <h3 id="profileDisplayName">Loading profile...</h3>
-          <p id="profileHeadline">Add your profession and education to introduce yourself.</p>
-          <p class="profile-account-line"><span id="profileEmail">Loading...</span><span class="profile-dot">•</span><span id="profileRole">Loading...</span></p>
-        </div>
-      </div>
+
 
       <div class="dashboard-card profile-editor-card">
         <div class="profile-card-heading">

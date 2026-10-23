@@ -292,7 +292,7 @@ async function initializeDashboardProfile() {
 
 updateDashboardAvatars(user);
 
-heading.textContent = `Welcome back, ${user.name}!`;
+heading.textContent = "Ready to Level Up?";
 
     const profileName = document.getElementById("profileName");
     const profileEmail = document.getElementById("profileEmail");
@@ -314,7 +314,7 @@ heading.textContent = `Welcome back, ${user.name}!`;
     initializeProfileEditor(user);
   } catch (error) {
     console.error("Profile loading error:", error);
-    heading.textContent = "Welcome to Your Dashboard";
+    heading.textContent = "Ready to Level Up?";
     const message = document.getElementById("profileMessage");
     if (message) message.textContent = "We couldn't load your profile. Refresh the page to try again.";
   }
@@ -345,7 +345,7 @@ function initializeProfileEditor(user) {
 
   if (publicToggle) publicToggle.addEventListener("change", async () => {
     publicToggle.disabled = true;
-    if (visibilityMessage) visibilityMessage.textContent = "Saving visibility…";
+    if (visibilityMessage) visibilityMessage.textContent = "Saving visibilityâ€¦";
     try {
       const response = await fetch("/api/community/privacy", {
         method: "PATCH", headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -415,7 +415,7 @@ function initializeProfileEditor(user) {
       if (field) details.push(field);
     }
     if (location) details.push(location);
-    if (headline) headline.textContent = details.join(" · ") || "Add your profession and education to introduce yourself.";
+    if (headline) headline.textContent = details.join(" Â· ") || "Add your profession and education to introduce yourself.";
     const bioPreview = byId("profileBioPreview");
     if (bioPreview) bioPreview.textContent = bio || "Your bio will appear here once you add it.";
   };
@@ -787,7 +787,7 @@ function initializeCourses() {
       }
 
       if (dashboardSummary) {
-        dashboardSummary.textContent = `${completedCourseIds.size} completed · ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
+        dashboardSummary.textContent = `${completedCourseIds.size} completed Â· ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
       }
 
       if (courses.length === 0) {
@@ -811,7 +811,7 @@ function initializeCourses() {
 
         const details = document.createElement("p");
         details.textContent =
-          `${course.category || "General"} · ${course.level || "Beginner"}`;
+          `${course.category || "General"} Â· ${course.level || "Beginner"}`;
 
         const lessons = Array.isArray(course.lessons) ? course.lessons : [];
         const count = course.lessonCount ?? lessons.length;
@@ -886,7 +886,7 @@ function initializeCourses() {
               if (videoHref) {
                 const videoLink = document.createElement("a");
                 videoLink.href = videoHref;
-                videoLink.textContent = "▶ Watch lesson on YouTube";
+                videoLink.textContent = "â–¶ Watch lesson on YouTube";
                 videoLink.target = "_blank";
                 videoLink.rel = "noopener noreferrer";
                 videoLink.style.display = "inline-block";
@@ -915,7 +915,7 @@ function initializeCourses() {
         const completionButton = document.createElement("button");
         completionButton.type = "button";
         completionButton.className = "course-completion-button";
-        completionButton.textContent = completedCourseIds.has(String(course._id)) ? "Completed ✓" : "Mark course completed";
+        completionButton.textContent = completedCourseIds.has(String(course._id)) ? "Completed âœ“" : "Mark course completed";
         completionButton.setAttribute("aria-pressed", String(completedCourseIds.has(String(course._id))));
         completionButton.addEventListener("click", async () => {
           completionButton.disabled = true;
@@ -927,9 +927,9 @@ function initializeCourses() {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || "Unable to update course status.");
             if (done) completedCourseIds.delete(String(course._id)); else completedCourseIds.add(String(course._id));
-            completionButton.textContent = done ? "Mark course completed" : "Completed ✓";
+            completionButton.textContent = done ? "Mark course completed" : "Completed âœ“";
             completionButton.setAttribute("aria-pressed", String(!done));
-            if (dashboardSummary) dashboardSummary.textContent = `${completedCourseIds.size} completed · ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
+            if (dashboardSummary) dashboardSummary.textContent = `${completedCourseIds.size} completed Â· ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
             window.dispatchEvent(new Event("studentAnalyticsRefresh"));
           } catch (error) { alert(error.message); }
           finally { completionButton.disabled = false; }
@@ -1563,7 +1563,7 @@ statusLabel.appendChild(status);
 }
 
 
- // SECTION NAVIGATION — keeps dashboard views separate
+ // SECTION NAVIGATION â€” keeps dashboard views separate
 function initializeSectionNavigation() {
   const main = document.querySelector("main");
   if (!main) return;
@@ -1954,7 +1954,7 @@ function initializeStudentAnalytics() {
   ];
   async function load() {
     grid.replaceChildren();
-    const loading = document.createElement("p"); loading.className = "analytics-loading"; loading.textContent = "Updating your analytics…"; grid.appendChild(loading);
+    const loading = document.createElement("p"); loading.className = "analytics-loading"; loading.textContent = "Updating your analyticsâ€¦"; grid.appendChild(loading);
     try {
       const endpoints = ["/api/progress", "/api/skills", "/api/projects", "/api/applications", "/api/auth/me"];
       const responses = await Promise.all(endpoints.map(url => fetch(url, { headers: { Accept: "application/json" } })));
@@ -2020,7 +2020,7 @@ function initializeDashboardQuickSearch() {
     toggle.setAttribute("aria-pressed", String(collapsed));
     toggle.setAttribute("aria-label", collapsed ? "Expand sidebar" : "Collapse sidebar");
     toggle.title = collapsed ? "Expand sidebar" : "Collapse sidebar";
-    toggle.textContent = collapsed ? "☰" : "☰";
+    toggle.textContent = collapsed ? "â˜°" : "â˜°";
   });
   const profileButton = document.getElementById("dashboardProfileButton");
   if (profileButton) profileButton.addEventListener("click", () => { window.location.hash = "#profile"; });
@@ -2034,13 +2034,13 @@ function initializeCommunitySearch() {
   const node = (tag, text, cls) => { const el = document.createElement(tag); if (text !== undefined) el.textContent = text; if (cls) el.className = cls; return el; };
   async function search(query) {
     if (!query.trim()) return;
-    button.disabled = true; message.textContent = "Searching public profiles and active internships…"; people.replaceChildren(); jobs.replaceChildren(); profileView.hidden = true;
+    button.disabled = true; message.textContent = "Searching public profiles and active internshipsâ€¦"; people.replaceChildren(); jobs.replaceChildren(); profileView.hidden = true;
     try {
       const response = await fetch(`/api/community/search?q=${encodeURIComponent(query.trim())}`, { headers: { Accept: "application/json" } }); const result = await response.json(); if (!response.ok) throw new Error(result.message || "Search failed.");
       if (!result.users.length) people.appendChild(node("p", "No public profiles matched this search."));
       result.users.forEach(user => {
         const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", user.name));
-        const headline = [user.degree, user.college, user.fieldOfStudy, user.location].filter(Boolean).join(" · "); if (headline) card.appendChild(node("p", headline)); if (user.bio) card.appendChild(node("p", user.bio));
+        const headline = [user.degree, user.college, user.fieldOfStudy, user.location].filter(Boolean).join(" Â· "); if (headline) card.appendChild(node("p", headline)); if (user.bio) card.appendChild(node("p", user.bio));
         const actions = node("div", undefined, "community-result-actions"); const view = node("button", "View profile & certificates"); view.type = "button"; view.addEventListener("click", () => loadPublicProfile(user.id || user._id));
         const share = node("button", "Share profile"); share.type = "button"; share.addEventListener("click", () => shareText(`${window.location.origin}/index.html?profile=${encodeURIComponent(user.id || user._id)}`));
         const follow = node("button", "Follow"); follow.type = "button"; follow.addEventListener("click", async () => { follow.disabled = true; try { const r = await fetch(`/api/social/follow/${encodeURIComponent(user.id || user._id)}`, { method: "POST", headers: { Accept: "application/json" } }); const d = await r.json(); if (!r.ok) throw new Error(d.message || "Unable to follow."); follow.textContent = d.status === "pending" ? "Request sent" : "Following"; } catch (e) { follow.textContent = e.message; } finally { follow.disabled = false; } });
@@ -2049,14 +2049,14 @@ function initializeCommunitySearch() {
       if (!result.internships.length && !(result.courses || []).length && !(result.skills || []).length) jobs.appendChild(node("p", "No courses, skills or active internships matched this search."));
       (result.courses || []).forEach(course => {
         const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", `Course: ${course.title}`));
-        card.appendChild(node("p", `${course.category || "General"} · ${course.level || "Course"} · ${course.instructor || "Instructor not specified"}`));
+        card.appendChild(node("p", `${course.category || "General"} Â· ${course.level || "Course"} Â· ${course.instructor || "Instructor not specified"}`));
         if (course.description) card.appendChild(node("p", course.description));
         if (Array.isArray(course.lessons) && course.lessons.length) card.appendChild(node("p", `${course.lessons.length} lesson(s) available`));
         jobs.appendChild(card);
       });
-      (result.skills || []).forEach(skill => { const card=node("article",undefined,"community-result-card"); card.appendChild(node("h5",`Skill: ${skill.name}`)); card.appendChild(node("p",`${skill.category || "Other"} · ${skill.userCount} learner(s)`)); jobs.appendChild(card); });
+      (result.skills || []).forEach(skill => { const card=node("article",undefined,"community-result-card"); card.appendChild(node("h5",`Skill: ${skill.name}`)); card.appendChild(node("p",`${skill.category || "Other"} Â· ${skill.userCount} learner(s)`)); jobs.appendChild(card); });
       result.internships.forEach(job => {
-        const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", job.title)); card.appendChild(node("p", `${job.company} · ${job.location || "Location not specified"} · ${job.workMode || "Work mode not specified"}`)); card.appendChild(node("p", job.description || ""));
+        const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", job.title)); card.appendChild(node("p", `${job.company} Â· ${job.location || "Location not specified"} Â· ${job.workMode || "Work mode not specified"}`)); card.appendChild(node("p", job.description || ""));
         const actions = node("div", undefined, "community-result-actions"); const track = node("button", "Track internship"); track.type = "button"; track.addEventListener("click", async () => { track.disabled = true; try { const r=await fetch('/api/applications',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({internshipId:job._id,status:'Interested'})}); const d=await r.json(); if(!r.ok) throw new Error(d.message||'Unable to track internship.'); track.textContent='Added to tracker'; window.dispatchEvent(new Event('studentAnalyticsRefresh')); } catch(e) { message.textContent=e.message; track.disabled=false; } }); actions.appendChild(track);
         const link = safeUrl(job.applicationUrl); if(link){const a=node('a','Open listing');a.href=link;a.target='_blank';a.rel='noopener noreferrer';actions.appendChild(a);} card.appendChild(actions); jobs.appendChild(card);
       });
@@ -2068,19 +2068,19 @@ function initializeCommunitySearch() {
   async function socialControls(container, type, id, shareUrl) {
     const actions = node('div', undefined, 'community-result-actions'); const like = node('button', 'Like'); like.type='button'; const comment = node('button','Comment'); comment.type='button'; const share = node('button','Share'); share.type='button'; actions.append(like,comment,share); container.appendChild(actions);
     const commentsWrap=node('div'); container.appendChild(commentsWrap);
-    async function refresh() { try { const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}}); const d=await r.json(); if(!r.ok) throw new Error(d.message); like.textContent=`${d.liked?'Liked':'Like'} · ${d.likes}`; commentsWrap.replaceChildren(); d.comments.forEach(c=>{const row=node('div',undefined,'social-comment');row.appendChild(node('strong',`${c.name}: `));row.appendChild(document.createTextNode(c.text));commentsWrap.appendChild(row);}); } catch(e) { commentsWrap.appendChild(node('p',e.message)); } }
-    like.addEventListener('click',async()=>{like.disabled=true;try{const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/like`,{method:'POST',headers:{Accept:'application/json'}});const d=await r.json();if(!r.ok)throw new Error(d.message);like.textContent=`${d.liked?'Liked':'Like'} · ${d.likes}`;}catch(e){message.textContent=e.message;}finally{like.disabled=false;}});
+    async function refresh() { try { const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}}); const d=await r.json(); if(!r.ok) throw new Error(d.message); like.textContent=`${d.liked?'Liked':'Like'} Â· ${d.likes}`; commentsWrap.replaceChildren(); d.comments.forEach(c=>{const row=node('div',undefined,'social-comment');row.appendChild(node('strong',`${c.name}: `));row.appendChild(document.createTextNode(c.text));commentsWrap.appendChild(row);}); } catch(e) { commentsWrap.appendChild(node('p',e.message)); } }
+    like.addEventListener('click',async()=>{like.disabled=true;try{const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/like`,{method:'POST',headers:{Accept:'application/json'}});const d=await r.json();if(!r.ok)throw new Error(d.message);like.textContent=`${d.liked?'Liked':'Like'} Â· ${d.likes}`;}catch(e){message.textContent=e.message;}finally{like.disabled=false;}});
     comment.addEventListener('click',async()=>{const text=window.prompt('Write a comment (up to 500 characters):');if(!text||!text.trim())return;try{const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/comments`,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({text})});const d=await r.json();if(!r.ok)throw new Error(d.message);await refresh();}catch(e){message.textContent=e.message;}});
     share.addEventListener('click',()=>shareText(shareUrl)); await refresh();
   }
   async function loadPublicProfile(id) {
-    if(!id) return; profileView.hidden=false; profileView.replaceChildren(node('p','Loading public profile…'));
+    if(!id) return; profileView.hidden=false; profileView.replaceChildren(node('p','Loading public profileâ€¦'));
     try {
       const r=await fetch(`/api/community/users/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const d=await r.json();if(!r.ok)throw new Error(d.message||'Unable to load profile.');profileView.replaceChildren();
-      const title=node('h4',d.user.name);profileView.appendChild(title);const headline=[d.user.degree,d.user.college,d.user.studyYear,d.user.location].filter(Boolean).join(' · ');if(headline)profileView.appendChild(node('p',headline));if(d.user.bio)profileView.appendChild(node('p',d.user.bio));
-      try { const sr=await fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const stats=await sr.json();if(sr.ok){profileView.appendChild(node('p',`${stats.followers} followers · ${stats.following} following · ${stats.skills} skills · ${stats.certificates} certificates`,'public-profile-stats'));const fb=node('button',stats.isFollowing?'Unfollow':(stats.requestPending?'Request pending':'Follow'));fb.type='button';fb.disabled=stats.requestPending;fb.addEventListener('click',async()=>{fb.disabled=true;try{if(stats.isFollowing){const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'DELETE'});if(!rr.ok)throw new Error('Unable to unfollow.');fb.textContent='Follow';}else{const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'POST'});const dd=await rr.json();if(!rr.ok)throw new Error(dd.message||'Unable to follow.');fb.textContent=dd.status==='pending'?'Request pending':'Unfollow';}}catch(e){fb.textContent=e.message;}finally{fb.disabled=false;}});profileView.appendChild(fb);}}catch(_){}
+      const title=node('h4',d.user.name);profileView.appendChild(title);const headline=[d.user.degree,d.user.college,d.user.studyYear,d.user.location].filter(Boolean).join(' Â· ');if(headline)profileView.appendChild(node('p',headline));if(d.user.bio)profileView.appendChild(node('p',d.user.bio));
+      try { const sr=await fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const stats=await sr.json();if(sr.ok){profileView.appendChild(node('p',`${stats.followers} followers Â· ${stats.following} following Â· ${stats.skills} skills Â· ${stats.certificates} certificates`,'public-profile-stats'));const fb=node('button',stats.isFollowing?'Unfollow':(stats.requestPending?'Request pending':'Follow'));fb.type='button';fb.disabled=stats.requestPending;fb.addEventListener('click',async()=>{fb.disabled=true;try{if(stats.isFollowing){const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'DELETE'});if(!rr.ok)throw new Error('Unable to unfollow.');fb.textContent='Follow';}else{const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'POST'});const dd=await rr.json();if(!rr.ok)throw new Error(dd.message||'Unable to follow.');fb.textContent=dd.status==='pending'?'Request pending':'Unfollow';}}catch(e){fb.textContent=e.message;}finally{fb.disabled=false;}});profileView.appendChild(fb);}}catch(_){}
 
-      profileView.appendChild(node('h4','Skills'));const skills=node('div',undefined,'public-skills');if(d.skills.length)d.skills.forEach(s=>skills.appendChild(node('span',`${s.name} · ${s.proficiency}`,'public-skill')));else skills.appendChild(node('p','No skills have been added to this public profile.'));profileView.appendChild(skills);
+      profileView.appendChild(node('h4','Skills'));const skills=node('div',undefined,'public-skills');if(d.skills.length)d.skills.forEach(s=>skills.appendChild(node('span',`${s.name} Â· ${s.proficiency}`,'public-skill')));else skills.appendChild(node('p','No skills have been added to this public profile.'));profileView.appendChild(skills);
       const shareUrl=`${window.location.origin}/index.html?profile=${encodeURIComponent(id)}`;await socialControls(profileView,'profile',id,shareUrl);
       profileView.appendChild(node('h4','Certificates'));if(!d.certificates.length)profileView.appendChild(node('p','No certificate links are shared on this profile.'));
       for (const cert of d.certificates) { const card=node('article',undefined,'community-result-card');card.appendChild(node('h5',cert.title));if(cert.description)card.appendChild(node('p',cert.description));const href=safeUrl(cert.certificateUrl);if(href){const a=node('a','View certificate');a.href=href;a.target='_blank';a.rel='noopener noreferrer';card.appendChild(a);}await socialControls(card,'certificate',cert._id,href||shareUrl);profileView.appendChild(card); }
@@ -2112,11 +2112,11 @@ async function initializeProfileShowcase() {
       if(hasPhoto){avatar.src=user.photoData;avatar.alt=`${user.name||"Your profile"} profile photo`;avatar.loading="lazy";}
       const author=safeText("div",undefined,"certificate-feed-author-copy");author.append(safeText("strong",user.name||"Your profile"),safeText("small","Certificate / achievement"));head.append(avatar,author);card.append(head,safeText("h4",project.title||"Certificate"));if(project.description)card.append(safeText("p",project.description));
       const href=safeHref(project.certificateUrl);if(href){if(/\.(png|jpe?g|webp|gif)(?:$|[?#])/i.test(href)){const preview=safeText("img");preview.src=href;preview.alt=`Certificate image for ${project.title||"achievement"}`;preview.loading="lazy";preview.className="certificate-feed-image";card.append(preview);}const link=safeText("a","View certificate");link.href=href;link.target="_blank";link.rel="noopener noreferrer";link.className="certificate-view-link";card.append(link);}
-      const actions=safeText("div",undefined,"certificate-feed-actions");const appreciate=safeText("button","☆ Appreciate");appreciate.type="button";const commentToggle=safeText("button","Comment");commentToggle.type="button";const share=safeText("button","Share");share.type="button";actions.append(appreciate,commentToggle,share);card.append(actions);
-      const comments=safeText("div",undefined,"certificate-feed-comments");comments.hidden=true;const commentForm=safeText("form",undefined,"certificate-comment-form");const commentInput=safeText("input");commentInput.placeholder="Write a professional comment…";commentInput.maxLength=500;commentInput.required=true;commentInput.setAttribute("aria-label","Write a comment");const send=safeText("button","Post comment");send.type="submit";commentForm.append(commentInput,send);comments.append(commentForm);card.append(comments);
+      const actions=safeText("div",undefined,"certificate-feed-actions");const appreciate=safeText("button","â˜† Appreciate");appreciate.type="button";const commentToggle=safeText("button","Comment");commentToggle.type="button";const share=safeText("button","Share");share.type="button";actions.append(appreciate,commentToggle,share);card.append(actions);
+      const comments=safeText("div",undefined,"certificate-feed-comments");comments.hidden=true;const commentForm=safeText("form",undefined,"certificate-comment-form");const commentInput=safeText("input");commentInput.placeholder="Write a professional commentâ€¦";commentInput.maxLength=500;commentInput.required=true;commentInput.setAttribute("aria-label","Write a comment");const send=safeText("button","Post comment");send.type="submit";commentForm.append(commentInput,send);comments.append(commentForm);card.append(comments);
       const api=`/api/community/interactions/certificate/${encodeURIComponent(project._id)}`;
-      async function refreshInteractions(){try{const r=await fetch(api,{headers:{Accept:"application/json"}});if(!r.ok)return;const d=await r.json();appreciate.textContent=`${d.liked?"★":"☆"} Appreciate${d.likes?` · ${d.likes}`:""}`;for(const c of d.comments||[]){const row=safeText("p",`${c.name}: ${c.text}`,"certificate-feed-comment");comments.insertBefore(row,commentForm);}}catch(_){}}
-      appreciate.addEventListener("click",async()=>{appreciate.disabled=true;try{const r=await fetch(api+"/like",{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:"{}"});const d=await r.json();if(!r.ok)throw new Error(d.message||"Unable to appreciate this certificate.");appreciate.textContent=`${d.liked?"★":"☆"} Appreciate${d.likes?` · ${d.likes}`:""}`;}catch(e){appreciate.title=e.message;}finally{appreciate.disabled=false;}});
+      async function refreshInteractions(){try{const r=await fetch(api,{headers:{Accept:"application/json"}});if(!r.ok)return;const d=await r.json();appreciate.textContent=`${d.liked?"â˜…":"â˜†"} Appreciate${d.likes?` Â· ${d.likes}`:""}`;for(const c of d.comments||[]){const row=safeText("p",`${c.name}: ${c.text}`,"certificate-feed-comment");comments.insertBefore(row,commentForm);}}catch(_){}}
+      appreciate.addEventListener("click",async()=>{appreciate.disabled=true;try{const r=await fetch(api+"/like",{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:"{}"});const d=await r.json();if(!r.ok)throw new Error(d.message||"Unable to appreciate this certificate.");appreciate.textContent=`${d.liked?"â˜…":"â˜†"} Appreciate${d.likes?` Â· ${d.likes}`:""}`;}catch(e){appreciate.title=e.message;}finally{appreciate.disabled=false;}});
       commentToggle.addEventListener("click",()=>{comments.hidden=!comments.hidden;if(!comments.hidden)commentInput.focus();});
       commentForm.addEventListener("submit",async ev=>{ev.preventDefault();send.disabled=true;try{const r=await fetch(api+"/comments",{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:JSON.stringify({text:commentInput.value})});const d=await r.json();if(!r.ok)throw new Error(d.message||"Unable to post comment.");comments.insertBefore(safeText("p",`${d.comment.name}: ${d.comment.text}`,"certificate-feed-comment"),commentForm);commentInput.value="";}catch(e){send.textContent=e.message;}finally{send.disabled=false;}});
       share.addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:project.title||"Certificate",text:project.description||"Professional certificate",url:href||window.location.href});else if(navigator.clipboard){await navigator.clipboard.writeText(href||window.location.href);share.textContent="Link copied";}else share.textContent="Open certificate to share";}catch(_){}});
@@ -2175,7 +2175,7 @@ function initializeSocialInbox() {
     catch (_) { badge.hidden=true; }
   }
   async function showNotifications() {
-    mode="notifications"; title.textContent="Notifications"; content.replaceChildren(el("p","Loading…"));
+    mode="notifications"; title.textContent="Notifications"; content.replaceChildren(el("p","Loadingâ€¦"));
     panel.hidden=false;
     try {
       const data=await request("/api/social/notifications"); content.replaceChildren();
@@ -2204,7 +2204,7 @@ function initializeSocialInbox() {
     } catch(e){content.replaceChildren(el("p",e.message));}
   }
   async function showConversations() {
-    mode="messages";title.textContent="Messages";content.replaceChildren(el("p","Loading…"));panel.hidden=false;
+    mode="messages";title.textContent="Messages";content.replaceChildren(el("p","Loadingâ€¦"));panel.hidden=false;
     try {
       const data=await request("/api/social/conversations");content.replaceChildren();
       const layout=el("div",undefined,"social-message-layout");
@@ -2228,13 +2228,13 @@ function initializeSocialInbox() {
     const threadHeading=el("div",undefined,"social-thread-heading");
     const threadAvatar=el("span",undefined,"social-conversation-avatar");
     if(typeof user.photoData==="string" && /^data:image\/(?:png|jpeg|webp);base64,/i.test(user.photoData)){const img=el("img");img.src=user.photoData;img.alt="";threadAvatar.append(img);}else threadAvatar.textContent=(user.name||"U").trim().charAt(0).toUpperCase();
-    threadHeading.append(threadAvatar,el("h4",user.name||"User"));thread.append(threadHeading,el("p","Loading messages…"));
+    threadHeading.append(threadAvatar,el("h4",user.name||"User"));thread.append(threadHeading,el("p","Loading messagesâ€¦"));
     try {
       const data=await request("/api/social/messages/"+user.id);thread.replaceChildren(threadHeading);
       const messages=el("div",undefined,"social-message-list");
       data.messages.forEach(m=>{const mine=String(m.sender)===String(currentUserId);messages.append(el("p",(mine?"You: ":"")+m.text,"social-message"+(mine?" mine":"")));});
       const form=el("form",undefined,"social-send-form"),input=el("input"),send=el("button","Send");
-      input.placeholder="Write a message…";input.maxLength=4000;input.required=true;send.type="submit";form.append(input,send);
+      input.placeholder="Write a messageâ€¦";input.maxLength=4000;input.required=true;send.type="submit";form.append(input,send);
       form.addEventListener("submit",async ev=>{ev.preventDefault();send.disabled=true;try{const result=await request("/api/social/messages/"+user.id,{method:"POST",body:JSON.stringify({text:input.value})});messages.append(el("p","You: "+result.message.text,"social-message mine"));input.value="";messages.scrollTop=messages.scrollHeight;}catch(e){thread.append(el("p",e.message));}finally{send.disabled=false;}});
       thread.append(messages,form);
     } catch(e){thread.replaceChildren(el("h4",user.name),el("p",e.message));}
@@ -2253,7 +2253,7 @@ async function loadAdminCourses() {
   const loading = document.getElementById("adminCoursesLoading");
   if (!list) return;
   list.replaceChildren();
-  if (loading) loading.textContent = "Loading course catalogue…";
+  if (loading) loading.textContent = "Loading course catalogueâ€¦";
   const el = (tag, text, cls) => {
     const item = document.createElement(tag);
     if (text !== undefined) item.textContent = text;
@@ -2288,7 +2288,7 @@ async function loadAdminCourses() {
     courses.forEach(course => {
       const card = el("article", undefined, "dashboard-card admin-course-card");
       const heading = el("h4", course.title);
-      const status = el("p", `${course.isPublished ? "Published" : "Draft"} · ${(course.lessons || []).length} lesson(s)`);
+      const status = el("p", `${course.isPublished ? "Published" : "Draft"} Â· ${(course.lessons || []).length} lesson(s)`);
       card.append(heading, status);
 
       const editCourseButton = el("button", "Edit course details"); editCourseButton.type = "button";
@@ -2307,7 +2307,7 @@ async function loadAdminCourses() {
       const courseMessage = el("p"); courseMessage.setAttribute("role", "status"); editCourseForm.append(saveCourse, courseMessage);
       editCourseButton.addEventListener("click", () => { editCourseForm.hidden = !editCourseForm.hidden; });
       editCourseForm.addEventListener("submit", async event => {
-        event.preventDefault(); saveCourse.disabled = true; courseMessage.textContent = "Saving…";
+        event.preventDefault(); saveCourse.disabled = true; courseMessage.textContent = "Savingâ€¦";
         try {
           const r = await fetch(`/api/courses/${encodeURIComponent(course._id)}`, { method: "PATCH", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ title: titleField.input.value.trim(), description: descField.input.value.trim(), category: categoryField.input.value.trim(), level: levelField.input.value, instructor: instructorField.input.value.trim(), isPublished: publishedField.input.value === "true" }) });
           const d = await r.json(); if (!r.ok) throw new Error(d.message || "Unable to update course.");
@@ -2329,7 +2329,7 @@ async function loadAdminCourses() {
       lessonForm.append(lessonTitle.wrap, lessonDescription.wrap, video.wrap, resource.wrap, addButton, lessonMessage);
       addLessonButton.addEventListener("click", () => { lessonForm.hidden = !lessonForm.hidden; });
       lessonForm.addEventListener("submit", async event => {
-        event.preventDefault(); addButton.disabled = true; lessonMessage.textContent = "Saving lesson…";
+        event.preventDefault(); addButton.disabled = true; lessonMessage.textContent = "Saving lessonâ€¦";
         try {
           const r = await fetch(`/api/courses/${encodeURIComponent(course._id)}/lessons`, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ title: lessonTitle.input.value.trim(), description: lessonDescription.input.value.trim(), videoUrl: video.input.value.trim(), resourceUrl: resource.input.value.trim() }) });
           const d = await r.json(); if (!r.ok) throw new Error(d.message || "Unable to add lesson.");
@@ -2356,7 +2356,7 @@ async function loadAdminCourses() {
         editLessonForm.append(et.wrap, ed.wrap, ev.wrap, er.wrap, saveLesson, editMessage);
         editLessonButton.addEventListener("click", () => { editLessonForm.hidden = !editLessonForm.hidden; });
         editLessonForm.addEventListener("submit", async event => {
-          event.preventDefault(); saveLesson.disabled = true; editMessage.textContent = "Saving…";
+          event.preventDefault(); saveLesson.disabled = true; editMessage.textContent = "Savingâ€¦";
 
           try {
             const r = await fetch(`/api/courses/${encodeURIComponent(course._id)}/lessons/${encodeURIComponent(lesson._id)}`, { method: "PATCH", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ title: et.input.value.trim(), description: ed.input.value.trim(), videoUrl: ev.input.value.trim(), resourceUrl: er.input.value.trim() }) });
@@ -2367,7 +2367,7 @@ async function loadAdminCourses() {
         });
         row.append(editLessonButton, editLessonForm); lessons.appendChild(row);
       });
-      if (!(course.lessons || []).length) lessons.appendChild(el("p", "No lessons yet. Use “Add lesson / YouTube link” to add the first one."));
+      if (!(course.lessons || []).length) lessons.appendChild(el("p", "No lessons yet. Use â€œAdd lesson / YouTube linkâ€ to add the first one."));
       card.appendChild(lessons); list.appendChild(card);
     });
   } catch (error) {

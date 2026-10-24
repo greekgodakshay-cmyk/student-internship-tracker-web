@@ -290,9 +290,9 @@ async function initializeDashboardProfile() {
 
     const user = result.user;
 
-updateDashboardAvatars(user);
+    updateDashboardAvatars(user);
 
-heading.textContent = "Ready to Level Up?";
+    heading.textContent = "Ready to Level Up?";
 
     const profileName = document.getElementById("profileName");
     const profileEmail = document.getElementById("profileEmail");
@@ -802,6 +802,7 @@ function initializeCourses() {
       courses.forEach((course) => {
         const card = document.createElement("article");
         card.className = "course-card dashboard-card";
+        if (course._id) card.dataset.courseId = String(course._id);
 
         const title = document.createElement("h3");
         title.textContent = course.title;
@@ -886,7 +887,7 @@ function initializeCourses() {
               if (videoHref) {
                 const videoLink = document.createElement("a");
                 videoLink.href = videoHref;
-                videoLink.textContent = "–¶ Watch lesson on YouTube";
+                videoLink.textContent = "▶ Watch lesson on YouTube";
                 videoLink.target = "_blank";
                 videoLink.rel = "noopener noreferrer";
                 videoLink.style.display = "inline-block";
@@ -915,7 +916,7 @@ function initializeCourses() {
         const completionButton = document.createElement("button");
         completionButton.type = "button";
         completionButton.className = "course-completion-button";
-        completionButton.textContent = completedCourseIds.has(String(course._id)) ? "Completed “" : "Mark course completed";
+        completionButton.textContent = completedCourseIds.has(String(course._id)) ? "Completed ✓" : "Mark course completed";
         completionButton.setAttribute("aria-pressed", String(completedCourseIds.has(String(course._id))));
         completionButton.addEventListener("click", async () => {
           completionButton.disabled = true;
@@ -927,7 +928,7 @@ function initializeCourses() {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || "Unable to update course status.");
             if (done) completedCourseIds.delete(String(course._id)); else completedCourseIds.add(String(course._id));
-            completionButton.textContent = done ? "Mark course completed" : "Completed œ“";
+            completionButton.textContent = done ? "Mark course completed" : "Completed ✓";
             completionButton.setAttribute("aria-pressed", String(!done));
             if (dashboardSummary) dashboardSummary.textContent = `${completedCourseIds.size} completed · ${courses.length} published course${courses.length === 1 ? "" : "s"} available`;
             window.dispatchEvent(new Event("studentAnalyticsRefresh"));
@@ -1430,35 +1431,35 @@ function initializeApplicationTracker() {
         location.textContent = `Location: ${internship?.location || "Not specified"}`;
 
 
-const statusLabel = document.createElement("label");
-statusLabel.textContent = "Application status: ";
+        const statusLabel = document.createElement("label");
+        statusLabel.textContent = "Application status: ";
 
-const status = document.createElement("select");
-status.name = "applicationStatus";
-status.style.display = "block";
-status.style.marginTop = "8px";
-status.style.padding = "10px";
-status.style.minWidth = "220px";
+        const status = document.createElement("select");
+        status.name = "applicationStatus";
+        status.style.display = "block";
+        status.style.marginTop = "8px";
+        status.style.padding = "10px";
+        status.style.minWidth = "220px";
 
-const statusOptions = [
-  "Interested",
-  "Applied",
-  "Interview",
-  "Offered",
-  "Rejected",
-  "Withdrawn"
-];
+        const statusOptions = [
+          "Interested",
+          "Applied",
+          "Interview",
+          "Offered",
+          "Rejected",
+          "Withdrawn"
+        ];
 
-statusOptions.forEach(value => {
-  const option = document.createElement("option");
-  option.value = value;
-  option.textContent = value;
-  status.appendChild(option);
-});
+        statusOptions.forEach(value => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          status.appendChild(option);
+        });
 
-status.value = application.status || "Interested";
-statusLabel.appendChild(document.createTextNode(" "));
-statusLabel.appendChild(status);
+        status.value = application.status || "Interested";
+        statusLabel.appendChild(document.createTextNode(" "));
+        statusLabel.appendChild(status);
 
 
         const date = document.createElement("p");
@@ -1563,7 +1564,7 @@ statusLabel.appendChild(status);
 }
 
 
- // SECTION NAVIGATION €” keeps dashboard views separate
+// SECTION NAVIGATION — keeps dashboard views separate
 function initializeSectionNavigation() {
   const main = document.querySelector("main");
   if (!main) return;
@@ -1608,7 +1609,6 @@ function initializeSectionNavigation() {
   window.addEventListener("hashchange", showActiveSection);
   showActiveSection();
 }
-
 /* INTERNSHIP MANAGEMENT */
 function initializeInternships() {
   const form = document.getElementById("internshipForm");
@@ -1698,7 +1698,8 @@ function initializeInternships() {
 
     internships.forEach(internship => {
       const card = document.createElement("article");
-      card.className = "dashboard-card";
+      card.className = "dashboard-card internship-card";
+      if (internship._id) card.dataset.internshipId = String(internship._id);
 
       const title = document.createElement("h3");
       title.textContent = internship.title || "Untitled internship";
@@ -1740,60 +1741,60 @@ function initializeInternships() {
       }
 
 
-if (!isAdmin) {
-  const trackButton = document.createElement("button");
-  trackButton.type = "button";
-  trackButton.textContent = "Track Internship";
+      if (!isAdmin) {
+        const trackButton = document.createElement("button");
+        trackButton.type = "button";
+        trackButton.textContent = "Track Internship";
 
-  trackButton.addEventListener("click", async () => {
-    trackButton.disabled = true;
+        trackButton.addEventListener("click", async () => {
+          trackButton.disabled = true;
 
-    try {
-      const response = await fetch("/api/applications", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          internshipId: internship._id,
-          status: "Interested"
-        })
-      });
+          try {
+            const response = await fetch("/api/applications", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+              },
+              body: JSON.stringify({
+                internshipId: internship._id,
+                status: "Interested"
+              })
+            });
 
-      const result = await response.json();
+            const result = await response.json();
 
-      if (response.status === 401) {
-        window.location.replace("/login.html");
-        return;
+            if (response.status === 401) {
+              window.location.replace("/login.html");
+              return;
+            }
+
+            if (!response.ok) {
+              throw new Error(
+                result.message || "Unable to track this internship."
+              );
+            }
+
+            trackButton.textContent = "Added to Tracker";
+            window.dispatchEvent(new Event("applicationsUpdated"));
+          } catch (error) {
+            alert(error.message);
+            trackButton.disabled = false;
+          }
+        });
+
+        card.appendChild(trackButton);
       }
 
-      if (!response.ok) {
-        throw new Error(
-          result.message || "Unable to track this internship."
-        );
+      const applicationHref = safeHttpUrl(internship.applicationUrl);
+      if (applicationHref) {
+        const link = document.createElement("a");
+        link.href = applicationHref;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "View application page";
+        card.appendChild(link);
       }
-
-      trackButton.textContent = "Added to Tracker";
-      window.dispatchEvent(new Event("applicationsUpdated"));
-    } catch (error) {
-      alert(error.message);
-      trackButton.disabled = false;
-    }
-  });
-
-  card.appendChild(trackButton);
-}
-
-const applicationHref = safeHttpUrl(internship.applicationUrl);
-if (applicationHref) {
-  const link = document.createElement("a");
-  link.href = applicationHref;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.textContent = "View application page";
-  card.appendChild(link);
-}
 
 
       container.appendChild(card);
@@ -1916,7 +1917,6 @@ function renderCareerActivityCharts(metricDefs, counts, maxCount) {
     svg.appendChild(text);
   });
   const profile = document.createElementNS(ns, "polygon");
-  profile.setAttribute("points", polygon(values.map(v => point(values.indexOf(v), v / chartMax))));
   /* Preserve the correct axis index even when multiple categories share a count. */
   profile.setAttribute("points", polygon(values.map((v, i) => point(i, v / chartMax))));
   profile.setAttribute("fill", "#3976a8"); profile.setAttribute("fill-opacity", ".16");
@@ -1988,6 +1988,59 @@ function initializeStudentAnalytics() {
   load(); window.addEventListener("studentAnalyticsRefresh", load); window.addEventListener("profileVisibilityChanged", load); window.addEventListener("applicationsUpdated", load);
 }
 
+function navigateToAppSection(sectionId) {
+  const targetId = String(sectionId || "dashboard").replace(/^#/, "");
+  const main = document.querySelector("main");
+  if (!main) return;
+  const sections = Array.from(main.children).filter(el => el.tagName === "SECTION");
+  const target = sections.find(s => s.id === targetId);
+  if (!target) return;
+
+  document.body.classList.remove("mobile-nav-open", "search-sheet-open");
+  sections.forEach(s => {
+    const active = s === target;
+    s.hidden = !active;
+    s.classList.toggle("is-active", active);
+  });
+
+  if (window.location.hash !== `#${targetId}`) {
+    window.history.pushState(null, "", `#${targetId}`);
+  }
+
+  document.querySelectorAll('body > header nav a[aria-current="page"]').forEach(item => item.removeAttribute("aria-current"));
+  const activeNav = document.querySelector(`body > header nav a[href="#${targetId}"]`);
+  if (activeNav) activeNav.setAttribute("aria-current", "page");
+
+  window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+
+function openCourseDetailFromSearch(courseId) {
+  navigateToAppSection("learning");
+  window.setTimeout(() => {
+    const card = courseId ? document.querySelector(`#coursesList [data-course-id="${CSS.escape(String(courseId))}"]`) : null;
+    if (card) {
+      const btn = card.querySelector("button");
+      const lessonsDiv = card.querySelector("div");
+      if (lessonsDiv && lessonsDiv.hidden && btn) btn.click();
+      card.classList.add("search-Target-highlight");
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      window.setTimeout(() => card.classList.remove("search-Target-highlight"), 2600);
+    }
+  }, 120);
+}
+
+function openInternshipDetailFromSearch(internshipId) {
+  navigateToAppSection("internships");
+  window.setTimeout(() => {
+    const card = internshipId ? document.querySelector(`#internshipsList [data-internship-id="${CSS.escape(String(internshipId))}"]`) : null;
+    if (card) {
+      card.classList.add("search-Target-highlight");
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      window.setTimeout(() => card.classList.remove("search-Target-highlight"), 2600);
+    }
+  }, 120);
+}
+
 function initializeDashboardQuickSearch() {
   const form = document.getElementById("dashboardQuickSearch");
   if (!form) return;
@@ -2005,20 +2058,18 @@ function initializeDashboardQuickSearch() {
   const renderRecent = () => {
     if (!recentWrap || !recentItems) return;
     const items = readRecent(); recentItems.replaceChildren(); recentWrap.hidden = !items.length;
-    items.forEach(value => { const b = document.createElement("button"); b.type = "button"; b.className = "recent-search-item"; b.textContent = "⌕  " + value; b.addEventListener("click", () => { if (quickInput) quickInput.value = value; runSearch(value); }); recentItems.appendChild(b); });
+    items.forEach(value => { const b = document.createElement("button"); b.type = "button"; b.className = "recent-search-item"; b.textContent = "⌕  " + value; b.addEventListener("click", () => { if (quickInput) quickInput.value = value; if (recentWrap) recentWrap.hidden = true; runSearch(value); }); recentItems.appendChild(b); });
   };
-  const openSheet = () => {
-    // Keep global search available from every dashboard section, including mobile.
-    document.body.classList.remove("mobile-nav-open");
-    document.body.classList.add("search-sheet-open");
+  const openSearchResultsPage = () => {
+    if (recentWrap) recentWrap.hidden = true;
+    navigateToAppSection("community");
     if (sheet) {
       sheet.hidden = false;
-      sheet.setAttribute("aria-hidden", "false");
+      sheet.removeAttribute("aria-hidden");
     }
   };
   const closeSheet = () => {
     document.body.classList.remove("search-sheet-open");
-    if (sheet) sheet.setAttribute("aria-hidden", "true");
   };
   const runSearch = value => {
     value = (value || "").trim();
@@ -2030,11 +2081,10 @@ function initializeDashboardQuickSearch() {
     saveRecent(value);
     if (target && targetForm) {
       target.value = value;
-      openSheet();
+      openSearchResultsPage();
       window.requestAnimationFrame(() => {
         if (typeof targetForm.requestSubmit === "function") targetForm.requestSubmit();
         else targetForm.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
-        target.focus({ preventScroll: true });
       });
     }
   };
@@ -2043,15 +2093,14 @@ function initializeDashboardQuickSearch() {
     runSearch((quickInput?.value || "").trim());
   });
   if (quickInput) {
-    quickInput.addEventListener("focus", () => { renderRecent(); if (recentWrap && !recentWrap.hidden) recentWrap.hidden = false; });
-    quickInput.addEventListener("input", () => { if (recentWrap) recentWrap.hidden = true; });
+    quickInput.addEventListener("focus", () => { renderRecent(); if (recentWrap && readRecent().length) recentWrap.hidden = false; });
+    quickInput.addEventListener("input", () => { quickInput.setCustomValidity(""); if (recentWrap) recentWrap.hidden = true; });
   }
   if (clearRecent) clearRecent.addEventListener("click", () => { try { localStorage.removeItem(RECENT_KEY); } catch (_) {} renderRecent(); });
   document.addEventListener("click", event => { if (recentWrap && !recentWrap.contains(event.target) && !form.contains(event.target)) recentWrap.hidden = true; });
   renderRecent();
-  if (closeButton) closeButton.addEventListener("click", closeSheet);
-  if (sheet) sheet.addEventListener("click", event => { if (event.target === sheet) closeSheet(); });
-  document.addEventListener("keydown", event => { if (event.key === "Escape") closeSheet(); });
+  if (closeButton) closeButton.addEventListener("click", () => navigateToAppSection("dashboard"));
+
   const toggle = document.getElementById("dashboardSidebarToggle");
   const sidebar = document.querySelector("body > header");
   const mobileNavigation = window.matchMedia("(max-width: 760px)");
@@ -2099,95 +2148,422 @@ function initializeDashboardQuickSearch() {
     }
   });
   const profileButton = document.getElementById("dashboardProfileButton");
-  const openOwnProfile = () => {
-    const profileSection = document.getElementById("profile");
-    if (!profileSection) return;
+  if (profileButton) profileButton.addEventListener("click", () => {
     closeMobileNavigation();
     closeSheet();
-    if (profileSection.hidden) profileSection.hidden = false;
-    if (window.location.hash !== "#profile") window.history.pushState(null, "", "#profile");
-    document.querySelectorAll('body > header nav a[aria-current="page"]').forEach(item => item.removeAttribute("aria-current"));
-    const profileNav = document.getElementById("sidebarProfileLink");
-    if (profileNav) profileNav.setAttribute("aria-current", "page");
-    // Explicit scrolling is needed on phones where the top toolbar is sticky.
-    window.requestAnimationFrame(() => profileSection.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-      block: "start"
-    }));
-  };
-  if (profileButton) profileButton.addEventListener("click", openOwnProfile);
+    navigateToAppSection("profile");
+  });
 }
 
 /* PUBLIC PEOPLE SEARCH, INTERNSHIP SEARCH AND PROFILE SOCIAL ACTIONS */
 function initializeCommunitySearch() {
   const form = document.getElementById("communitySearchForm"); if (!form) return;
-  const input = document.getElementById("communitySearchInput"), message = document.getElementById("communitySearchMessage"), people = document.getElementById("communityUsersResults"), jobs = document.getElementById("communityInternshipResults"), profileView = document.getElementById("publicProfileView"), button = document.getElementById("communitySearchButton");
+  const input = document.getElementById("communitySearchInput"), message = document.getElementById("communitySearchMessage"), people = document.getElementById("communityUsersResults"), jobs = document.getElementById("communityInternshipResults"), resultsColumns = document.getElementById("communityResultsColumns"), profileView = document.getElementById("publicProfileView"), button = document.getElementById("communitySearchButton");
   const safeUrl = value => { try { const u = new URL(value, window.location.origin); return ["http:", "https:"].includes(u.protocol) ? u.href : ""; } catch { return ""; } };
   const node = (tag, text, cls) => { const el = document.createElement(tag); if (text !== undefined) el.textContent = text; if (cls) el.className = cls; return el; };
+
   async function search(query) {
     if (!query.trim()) return;
-    button.disabled = true; message.textContent = "Searching public profiles and active internships…"; people.replaceChildren(); jobs.replaceChildren(); profileView.hidden = true;
+    button.disabled = true;
+    message.textContent = "Searching public profiles, courses, and active internships…";
+    people.replaceChildren();
+    jobs.replaceChildren();
+    profileView.hidden = true;
+    if (resultsColumns) resultsColumns.hidden = false;
     try {
-      const response = await fetch(`/api/community/search?q=${encodeURIComponent(query.trim())}`, { headers: { Accept: "application/json" } }); const result = await response.json(); if (!response.ok) throw new Error(result.message || "Search failed.");
+      const response = await fetch(`/api/community/search?q=${encodeURIComponent(query.trim())}`, { headers: { Accept: "application/json" } });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Search failed.");
+
       if (!result.users.length) people.appendChild(node("p", "No public profiles matched this search."));
       result.users.forEach(user => {
-        const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", user.name));
-        const headline = [user.degree, user.college, user.fieldOfStudy, user.location].filter(Boolean).join(" · "); if (headline) card.appendChild(node("p", headline)); if (user.bio) card.appendChild(node("p", user.bio));
-        const actions = node("div", undefined, "community-result-actions"); const view = node("button", "View profile & certificates"); view.type = "button"; view.addEventListener("click", () => loadPublicProfile(user.id || user._id));
-        const share = node("button", "Share profile"); share.type = "button"; share.addEventListener("click", () => shareText(`${window.location.origin}/index.html?profile=${encodeURIComponent(user.id || user._id)}`));
-        const follow = node("button", "Follow"); follow.type = "button"; follow.addEventListener("click", async () => { follow.disabled = true; try { const r = await fetch(`/api/social/follow/${encodeURIComponent(user.id || user._id)}`, { method: "POST", headers: { Accept: "application/json" } }); const d = await r.json(); if (!r.ok) throw new Error(d.message || "Unable to follow."); follow.textContent = d.status === "pending" ? "Request sent" : "Following"; } catch (e) { follow.textContent = e.message; } finally { follow.disabled = false; } });
-        actions.append(view, follow, share); card.appendChild(actions); people.appendChild(card);
+        const userId = user.id || user._id;
+        const card = node("article", undefined, "community-result-card");
+        const title = node("h5", user.name);
+        title.style.cursor = "pointer";
+        title.title = "View complete profile";
+        title.addEventListener("click", () => loadPublicProfile(userId));
+        card.appendChild(title);
+
+        const headline = [user.degree, user.college, user.fieldOfStudy, user.location].filter(Boolean).join(" · ");
+        if (headline) card.appendChild(node("p", headline));
+        if (user.bio) card.appendChild(node("p", user.bio));
+
+        const actions = node("div", undefined, "community-result-actions");
+        const view = node("button", "View profile");
+        view.type = "button";
+        view.addEventListener("click", () => loadPublicProfile(userId));
+
+        const follow = node("button", "Follow");
+        follow.type = "button";
+        follow.addEventListener("click", async () => {
+          follow.disabled = true;
+          try {
+            const r = await fetch(`/api/social/follow/${encodeURIComponent(userId)}`, { method: "POST", headers: { Accept: "application/json" } });
+            const d = await r.json();
+            if (!r.ok) throw new Error(d.message || "Unable to follow.");
+            follow.textContent = d.status === "pending" ? "Request sent" : "Following";
+          } catch (e) { follow.textContent = e.message; }
+          finally { follow.disabled = false; }
+        });
+
+        const msgBtn = node("button", "Message");
+        msgBtn.type = "button";
+        msgBtn.addEventListener("click", () => {
+          if (typeof window.openDirectMessagesForUser === "function") {
+            window.openDirectMessagesForUser({ id: userId, name: user.name, photoData: user.photoData || "" });
+          } else {
+            const messages = document.getElementById("dashboardMessagesButton");
+            if (messages) messages.click();
+          }
+        });
+
+        const share = node("button", "Share profile");
+        share.type = "button";
+        share.addEventListener("click", () => shareText(`${window.location.origin}/index.html?profile=${encodeURIComponent(userId)}`));
+
+        actions.append(view, follow, msgBtn, share);
+        card.appendChild(actions);
+        people.appendChild(card);
       });
-      if (!result.internships.length && !(result.courses || []).length && !(result.skills || []).length) jobs.appendChild(node("p", "No courses, skills or active internships matched this search."));
+
+      if (!result.internships.length && !(result.courses || []).length && !(result.skills || []).length) {
+        jobs.appendChild(node("p", "No courses, skills or active internships matched this search."));
+      }
+
       (result.courses || []).forEach(course => {
-        const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", `Course: ${course.title}`));
+        const card = node("article", undefined, "community-result-card");
+        const title = node("h5", `Course: ${course.title}`);
+        title.style.cursor = "pointer";
+        title.addEventListener("click", () => openCourseDetailFromSearch(course._id));
+        card.appendChild(title);
         card.appendChild(node("p", `${course.category || "General"} · ${course.level || "Course"} · ${course.instructor || "Instructor not specified"}`));
         if (course.description) card.appendChild(node("p", course.description));
         if (Array.isArray(course.lessons) && course.lessons.length) card.appendChild(node("p", `${course.lessons.length} lesson(s) available`));
+        const actions = node("div", undefined, "community-result-actions");
+        const openCourseBtn = node("button", "Open course details");
+        openCourseBtn.type = "button";
+        openCourseBtn.addEventListener("click", () => openCourseDetailFromSearch(course._id));
+        actions.appendChild(openCourseBtn);
+        card.appendChild(actions);
         jobs.appendChild(card);
       });
-      (result.skills || []).forEach(skill => { const card=node("article",undefined,"community-result-card"); card.appendChild(node("h5",`Skill: ${skill.name}`)); card.appendChild(node("p",`${skill.category || "Other"} · ${skill.userCount} learner(s)`)); jobs.appendChild(card); });
+
       result.internships.forEach(job => {
-        const card = node("article", undefined, "community-result-card"); card.appendChild(node("h5", job.title)); card.appendChild(node("p", `${job.company} · ${job.location || "Location not specified"} · ${job.workMode || "Work mode not specified"}`)); card.appendChild(node("p", job.description || ""));
-        const actions = node("div", undefined, "community-result-actions"); const track = node("button", "Track internship"); track.type = "button"; track.addEventListener("click", async () => { track.disabled = true; try { const r=await fetch('/api/applications',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({internshipId:job._id,status:'Interested'})}); const d=await r.json(); if(!r.ok) throw new Error(d.message||'Unable to track internship.'); track.textContent='Added to tracker'; window.dispatchEvent(new Event('studentAnalyticsRefresh')); } catch(e) { message.textContent=e.message; track.disabled=false; } }); actions.appendChild(track);
-        const link = safeUrl(job.applicationUrl); if(link){const a=node('a','Open listing');a.href=link;a.target='_blank';a.rel='noopener noreferrer';actions.appendChild(a);} card.appendChild(actions); jobs.appendChild(card);
+        const card = node("article", undefined, "community-result-card");
+        const title = node("h5", job.title);
+        title.style.cursor = "pointer";
+        title.addEventListener("click", () => openInternshipDetailFromSearch(job._id));
+        card.appendChild(title);
+        card.appendChild(node("p", `${job.company} · ${job.location || "Location not specified"} · ${job.workMode || "Work mode not specified"}`));
+        card.appendChild(node("p", job.description || ""));
+        const actions = node("div", undefined, "community-result-actions");
+        const viewDetails = node("button", "View internship details");
+        viewDetails.type = "button";
+        viewDetails.addEventListener("click", () => openInternshipDetailFromSearch(job._id));
+        actions.appendChild(viewDetails);
+
+        const track = node("button", "Track internship");
+        track.type = "button";
+        track.addEventListener("click", async () => {
+          track.disabled = true;
+          try {
+            const r = await fetch('/api/applications', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ internshipId: job._id, status: 'Interested' }) });
+            const d = await r.json();
+            if (!r.ok) throw new Error(d.message || 'Unable to track internship.');
+            track.textContent = 'Added to tracker';
+            window.dispatchEvent(new Event('studentAnalyticsRefresh'));
+          } catch (e) { message.textContent = e.message; track.disabled = false; }
+        });
+        actions.appendChild(track);
+        const link = safeUrl(job.applicationUrl);
+        if (link) {
+          const a = node('a', 'Application page');
+          a.href = link;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          actions.appendChild(a);
+        }
+        card.appendChild(actions);
+        jobs.appendChild(card);
       });
+
+      (result.skills || []).forEach(skill => {
+        const card = node("article", undefined, "community-result-card");
+        card.appendChild(node("h5", `Skill: ${skill.name}`));
+        card.appendChild(node("p", `${skill.category || "Other"} · ${skill.userCount} learner(s)`));
+        const actions = node("div", undefined, "community-result-actions");
+        const viewSkillsBtn = node("button", "Explore in Skills");
+        viewSkillsBtn.type = "button";
+        viewSkillsBtn.addEventListener("click", () => navigateToAppSection("skills"));
+        actions.appendChild(viewSkillsBtn);
+        card.appendChild(actions);
+        jobs.appendChild(card);
+      });
+
       message.textContent = `${result.users.length} public profile(s), ${result.internships.length} internship(s), ${(result.courses || []).length} course(s) and ${(result.skills || []).length} skill(s) found.`;
     } catch (error) { message.textContent = error.message; }
     finally { button.disabled = false; }
   }
-  async function shareText(text) { try { if (navigator.share) await navigator.share({ title: 'Student Tracker', url: text }); else if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(text); message.textContent='Share link copied to clipboard.'; } else window.prompt('Copy this link', text); } catch (e) { if (e.name !== 'AbortError') { try { window.prompt('Copy this link', text); } catch {} } } }
-  async function socialControls(container, type, id, shareUrl) {
-    const actions = node('div', undefined, 'community-result-actions'); const like = node('button', 'Like'); like.type='button'; const comment = node('button','Comment'); comment.type='button'; const share = node('button','Share'); share.type='button'; actions.append(like,comment,share); container.appendChild(actions);
-    const commentsWrap=node('div'); container.appendChild(commentsWrap);
-    async function refresh() { try { const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}}); const d=await r.json(); if(!r.ok) throw new Error(d.message); like.textContent=`${d.liked?'Liked':'Like'} · ${d.likes}`; commentsWrap.replaceChildren(); d.comments.forEach(c=>{const row=node('div',undefined,'social-comment');row.appendChild(node('strong',`${c.name}: `));row.appendChild(document.createTextNode(c.text));commentsWrap.appendChild(row);}); } catch(e) { commentsWrap.appendChild(node('p',e.message)); } }
-    like.addEventListener('click',async()=>{like.disabled=true;try{const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/like`,{method:'POST',headers:{Accept:'application/json'}});const d=await r.json();if(!r.ok)throw new Error(d.message);like.textContent=`${d.liked?'Liked':'Like'} · ${d.likes}`;}catch(e){message.textContent=e.message;}finally{like.disabled=false;}});
-    comment.addEventListener('click',async()=>{const text=window.prompt('Write a comment (up to 500 characters):');if(!text||!text.trim())return;try{const r=await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/comments`,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({text})});const d=await r.json();if(!r.ok)throw new Error(d.message);await refresh();}catch(e){message.textContent=e.message;}});
-    share.addEventListener('click',()=>shareText(shareUrl)); await refresh();
-  }
-  async function loadPublicProfile(id) {
-    if(!id) return; profileView.hidden=false; profileView.classList.add('public-profile-page'); profileView.replaceChildren(node('p','Loading public profile…'));
-    try {
-      const r=await fetch(`/api/community/users/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const d=await r.json();if(!r.ok)throw new Error(d.message||'Unable to load profile.');profileView.replaceChildren();
-      const hero=node('div',undefined,'public-profile-hero');
-       const photoData=typeof d.user.photoData==='string' && /^data:image\/(?:png|jpeg|webp);base64,/i.test(d.user.photoData) ? d.user.photoData : '';
-       const avatar=node(photoData?'img':'div',photoData?undefined:(d.user.name||'U').trim().charAt(0).toUpperCase(),'public-profile-avatar'+(photoData?'':' public-profile-avatar-fallback'));
-       if(photoData){avatar.src=photoData;avatar.alt=(d.user.name||'User')+' profile photo';}
-       const intro=node('div');intro.appendChild(node('h3',d.user.name||'Public profile'));const headline=[d.user.degree,d.user.college,d.user.studyYear,d.user.fieldOfStudy,d.user.location].filter(Boolean).join(' · ');if(headline)intro.appendChild(node('p',headline));if(d.user.bio)intro.appendChild(node('p',d.user.bio));hero.append(avatar,intro);profileView.appendChild(hero);
-       const actionRow=node('div',undefined,'public-profile-actions');profileView.appendChild(actionRow);
-      try { const sr=await fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const stats=await sr.json();if(sr.ok){profileView.appendChild(node('p',`${stats.followers} followers · ${stats.following} following · ${stats.skills} skills · ${stats.certificates} certificates`,'public-profile-stats'));const fb=node('button',stats.isFollowing?'Unfollow':(stats.requestPending?'Request pending':'Follow'));fb.type='button';fb.disabled=stats.requestPending;fb.addEventListener('click',async()=>{fb.disabled=true;try{if(stats.isFollowing){const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'DELETE'});if(!rr.ok)throw new Error('Unable to unfollow.');fb.textContent='Follow';}else{const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'POST'});const dd=await rr.json();if(!rr.ok)throw new Error(dd.message||'Unable to follow.');fb.textContent=dd.status==='pending'?'Request pending':'Unfollow';}}catch(e){fb.textContent=e.message;}finally{fb.disabled=false;}});actionRow.appendChild(fb);}}catch(_){}
-       const messageBtn=node('button','Message');messageBtn.type='button';messageBtn.addEventListener('click',()=>{const messages=document.getElementById('dashboardMessagesButton');if(messages)messages.click();else window.location.href='/index.html#socialFeed';});actionRow.appendChild(messageBtn);
 
-      const skillsSection=node('section',undefined,'public-profile-section');skillsSection.appendChild(node('h4','Skills'));const skills=node('div',undefined,'public-skills');if(d.skills.length)d.skills.forEach(s=>skills.appendChild(node('span',`${s.name} · ${s.proficiency}`,'public-skill')));else skills.appendChild(node('p','No skills have been added to this public profile.'));skillsSection.appendChild(skills);profileView.appendChild(skillsSection);
-      const shareUrl=`${window.location.origin}/index.html?profile=${encodeURIComponent(id)}`;await socialControls(profileView,'profile',id,shareUrl);
-      const certSection=node('section',undefined,'public-profile-section');certSection.appendChild(node('h4','Certificates'));if(!d.certificates.length)certSection.appendChild(node('p','No certificate links are shared on this profile.'));
-      for (const cert of d.certificates) { const card=node('article',undefined,'community-result-card');card.appendChild(node('h5',cert.title));if(cert.description)card.appendChild(node('p',cert.description));const href=safeUrl(cert.certificateUrl);if(href){const a=node('a','View certificate');a.href=href;a.target='_blank';a.rel='noopener noreferrer';card.appendChild(a);}await socialControls(card,'certificate',cert._id,href||shareUrl);certSection.appendChild(card); } profileView.appendChild(certSection);
-      if (window.StudentPosts && typeof window.StudentPosts.renderPublicProfile === 'function') await window.StudentPosts.renderPublicProfile(profileView, id);
-      profileView.scrollIntoView({behavior:'smooth',block:'start'});
-    } catch(e){profileView.replaceChildren(node('p',e.message));profileView.hidden=false;}
+  async function shareText(text) {
+    try {
+      if (navigator.share) await navigator.share({ title: 'Student Tracker', url: text });
+      else if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(text); message.textContent = 'Share link copied to clipboard.'; }
+      else window.prompt('Copy this link', text);
+    } catch (e) { if (e.name !== 'AbortError') { try { window.prompt('Copy this link', text); } catch {} } }
   }
-  form.addEventListener('submit',e=>{e.preventDefault();document.body.classList.add("search-sheet-open");const sheet=document.getElementById("community");if(sheet)sheet.setAttribute("aria-hidden","false");search(input.value);});
-  const params=new URLSearchParams(window.location.search); if(params.has('profile')) { document.body.classList.add("search-sheet-open");const sheet=document.getElementById("community");if(sheet)sheet.setAttribute("aria-hidden","false"); input.value=''; loadPublicProfile(params.get('profile')); }
+
+  async function socialControls(container, type, id, shareUrl) {
+    const actions = node('div', undefined, 'community-result-actions');
+    const like = node('button', 'Like'); like.type = 'button';
+    const comment = node('button', 'Comment'); comment.type = 'button';
+    const share = node('button', 'Share'); share.type = 'button';
+    actions.append(like, comment, share);
+    container.appendChild(actions);
+    const commentsWrap = node('div');
+    container.appendChild(commentsWrap);
+    async function refresh() {
+      try {
+        const r = await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.message);
+        like.textContent = `${d.liked ? 'Liked' : 'Like'} · ${d.likes}`;
+        commentsWrap.replaceChildren();
+        d.comments.forEach(c => {
+          const row = node('div', undefined, 'social-comment');
+          row.appendChild(node('strong', `${c.name}: `));
+          row.appendChild(document.createTextNode(c.text));
+          commentsWrap.appendChild(row);
+        });
+      } catch (e) { commentsWrap.appendChild(node('p', e.message)); }
+    }
+    like.addEventListener('click', async () => {
+      like.disabled = true;
+      try {
+        const r = await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/like`, { method: 'POST', headers: { Accept: 'application/json' } });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.message);
+        like.textContent = `${d.liked ? 'Liked' : 'Like'} · ${d.likes}`;
+      } catch (e) { message.textContent = e.message; }
+      finally { like.disabled = false; }
+    });
+    comment.addEventListener('click', async () => {
+      const text = window.prompt('Write a comment (up to 500 characters):');
+      if (!text || !text.trim()) return;
+      try {
+        const r = await fetch(`/api/community/interactions/${type}/${encodeURIComponent(id)}/comments`, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ text }) });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.message);
+        await refresh();
+      } catch (e) { message.textContent = e.message; }
+    });
+    share.addEventListener('click', () => shareText(shareUrl));
+    await refresh();
+  }
+
+  async function loadPublicProfile(id) {
+    if (!id) return;
+    navigateToAppSection("community");
+    if (resultsColumns) resultsColumns.hidden = true;
+    profileView.hidden = false;
+    profileView.classList.add('public-profile-page');
+    profileView.replaceChildren(node('p', 'Loading public profile…'));
+    try {
+      const [r, sr] = await Promise.all([
+        fetch(`/api/community/users/${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } }),
+        fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } }).catch(() => null)
+      ]);
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.message || 'Unable to load profile.');
+      const stats = sr && sr.ok ? await sr.json() : { followers: 0, following: 0, skills: (d.skills || []).length, certificates: (d.certificates || []).length, isFollowing: false, requestPending: false };
+
+      profileView.replaceChildren();
+
+      const topNav = node('div', undefined, 'community-result-actions');
+      topNav.style.marginBottom = '16px';
+      const backBtn = node('button', '← Back to search results');
+      backBtn.type = 'button';
+      backBtn.addEventListener('click', () => {
+        profileView.hidden = true;
+        if (resultsColumns) resultsColumns.hidden = false;
+      });
+      topNav.appendChild(backBtn);
+      profileView.appendChild(topNav);
+
+      // Render complete visitor profile using the exact same two-column layout as My Profile
+      const layout = node('div', undefined, 'profile-layout');
+      const mainCol = node('div', undefined, 'profile-main-column');
+      const railCol = node('aside', undefined, 'profile-action-rail');
+      railCol.setAttribute('aria-label', 'Visitor profile actions and skills');
+
+      // Summary card matching #profile .profile-summary
+      const summaryCard = node('div', undefined, 'profile-summary dashboard-card');
+      const avatarWrap = node('div', undefined, 'profile-avatar-wrap');
+      const photoData = typeof d.user.photoData === 'string' && /^data:image\/(?:png|jpeg|webp);base64,/i.test(d.user.photoData) ? d.user.photoData : '';
+      if (photoData) {
+        const img = node('img', undefined, 'profile-avatar');
+        img.src = photoData;
+        img.alt = (d.user.name || 'User') + ' profile photo';
+        avatarWrap.appendChild(img);
+      } else {
+        const fallback = node('div', (d.user.name || 'U').trim().slice(0, 2).toUpperCase(), 'profile-avatar profile-avatar-fallback');
+        avatarWrap.appendChild(fallback);
+      }
+
+      const summaryCopy = node('div', undefined, 'profile-summary-copy');
+      summaryCopy.appendChild(node('h3', d.user.name || 'Public profile'));
+      const headline = [d.user.degree, d.user.college, d.user.studyYear, d.user.fieldOfStudy, d.user.location].filter(Boolean).join(' · ');
+      summaryCopy.appendChild(node('p', headline || 'Student Tracker Member'));
+      if (d.user.bio) summaryCopy.appendChild(node('p', d.user.bio));
+
+      const statsBar = node('div', undefined, 'profile-social-stats profile-social-stats-inline');
+      const makeStat = (count, label) => {
+        const wrap = node('div');
+        const btn = node('div', undefined, 'profile-stat-button');
+        btn.append(node('strong', String(count ?? 0)), node('span', label));
+        wrap.appendChild(btn);
+        return wrap;
+      };
+      statsBar.append(
+        makeStat(stats.followers, 'Followers'),
+        makeStat(stats.following, 'Following'),
+        makeStat(stats.certificates ?? (d.certificates || []).length, 'Certificates')
+      );
+
+      summaryCard.append(avatarWrap, summaryCopy, statsBar);
+      mainCol.appendChild(summaryCard);
+
+      const shareUrl = `${window.location.origin}/index.html?profile=${encodeURIComponent(id)}`;
+
+      // Certificate showcase card matching #profile .profile-certificate-feed
+      const certSection = node('section', undefined, 'profile-certificate-feed dashboard-card');
+      const certHeading = node('div', undefined, 'profile-card-heading');
+      const certTitleWrap = node('div');
+      certTitleWrap.append(node('h3', 'Certificate showcase'), node('p', `Verified credentials and project certificates shared by ${d.user.name || 'this member'}.`));
+      certHeading.appendChild(certTitleWrap);
+      certSection.appendChild(certHeading);
+
+      const certList = node('div', undefined, 'certificate-feed-list');
+      if (!d.certificates.length) {
+        certList.appendChild(node('p', 'No certificate links are shared on this profile.'));
+      } else {
+        for (const cert of d.certificates) {
+          const card = node('article', undefined, 'certificate-feed-card');
+          card.appendChild(node('h4', cert.title || 'Certificate'));
+          if (cert.description) card.appendChild(node('p', cert.description));
+          const href = safeUrl(cert.certificateUrl);
+          if (href) {
+            const a = node('a', 'View certificate', 'certificate-view-link');
+            a.href = href;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            card.appendChild(a);
+          }
+          await socialControls(card, 'certificate', cert._id, href || shareUrl);
+          certList.appendChild(card);
+        }
+      }
+      certSection.appendChild(certList);
+      mainCol.appendChild(certSection);
+
+      // Posts section matching #profile .profile-posts-section
+      const postsSection = node('section', undefined, 'profile-posts-section dashboard-card');
+      if (window.StudentPosts && typeof window.StudentPosts.renderPublicProfile === 'function') {
+        await window.StudentPosts.renderPublicProfile(postsSection, id);
+      } else {
+        postsSection.append(node('h3', 'Posts'), node('p', 'No posts available.'));
+      }
+      mainCol.appendChild(postsSection);
+
+      // Right-hand visitor action rail matching My Profile's right-side action cards
+      const connectCard = node('div', undefined, 'profile-terminal-card');
+      const connectTop = node('div', undefined, 'profile-terminal-top');
+      connectTop.append(node('span', undefined, 'profile-terminal-dot'), node('span', 'NETWORK / CONNECT'));
+      const followBtn = node('button', undefined, 'profile-terminal-action');
+      followBtn.type = 'button';
+      const updateFollowLabel = (label, symbol = '+') => {
+        followBtn.replaceChildren(node('span', symbol), document.createTextNode(' ' + label));
+      };
+      updateFollowLabel(stats.isFollowing ? 'Unfollow' : (stats.requestPending ? 'Request pending' : 'Follow'), stats.isFollowing ? '✓' : '+');
+      followBtn.disabled = Boolean(stats.requestPending);
+      followBtn.addEventListener('click', async () => {
+        followBtn.disabled = true;
+        try {
+          if (stats.isFollowing) {
+            const rr = await fetch(`/api/social/follow/${encodeURIComponent(id)}`, { method: 'DELETE' });
+            if (!rr.ok) throw new Error('Unable to unfollow.');
+            stats.isFollowing = false;
+            updateFollowLabel('Follow', '+');
+          } else {
+            const rr = await fetch(`/api/social/follow/${encodeURIComponent(id)}`, { method: 'POST' });
+            const dd = await rr.json();
+            if (!rr.ok) throw new Error(dd.message || 'Unable to follow.');
+            if (dd.status === 'pending') {
+              stats.requestPending = true;
+              updateFollowLabel('Request pending', '…');
+            } else {
+              stats.isFollowing = true;
+              updateFollowLabel('Unfollow', '✓');
+            }
+          }
+        } catch (e) { updateFollowLabel(e.message, '!'); }
+        finally { if (!stats.requestPending) followBtn.disabled = false; }
+      });
+      connectCard.append(connectTop, node('h3', `Connect with ${d.user.name || 'Member'}`), node('p', 'Follow to stay updated on projects, certificates, and career milestones.'), followBtn);
+      railCol.appendChild(connectCard);
+
+      const messageCard = node('div', undefined, 'profile-terminal-card');
+      const messageTop = node('div', undefined, 'profile-terminal-top');
+      messageTop.append(node('span', undefined, 'profile-terminal-dot'), node('span', 'DIRECT / MESSAGE'));
+      const messageBtn = node('button', undefined, 'profile-terminal-action');
+      messageBtn.type = 'button';
+      messageBtn.append(node('span', '✉'), document.createTextNode(' Message'));
+      messageBtn.addEventListener('click', () => {
+        if (typeof window.openDirectMessagesForUser === 'function') {
+          window.openDirectMessagesForUser({ id, name: d.user.name || 'User', photoData });
+        } else {
+          const messages = document.getElementById('dashboardMessagesButton');
+          if (messages) messages.click();
+        }
+      });
+      messageCard.append(messageTop, node('h3', 'Send a message'), node('p', 'Open your direct messages panel to start or continue a conversation.'), messageBtn);
+      railCol.appendChild(messageCard);
+
+      const skillsCard = node('div', undefined, 'profile-terminal-card');
+      const skillsTop = node('div', undefined, 'profile-terminal-top');
+      skillsTop.append(node('span', undefined, 'profile-terminal-dot'), node('span', 'SKILLS / VERIFIED'));
+      skillsCard.append(skillsTop, node('h3', 'Skills & proficiency'));
+      const skillsWrap = node('div', undefined, 'public-skills');
+      if (d.skills.length) {
+        d.skills.forEach(s => skillsWrap.appendChild(node('span', `${s.name} · ${s.proficiency}`, 'public-skill')));
+      } else {
+        skillsWrap.appendChild(node('p', 'No skills listed yet.'));
+      }
+      skillsCard.appendChild(skillsWrap);
+      await socialControls(skillsCard, 'profile', id, shareUrl);
+      railCol.appendChild(skillsCard);
+
+      layout.append(mainCol, railCol);
+      profileView.appendChild(layout);
+      profileView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (e) {
+      profileView.replaceChildren(node('p', e.message));
+      profileView.hidden = false;
+    }
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    navigateToAppSection("community");
+    search(input.value);
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('profile')) {
+    input.value = '';
+    loadPublicProfile(params.get('profile'));
+  }
 }
 
 
@@ -2210,11 +2586,11 @@ async function initializeProfileShowcase() {
       if(hasPhoto){avatar.src=user.photoData;avatar.alt=`${user.name||"Your profile"} profile photo`;avatar.loading="lazy";}
       const author=safeText("div",undefined,"certificate-feed-author-copy");author.append(safeText("strong",user.name||"Your profile"),safeText("small","Certificate / achievement"));head.append(avatar,author);card.append(head,safeText("h4",project.title||"Certificate"));if(project.description)card.append(safeText("p",project.description));
       const href=safeHref(project.certificateUrl);if(href){if(/\.(png|jpe?g|webp|gif)(?:$|[?#])/i.test(href)){const preview=safeText("img");preview.src=href;preview.alt=`Certificate image for ${project.title||"achievement"}`;preview.loading="lazy";preview.className="certificate-feed-image";card.append(preview);}const link=safeText("a","View certificate");link.href=href;link.target="_blank";link.rel="noopener noreferrer";link.className="certificate-view-link";card.append(link);}
-      const actions=safeText("div",undefined,"certificate-feed-actions");const appreciate=safeText("button","â˜† Appreciate");appreciate.type="button";const commentToggle=safeText("button","Comment");commentToggle.type="button";const share=safeText("button","Share");share.type="button";actions.append(appreciate,commentToggle,share);card.append(actions);
+      const actions=safeText("div",undefined,"certificate-feed-actions");const appreciate=safeText("button","☆ Appreciate");appreciate.type="button";const commentToggle=safeText("button","Comment");commentToggle.type="button";const share=safeText("button","Share");share.type="button";actions.append(appreciate,commentToggle,share);card.append(actions);
       const comments=safeText("div",undefined,"certificate-feed-comments");comments.hidden=true;const commentForm=safeText("form",undefined,"certificate-comment-form");const commentInput=safeText("input");commentInput.placeholder="Write a professional comment…";commentInput.maxLength=500;commentInput.required=true;commentInput.setAttribute("aria-label","Write a comment");const send=safeText("button","Post comment");send.type="submit";commentForm.append(commentInput,send);comments.append(commentForm);card.append(comments);
       const api=`/api/community/interactions/certificate/${encodeURIComponent(project._id)}`;
-      async function refreshInteractions(){try{const r=await fetch(api,{headers:{Accept:"application/json"}});if(!r.ok)return;const d=await r.json();appreciate.textContent=`${d.liked?"â˜…":"â˜†"} Appreciate${d.likes?` · ${d.likes}`:""}`;for(const c of d.comments||[]){const row=safeText("p",`${c.name}: ${c.text}`,"certificate-feed-comment");comments.insertBefore(row,commentForm);}}catch(_){}}
-      appreciate.addEventListener("click",async()=>{appreciate.disabled=true;try{const r=await fetch(api+"/like",{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:"{}"});const d=await r.json();if(!r.ok)throw new Error(d.message||"Unable to appreciate this certificate.");appreciate.textContent=`${d.liked?"â˜…":"â˜†"} Appreciate${d.likes?` · ${d.likes}`:""}`;}catch(e){appreciate.title=e.message;}finally{appreciate.disabled=false;}});
+      async function refreshInteractions(){try{const r=await fetch(api,{headers:{Accept:"application/json"}});if(!r.ok)return;const d=await r.json();appreciate.textContent=`${d.liked?"★":"☆"} Appreciate${d.likes?` · ${d.likes}`:""}`;for(const c of d.comments||[]){const row=safeText("p",`${c.name}: ${c.text}`,"certificate-feed-comment");comments.insertBefore(row,commentForm);}}catch(_){}}
+      appreciate.addEventListener("click",async()=>{appreciate.disabled=true;try{const r=await fetch(api+"/like",{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:"{}"});const d=await r.json();if(!r.ok)throw new Error(d.message||"Unable to appreciate this certificate.");appreciate.textContent=`${d.liked?"★":"☆"} Appreciate${d.likes?` · ${d.likes}`:""}`;}catch(e){appreciate.title=e.message;}finally{appreciate.disabled=false;}});
       commentToggle.addEventListener("click",()=>{comments.hidden=!comments.hidden;if(!comments.hidden)commentInput.focus();});
       commentForm.addEventListener("submit",async ev=>{ev.preventDefault();send.disabled=true;try{const r=await fetch(api+"/comments",{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:JSON.stringify({text:commentInput.value})});const d=await r.json();if(!r.ok)throw new Error(d.message||"Unable to post comment.");comments.insertBefore(safeText("p",`${d.comment.name}: ${d.comment.text}`,"certificate-feed-comment"),commentForm);commentInput.value="";}catch(e){send.textContent=e.message;}finally{send.disabled=false;}});
       share.addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:project.title||"Certificate",text:project.description||"Professional certificate",url:href||window.location.href});else if(navigator.clipboard){await navigator.clipboard.writeText(href||window.location.href);share.textContent="Link copied";}else share.textContent="Open certificate to share";}catch(_){}});
@@ -2272,9 +2648,15 @@ function initializeSocialInbox() {
     try { const data=await request("/api/social/notifications"); if(data.unread){badge.textContent=data.unread>99?"99+":String(data.unread);badge.hidden=false;}else badge.hidden=true; }
     catch (_) { badge.hidden=true; }
   }
+  const ensurePanelVisible = () => {
+    if (panel.parentElement !== document.body) {
+      document.body.appendChild(panel);
+    }
+    panel.hidden = false;
+  };
   async function showNotifications() {
     mode="notifications"; title.textContent="Notifications"; content.replaceChildren(el("p","Loading…"));
-    panel.hidden=false;
+    ensurePanelVisible();
     try {
       const data=await request("/api/social/notifications"); content.replaceChildren();
       if(!data.notifications.length) content.append(el("p","You're all caught up."));
@@ -2301,15 +2683,17 @@ function initializeSocialInbox() {
       refreshBadge();
     } catch(e){content.replaceChildren(el("p",e.message));}
   }
-  async function showConversations() {
-    mode="messages";title.textContent="Messages";content.replaceChildren(el("p","Loading…"));panel.hidden=false;
+  async function showConversations(preselectUser = null) {
+    mode="messages";title.textContent="Messages";content.replaceChildren(el("p","Loading…"));ensurePanelVisible();
     try {
       const data=await request("/api/social/conversations");content.replaceChildren();
       const layout=el("div",undefined,"social-message-layout");
       const list=el("div",undefined,"social-conversation-list");
       const thread=el("div",undefined,"social-message-thread");
       list.append(el("p","Choose a follower or connection to message."));
+      let matchedUser = null;
       for(const user of data.conversations){
+        if (preselectUser && String(user.id) === String(preselectUser.id)) matchedUser = user;
         const b=el("button",undefined,"social-conversation-button");b.type="button";
         const avatar=el("span",undefined,"social-conversation-avatar");
         if(typeof user.photoData==="string" && /^data:image\/(?:png|jpeg|webp);base64,/i.test(user.photoData)){const img=el("img");img.src=user.photoData;img.alt="";avatar.append(img);}else{avatar.textContent=(user.name||"U").trim().charAt(0).toUpperCase();}
@@ -2318,9 +2702,14 @@ function initializeSocialInbox() {
         b.addEventListener("click",()=>showThread(user,thread));list.append(b);
       }
       layout.append(list,thread);content.append(layout);
-      if(!data.conversations.length) content.append(el("p","You can message users after you follow each other or one of you follows the other."));
+      if (preselectUser) {
+        await showThread(matchedUser || preselectUser, thread);
+      } else if(!data.conversations.length) {
+        content.append(el("p","You can message users after you follow each other or one of you follows the other."));
+      }
     } catch(e){content.replaceChildren(el("p",e.message));}
   }
+  window.openDirectMessagesForUser = (user) => showConversations(user);
   function relativeMessageTime(date) {
     const seconds=Math.max(0,Math.floor((Date.now()-date.getTime())/1000));
     if(seconds<60)return "just now";
@@ -2359,7 +2748,7 @@ function initializeSocialInbox() {
     } catch(e){thread.replaceChildren(el("h4",user.name),el("p",e.message));}
   }
   notificationButton.addEventListener("click",showNotifications);
-  messagesButton.addEventListener("click",showConversations);
+  messagesButton.addEventListener("click",() => showConversations(null));
   closeButton?.addEventListener("click",()=>{panel.hidden=true;});
   refreshBadge();
 }
@@ -2486,7 +2875,7 @@ async function loadAdminCourses() {
         });
         row.append(editLessonButton, editLessonForm); lessons.appendChild(row);
       });
-      if (!(course.lessons || []).length) lessons.appendChild(el("p", "No lessons yet. Use â€œAdd lesson / YouTube linkâ€ to add the first one."));
+      if (!(course.lessons || []).length) lessons.appendChild(el("p", "No lessons yet. Use “Add lesson / YouTube link” to add the first one."));
       card.appendChild(lessons); list.appendChild(card);
     });
   } catch (error) {

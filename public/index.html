@@ -988,25 +988,30 @@ main > section[hidden] {
       .dashboard-sidebar-toggle, .dashboard-icon-button, .dashboard-profile-button { width:36px; height:38px; }
       .dashboard-topbar .dashboard-quick-search button { font-size:12px; padding:6px 8px; }
     }
-    /* Search results open in a dedicated side sheet, not in the dashboard flow. */
+    /* Dedicated full-page Network & Search results view */
     #community.community-panel {
-      display:none; position:fixed; inset:0; z-index:1000; margin:0; padding:18px;
-      align-items:stretch; justify-content:flex-end; overflow:hidden;
-      background:rgba(15,31,44,.48); border:0; border-radius:0; box-shadow:none;
+      margin: 0;
+      padding: clamp(20px, 3vw, 32px);
+      background: var(--surface, #fff);
+      border: 1px solid var(--line, #d7e0e7);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
     }
-    body.search-sheet-open #community.community-panel { display:flex !important; }
     .community-sheet-content {
-      width:min(920px,100%); height:100%; max-height:100%; overflow-y:auto;
-      padding:clamp(18px,3vw,32px); background:#fff; border:1px solid #d7e0e7;
-      border-radius:16px; box-shadow:0 18px 60px rgba(10,30,45,.22);
+      width: 100%;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
     }
-    .community-sheet-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+    .community-sheet-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom: 12px; }
     .community-sheet-heading .analytics-heading { flex:1; min-width:0; margin-bottom:0; }
-    #closeCommunitySheet { flex:0 0 auto; min-width:42px; min-height:42px; padding:8px; font-size:22px; line-height:1; }
+    #closeCommunitySheet { display: none !important; }
+    .community-results-columns { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap:24px; margin-top:20px; }
+    .search-Target-highlight { outline: 3px solid #0a66c2 !important; box-shadow: 0 0 0 6px rgba(10,102,194,.16) !important; transition: outline .3s ease, box-shadow .3s ease; }
     body.sidebar-collapsed .dashboard-topbar { max-width:1500px; }
     @media(max-width:700px) {
-      #community.community-panel { padding:8px; }
-      .community-sheet-content { width:100%; padding:16px; border-radius:12px; }
+      #community.community-panel { padding:16px; border-radius:12px; }
       .community-sheet-heading { gap:8px; }
     }
 
@@ -1380,19 +1385,33 @@ main > section[hidden] {
         </div>
       </section>
 
-      <section id="community" class="community-panel" aria-labelledby="communityTitle" aria-modal="true" role="dialog" aria-hidden="true">
-        <div class="community-sheet-content">
-        <div class="community-sheet-heading"><div class="analytics-heading"><div><p class="section-kicker">PROFESSIONAL NETWORK</p><h3 id="communityTitle">Find people and opportunities</h3></div><p>Search public profiles and active internship listings.</p></div><button type="button" id="closeCommunitySheet" aria-label="Close search results" title="Close">×</button></div>
+    </section>
+
+    <!-- NETWORK & GLOBAL SEARCH RESULTS PAGE -->
+    <section id="community" class="community-panel" aria-labelledby="communityTitle" hidden>
+      <div class="community-sheet-content">
+        <div class="community-sheet-heading">
+          <div class="analytics-heading">
+            <div>
+              <p class="section-kicker">PROFESSIONAL NETWORK &amp; DISCOVERY</p>
+              <h2 id="communityTitle">Search Results &amp; Directory</h2>
+            </div>
+            <p>Search across public student profiles, available courses, skills, and active internships.</p>
+          </div>
+          <button type="button" id="closeCommunitySheet" aria-label="Back to dashboard" title="Close" hidden>×</button>
+        </div>
         <form id="communitySearchForm" class="community-search-form" role="search">
-          <label class="sr-only" for="communitySearchInput">Search public users or internships</label>
-          <input id="communitySearchInput" type="search" maxlength="100" placeholder="Search people, skills, colleges, roles or internships…" autocomplete="off" required>
+          <label class="sr-only" for="communitySearchInput">Search users, courses, skills, or internships</label>
+          <input id="communitySearchInput" type="search" maxlength="100" placeholder="Search people, skills, courses, colleges, roles or internships…" autocomplete="off" required>
           <button type="submit" id="communitySearchButton">Search</button>
         </form>
-        <p id="communitySearchMessage" role="status" aria-live="polite">Only profiles marked public appear in people search.</p>
-        <div class="community-results-columns"><section><h4>People</h4><div id="communityUsersResults" class="community-results"></div></section><section><h4>Internships</h4><div id="communityInternshipResults" class="community-results"></div></section></div>
-        <section id="publicProfileView" class="public-profile-view" hidden aria-live="polite"></section>
+        <p id="communitySearchMessage" role="status" aria-live="polite">Enter a keyword above to search public profiles, courses, and active internships.</p>
+        <div id="communityResultsColumns" class="community-results-columns">
+          <section aria-labelledby="searchPeopleHeading"><h4 id="searchPeopleHeading">People</h4><div id="communityUsersResults" class="community-results"></div></section>
+          <section aria-labelledby="searchOpportunitiesHeading"><h4 id="searchOpportunitiesHeading">Internships &amp; Courses</h4><div id="communityInternshipResults" class="community-results"></div></section>
         </div>
-      </section>
+        <section id="publicProfileView" class="public-profile-view" hidden aria-live="polite"></section>
+      </div>
     </section>
 
     <!-- PROFESSIONAL SOCIAL FEED -->

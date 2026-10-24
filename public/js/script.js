@@ -2491,13 +2491,17 @@ async function loadAdminCourses() {
 
   const openEditor = () => {
     if (!editorPanel) return;
+    // Present the existing editor as a dedicated view within the Profile section.
+    // No route/API/auth changes are needed; the existing profile form remains intact.
+    profile.classList.add("profile-edit-mode");
     editorPanel.hidden = false;
     editorPanel.classList.add("profile-editor-is-open");
-    editorPanel.scrollIntoView({
+    editorPanel.setAttribute("aria-label", "Edit your profile details");
+    profile.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       block: "start"
     });
-    const firstField = editorPanel.querySelector("input:not([type='checkbox']), textarea, select");
+    const firstField = editorPanel.querySelector("input:not([type='checkbox']):not([type='file']), textarea, select");
     if (firstField) window.setTimeout(() => firstField.focus({ preventScroll: true }), 250);
   };
 
@@ -2505,7 +2509,11 @@ async function loadAdminCourses() {
     if (!editorPanel) return;
     editorPanel.hidden = true;
     editorPanel.classList.remove("profile-editor-is-open");
-    if (openButton) openButton.focus({ preventScroll: true });
+    profile.classList.remove("profile-edit-mode");
+    if (openButton) {
+      openButton.focus({ preventScroll: true });
+      openButton.scrollIntoView({ behavior: "auto", block: "nearest" });
+    }
   };
 
   if (openButton) openButton.addEventListener("click", openEditor);

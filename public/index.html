@@ -1596,10 +1596,11 @@ main > section[hidden] {
 <img alt="Your profile photo" class="profile-avatar" hidden="" id="profilePhotoDisplay"/>
 <div aria-hidden="true" class="profile-avatar profile-avatar-fallback" id="profileAvatarFallback"><svg role="presentation" viewbox="0 0 64 64"><circle cx="32" cy="21" r="12"></circle><path d="M10 57c1-14 9-22 22-22s21 8 22 22"></path></svg></div>
 </div>
-<div class="profile-summary-copy"><button class="profile-edit-link" id="openProfileEditor" type="button">Edit profile</button>
+<div class="profile-summary-copy">
 <h3 id="profileDisplayName">Loading profile...</h3>
 <p id="profileHeadline">Add your profession and education to introduce yourself.</p>
 <p class="profile-account-line"><span id="profileEmail">Loading...</span><span class="profile-dot">•</span><span id="profileRole">Loading...</span></p>
+<button class="profile-edit-link" id="openProfileEditor" type="button" aria-controls="profileEditorPanel">Edit profile</button>
 </div>
 <div aria-label="Profile statistics" class="profile-social-stats profile-social-stats-inline">
 <div><button class="profile-stat-button" data-profile-view="followers" type="button"><strong id="myFollowersCount">0</strong><span>Followers</span></button></div>
@@ -1614,13 +1615,13 @@ main > section[hidden] {
 </section><section aria-labelledby="myPostsTitle" class="profile-posts-section dashboard-card">
 <div class="profile-card-heading"><div><h3 id="myPostsTitle">My posts</h3><p>Your updates in a structured profile grid.</p></div><a class="profile-add-certificate" href="#socialFeed">Create a post</a></div>
 <div class="profile-post-grid" id="myPostsGrid"><p>Loading your posts…</p></div>
-</section></div><aside aria-label="Profile actions and details" class="profile-action-rail"><div class="profile-terminal-card"><div class="profile-terminal-top"><span aria-hidden="true" class="profile-terminal-dot"></span><span>CERTIFICATE / NEW</span></div><h3>Add a certificate</h3><p>Showcase a credential you have earned by adding it to a project.</p><a class="profile-terminal-action" href="#projects"><span aria-hidden="true">+</span> Add certificate</a></div><div class="profile-terminal-card"><div class="profile-terminal-top"><span aria-hidden="true" class="profile-terminal-dot"></span><span>POST / COMPOSE</span></div><h3>Create a post</h3><p>Share a project update, learning milestone, or useful discovery.</p><a class="profile-terminal-action" href="#socialFeed"><span aria-hidden="true">&gt;_</span> Open post composer</a></div><div class="profile-details-card dashboard-card"><p class="profile-eyebrow">PROFILE / DETAILS</p><h3>Personal details</h3><p>Keep your professional introduction current. Use Edit profile to update your headline, education, location, interests and bio.</p></div><div aria-label="Edit profile" class="dashboard-card profile-editor-card" hidden="" id="profileEditorPanel">
+</section></div><aside aria-label="Profile actions and details" class="profile-action-rail"><div class="profile-terminal-card"><div class="profile-terminal-top"><span aria-hidden="true" class="profile-terminal-dot"></span><span>CERTIFICATE / NEW</span></div><h3>Add a certificate</h3><p>Showcase a credential you have earned by adding it to a project.</p><a class="profile-terminal-action" href="#projects"><span aria-hidden="true">+</span> Add certificate</a></div><div class="profile-terminal-card"><div class="profile-terminal-top"><span aria-hidden="true" class="profile-terminal-dot"></span><span>POST / COMPOSE</span></div><h3>Create a post</h3><p>Share a project update, learning milestone, or useful discovery.</p><a class="profile-terminal-action" href="#socialFeed"><span aria-hidden="true">&gt;_</span> Open post composer</a></div><div aria-label="Edit profile" class="dashboard-card profile-editor-card" hidden="" id="profileEditorPanel">
 <div class="profile-card-heading">
 <div>
 <h3>Edit profile</h3>
 <p>Fields marked optional can be left blank and completed later.</p>
 </div>
-<button aria-label="Close edit profile panel" class="profile-editor-close" id="closeProfileEditor" type="button">Close ×</button></div>
+<button aria-label="Return to profile" class="profile-editor-close" id="closeProfileEditor" type="button">← Back to profile</button></div>
 <form id="profileForm">
 <div class="profile-form-section">
 <h4>Personal details</h4>

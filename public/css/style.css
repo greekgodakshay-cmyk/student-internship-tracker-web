@@ -1098,3 +1098,20 @@ body[data-theme="dark"] .social-post-composer-footer button { background: #0a66c
 .social-message-wrap:has(.social-message.mine) { align-items:flex-end; }
 .social-message-time { color:var(--muted,#60717d); font-size:.72rem; padding:0 5px; }
 .social-message { max-width:min(88%,620px); overflow-wrap:anywhere; }
+
+
+/* ===== UI polish layer (additive; no layout or behavior changes) ===== */
+body { background: radial-gradient(1200px 520px at 50% -180px, rgba(167,123,61,.10), transparent 70%), var(--bg); background-attachment: fixed; text-rendering: optimizeLegibility; }
+#login-page, #register-page { border-radius: 18px; border: 1px solid rgba(23,59,87,.10); box-shadow: 0 1px 2px rgba(23,38,53,.04), 0 24px 60px -18px rgba(23,38,53,.18); animation: st-rise .5s cubic-bezier(.2,.65,.25,1) both; }
+#login-page input, #register-page input, #register-page select { min-height: 46px; border-radius: 10px; transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease; }
+#login-page input:focus, #register-page input:focus, #register-page select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(167,123,61,.16); outline: none; }
+#login-page button[type="submit"], #register-page button[type="submit"] { min-height: 48px; border-radius: 10px; letter-spacing: .2px; box-shadow: 0 8px 18px -8px rgba(23,39,53,.55); transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease; }
+#login-page button[type="submit"]:hover:not(:disabled), #register-page button[type="submit"]:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 14px 24px -10px rgba(23,39,53,.6); }
+#login-page button[type="submit"]:active:not(:disabled), #register-page button[type="submit"]:active:not(:disabled) { transform: translateY(0); }
+.auth-brand { display: flex; align-items: center; gap: 12px; }
+.auth-brand img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(23,43,55,.15); }
+button, .button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(167,123,61,.28); }
+@keyframes st-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (max-width: 480px) { #login-page, #register-page { margin-block: 20px; border-radius: 14px; } }
+@media (prefers-reduced-motion: reduce) { #login-page, #register-page { animation: none; } }

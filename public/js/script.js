@@ -223,7 +223,7 @@ function initializeLogout() {
         throw new Error(result.message || "Logout failed.");
       }
 
-      window.location.replace("/login.html");
+      window.location.replace("/");
     } catch (error) {
       alert(error.message || "Unable to log out. Please try again.");
       button.disabled = false;

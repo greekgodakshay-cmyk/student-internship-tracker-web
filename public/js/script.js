@@ -1997,8 +1997,13 @@ function initializeDashboardQuickSearch() {
   const sheet = document.getElementById("community");
   const closeButton = document.getElementById("closeCommunitySheet");
   const openSheet = () => {
+    // Keep global search available from every dashboard section, including mobile.
+    document.body.classList.remove("mobile-nav-open");
     document.body.classList.add("search-sheet-open");
-    if (sheet) sheet.setAttribute("aria-hidden", "false");
+    if (sheet) {
+      sheet.hidden = false;
+      sheet.setAttribute("aria-hidden", "false");
+    }
   };
   const closeSheet = () => {
     document.body.classList.remove("search-sheet-open");
@@ -2006,10 +2011,24 @@ function initializeDashboardQuickSearch() {
   };
   form.addEventListener("submit", event => {
     event.preventDefault();
-    const value = quickInput.value.trim();
-    if (value.length < 2) { quickInput.setCustomValidity("Enter at least 2 characters."); quickInput.reportValidity(); return; }
+    const value = (quickInput?.value || "").trim();
+    if (value.length < 2) {
+      quickInput.setCustomValidity("Enter at least 2 characters.");
+      quickInput.reportValidity();
+      quickInput.focus();
+      return;
+    }
     quickInput.setCustomValidity("");
-    if (target && targetForm) { target.value = value; openSheet(); targetForm.requestSubmit(); }
+    if (target && targetForm) {
+      target.value = value;
+      openSheet();
+      // Wait for the search sheet to become visible before submitting/focusing.
+      window.requestAnimationFrame(() => {
+        if (typeof targetForm.requestSubmit === "function") targetForm.requestSubmit();
+        else targetForm.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+        target.focus({ preventScroll: true });
+      });
+    }
   });
   if (closeButton) closeButton.addEventListener("click", closeSheet);
   if (sheet) sheet.addEventListener("click", event => { if (event.target === sheet) closeSheet(); });
@@ -2061,7 +2080,23 @@ function initializeDashboardQuickSearch() {
     }
   });
   const profileButton = document.getElementById("dashboardProfileButton");
-  if (profileButton) profileButton.addEventListener("click", () => { window.location.hash = "#profile"; });
+  const openOwnProfile = () => {
+    const profileSection = document.getElementById("profile");
+    if (!profileSection) return;
+    closeMobileNavigation();
+    closeSheet();
+    if (profileSection.hidden) profileSection.hidden = false;
+    if (window.location.hash !== "#profile") window.history.pushState(null, "", "#profile");
+    document.querySelectorAll('body > header nav a[aria-current="page"]').forEach(item => item.removeAttribute("aria-current"));
+    const profileNav = document.getElementById("sidebarProfileLink");
+    if (profileNav) profileNav.setAttribute("aria-current", "page");
+    // Explicit scrolling is needed on phones where the top toolbar is sticky.
+    window.requestAnimationFrame(() => profileSection.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start"
+    }));
+  };
+  if (profileButton) profileButton.addEventListener("click", openOwnProfile);
 }
 
 /* PUBLIC PEOPLE SEARCH, INTERNSHIP SEARCH AND PROFILE SOCIAL ACTIONS */

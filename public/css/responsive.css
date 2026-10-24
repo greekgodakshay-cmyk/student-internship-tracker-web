@@ -619,3 +619,28 @@ body[data-theme="dark"] #profile .profile-edit-link:focus-visible { background: 
 @media (prefers-reduced-motion: reduce) {
   #profile .profile-edit-link, #profile .profile-terminal-action { transition: none; }
 }
+
+
+/* Follow-up: place the two action panels directly below the dashboard toolbar,
+   separate from the certificate and post feeds. Keep their layout compact. */
+#profile .profile-layout { display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+#profile .profile-action-rail {
+  order: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 14px;
+  width: 100%;
+  margin: 0 0 2px;
+}
+#profile .profile-summary { order: 2; width: 100%; }
+#profile .profile-certificate-feed { order: 3; width: 100%; }
+#profile .profile-posts-section { order: 4; width: 100%; }
+#profile .profile-action-rail > .profile-terminal-card { min-height: 0; height: 100%; box-sizing: border-box; }
+#profile .profile-posts-section { min-height: 0; }
+#profile .profile-post-grid { align-content: start; }
+body.search-sheet-open { overflow: hidden; }
+body.search-sheet-open #community.community-panel { z-index: 1200; }
+@media (max-width: 620px) {
+  #profile .profile-action-rail { grid-template-columns: minmax(0, 1fr); }
+}

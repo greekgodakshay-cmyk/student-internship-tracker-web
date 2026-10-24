@@ -1230,6 +1230,34 @@ main > section[hidden] {
       .social-post-composer-footer button { padding: 7px 10px; font-size: 12px; }
     }
 
+
+    /* Global search history dropdown */
+    .dashboard-topbar { position: relative; }
+    .dashboard-recent-searches {
+      position: absolute; z-index: 1200; top: calc(100% + 8px); left: 54px;
+      width: min(520px, calc(100vw - 90px)); padding: 14px;
+      border: 1px solid var(--border-color, #d9e1e8); border-radius: 14px;
+      background: var(--card-bg, #fff); color: var(--text-color, #172b3a);
+      box-shadow: 0 14px 38px rgba(15, 35, 55, .16);
+    }
+    .recent-searches-title { margin: 0 0 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+    .recent-search-items { display: grid; gap: 4px; }
+    .recent-search-item { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; padding: 9px 10px; border: 0; border-radius: 8px; background: transparent; color: inherit; cursor: pointer; }
+    .recent-search-item:hover, .recent-search-item:focus-visible { background: rgba(10,102,194,.09); }
+    .clear-recent-searches { margin-top: 8px; padding: 6px 0; border: 0; background: transparent; color: #0a66c2; cursor: pointer; font-weight: 700; }
+    #publicProfileView.public-profile-page { display: block; margin-top: 18px; padding: 22px; border: 1px solid var(--border-color, #d9e1e8); border-radius: 16px; background: var(--card-bg, #fff); }
+    .public-profile-page .public-profile-hero { display:flex; align-items:center; gap:16px; margin-bottom:18px; }
+    .public-profile-page .public-profile-avatar { width:82px; height:82px; flex:0 0 82px; border-radius:50%; object-fit:cover; background:#e8eef3; }
+    .public-profile-page .public-profile-avatar-fallback { display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; color:#345; }
+    .public-profile-page .public-profile-actions { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 18px; }
+    .public-profile-page .public-profile-actions button, .public-profile-page .public-profile-actions a { border:1px solid #0a66c2; border-radius:8px; padding:9px 14px; background:#0a66c2; color:white; text-decoration:none; font-weight:700; cursor:pointer; }
+    .public-profile-page .public-profile-section { margin-top:18px; padding-top:14px; border-top:1px solid var(--border-color, #e1e7ec); }
+    .public-profile-page .public-profile-stat-row { display:flex; flex-wrap:wrap; gap:14px; color:var(--text-color, #253746); }
+    @media(max-width:700px) {
+      .dashboard-recent-searches { left: 8px; width: calc(100vw - 32px); }
+      .public-profile-page .public-profile-hero { align-items:flex-start; }
+      #publicProfileView.public-profile-page { padding:15px; }
+    }
 </style>
   <link rel="stylesheet" href="/css/responsive.css">
 </head>
@@ -1271,6 +1299,11 @@ main > section[hidden] {
           <input id="dashboardQuickSearchInput" type="search" minlength="2" maxlength="100" placeholder="Search courses, skills, people, internships…" autocomplete="off">
           <button type="submit">Search</button>
         </form>
+        <div id="dashboardRecentSearches" class="dashboard-recent-searches" hidden aria-label="Recent searches">
+          <p class="recent-searches-title">Recent searches</p>
+          <div id="dashboardRecentSearchItems" class="recent-search-items"></div>
+          <button type="button" id="clearRecentSearches" class="clear-recent-searches">Clear history</button>
+        </div>
 
         <button type="button" id="themeToggle" class="dashboard-icon-button theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">☾</button>
 

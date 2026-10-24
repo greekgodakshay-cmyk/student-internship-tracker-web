@@ -1996,6 +1996,17 @@ function initializeDashboardQuickSearch() {
   const targetForm = document.getElementById("communitySearchForm");
   const sheet = document.getElementById("community");
   const closeButton = document.getElementById("closeCommunitySheet");
+  const recentWrap = document.getElementById("dashboardRecentSearches");
+  const recentItems = document.getElementById("dashboardRecentSearchItems");
+  const clearRecent = document.getElementById("clearRecentSearches");
+  const RECENT_KEY = "studentTrackerRecentSearches";
+  const readRecent = () => { try { const value = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); return Array.isArray(value) ? value.filter(x => typeof x === "string").slice(0, 6) : []; } catch (_) { return []; } };
+  const saveRecent = value => { const items = [value, ...readRecent().filter(x => x.toLowerCase() !== value.toLowerCase())].slice(0, 6); try { localStorage.setItem(RECENT_KEY, JSON.stringify(items)); } catch (_) {} renderRecent(); };
+  const renderRecent = () => {
+    if (!recentWrap || !recentItems) return;
+    const items = readRecent(); recentItems.replaceChildren(); recentWrap.hidden = !items.length;
+    items.forEach(value => { const b = document.createElement("button"); b.type = "button"; b.className = "recent-search-item"; b.textContent = "⌕  " + value; b.addEventListener("click", () => { if (quickInput) quickInput.value = value; runSearch(value); }); recentItems.appendChild(b); });
+  };
   const openSheet = () => {
     // Keep global search available from every dashboard section, including mobile.
     document.body.classList.remove("mobile-nav-open");
@@ -2009,27 +2020,35 @@ function initializeDashboardQuickSearch() {
     document.body.classList.remove("search-sheet-open");
     if (sheet) sheet.setAttribute("aria-hidden", "true");
   };
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    const value = (quickInput?.value || "").trim();
+  const runSearch = value => {
+    value = (value || "").trim();
     if (value.length < 2) {
-      quickInput.setCustomValidity("Enter at least 2 characters.");
-      quickInput.reportValidity();
-      quickInput.focus();
+      if (quickInput) { quickInput.setCustomValidity("Enter at least 2 characters."); quickInput.reportValidity(); quickInput.focus(); }
       return;
     }
-    quickInput.setCustomValidity("");
+    if (quickInput) quickInput.setCustomValidity("");
+    saveRecent(value);
     if (target && targetForm) {
       target.value = value;
       openSheet();
-      // Wait for the search sheet to become visible before submitting/focusing.
       window.requestAnimationFrame(() => {
         if (typeof targetForm.requestSubmit === "function") targetForm.requestSubmit();
         else targetForm.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
         target.focus({ preventScroll: true });
       });
     }
+  };
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    runSearch((quickInput?.value || "").trim());
   });
+  if (quickInput) {
+    quickInput.addEventListener("focus", () => { renderRecent(); if (recentWrap && !recentWrap.hidden) recentWrap.hidden = false; });
+    quickInput.addEventListener("input", () => { if (recentWrap) recentWrap.hidden = true; });
+  }
+  if (clearRecent) clearRecent.addEventListener("click", () => { try { localStorage.removeItem(RECENT_KEY); } catch (_) {} renderRecent(); });
+  document.addEventListener("click", event => { if (recentWrap && !recentWrap.contains(event.target) && !form.contains(event.target)) recentWrap.hidden = true; });
+  renderRecent();
   if (closeButton) closeButton.addEventListener("click", closeSheet);
   if (sheet) sheet.addEventListener("click", event => { if (event.target === sheet) closeSheet(); });
   document.addEventListener("keydown", event => { if (event.key === "Escape") closeSheet(); });
@@ -2147,16 +2166,22 @@ function initializeCommunitySearch() {
     share.addEventListener('click',()=>shareText(shareUrl)); await refresh();
   }
   async function loadPublicProfile(id) {
-    if(!id) return; profileView.hidden=false; profileView.replaceChildren(node('p','Loading public profile…'));
+    if(!id) return; profileView.hidden=false; profileView.classList.add('public-profile-page'); profileView.replaceChildren(node('p','Loading public profile…'));
     try {
       const r=await fetch(`/api/community/users/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const d=await r.json();if(!r.ok)throw new Error(d.message||'Unable to load profile.');profileView.replaceChildren();
-      const title=node('h4',d.user.name);profileView.appendChild(title);const headline=[d.user.degree,d.user.college,d.user.studyYear,d.user.location].filter(Boolean).join(' · ');if(headline)profileView.appendChild(node('p',headline));if(d.user.bio)profileView.appendChild(node('p',d.user.bio));
-      try { const sr=await fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const stats=await sr.json();if(sr.ok){profileView.appendChild(node('p',`${stats.followers} followers · ${stats.following} following · ${stats.skills} skills · ${stats.certificates} certificates`,'public-profile-stats'));const fb=node('button',stats.isFollowing?'Unfollow':(stats.requestPending?'Request pending':'Follow'));fb.type='button';fb.disabled=stats.requestPending;fb.addEventListener('click',async()=>{fb.disabled=true;try{if(stats.isFollowing){const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'DELETE'});if(!rr.ok)throw new Error('Unable to unfollow.');fb.textContent='Follow';}else{const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'POST'});const dd=await rr.json();if(!rr.ok)throw new Error(dd.message||'Unable to follow.');fb.textContent=dd.status==='pending'?'Request pending':'Unfollow';}}catch(e){fb.textContent=e.message;}finally{fb.disabled=false;}});profileView.appendChild(fb);}}catch(_){}
+      const hero=node('div',undefined,'public-profile-hero');
+       const photoData=typeof d.user.photoData==='string' && /^data:image\/(?:png|jpeg|webp);base64,/i.test(d.user.photoData) ? d.user.photoData : '';
+       const avatar=node(photoData?'img':'div',photoData?undefined:(d.user.name||'U').trim().charAt(0).toUpperCase(),'public-profile-avatar'+(photoData?'':' public-profile-avatar-fallback'));
+       if(photoData){avatar.src=photoData;avatar.alt=(d.user.name||'User')+' profile photo';}
+       const intro=node('div');intro.appendChild(node('h3',d.user.name||'Public profile'));const headline=[d.user.degree,d.user.college,d.user.studyYear,d.user.fieldOfStudy,d.user.location].filter(Boolean).join(' · ');if(headline)intro.appendChild(node('p',headline));if(d.user.bio)intro.appendChild(node('p',d.user.bio));hero.append(avatar,intro);profileView.appendChild(hero);
+       const actionRow=node('div',undefined,'public-profile-actions');profileView.appendChild(actionRow);
+      try { const sr=await fetch(`/api/social/profile-stats/${encodeURIComponent(id)}`,{headers:{Accept:'application/json'}});const stats=await sr.json();if(sr.ok){profileView.appendChild(node('p',`${stats.followers} followers · ${stats.following} following · ${stats.skills} skills · ${stats.certificates} certificates`,'public-profile-stats'));const fb=node('button',stats.isFollowing?'Unfollow':(stats.requestPending?'Request pending':'Follow'));fb.type='button';fb.disabled=stats.requestPending;fb.addEventListener('click',async()=>{fb.disabled=true;try{if(stats.isFollowing){const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'DELETE'});if(!rr.ok)throw new Error('Unable to unfollow.');fb.textContent='Follow';}else{const rr=await fetch(`/api/social/follow/${encodeURIComponent(id)}`,{method:'POST'});const dd=await rr.json();if(!rr.ok)throw new Error(dd.message||'Unable to follow.');fb.textContent=dd.status==='pending'?'Request pending':'Unfollow';}}catch(e){fb.textContent=e.message;}finally{fb.disabled=false;}});actionRow.appendChild(fb);}}catch(_){}
+       const messageBtn=node('button','Message');messageBtn.type='button';messageBtn.addEventListener('click',()=>{const messages=document.getElementById('dashboardMessagesButton');if(messages)messages.click();else window.location.href='/index.html#socialFeed';});actionRow.appendChild(messageBtn);
 
-      profileView.appendChild(node('h4','Skills'));const skills=node('div',undefined,'public-skills');if(d.skills.length)d.skills.forEach(s=>skills.appendChild(node('span',`${s.name} · ${s.proficiency}`,'public-skill')));else skills.appendChild(node('p','No skills have been added to this public profile.'));profileView.appendChild(skills);
+      const skillsSection=node('section',undefined,'public-profile-section');skillsSection.appendChild(node('h4','Skills'));const skills=node('div',undefined,'public-skills');if(d.skills.length)d.skills.forEach(s=>skills.appendChild(node('span',`${s.name} · ${s.proficiency}`,'public-skill')));else skills.appendChild(node('p','No skills have been added to this public profile.'));skillsSection.appendChild(skills);profileView.appendChild(skillsSection);
       const shareUrl=`${window.location.origin}/index.html?profile=${encodeURIComponent(id)}`;await socialControls(profileView,'profile',id,shareUrl);
-      profileView.appendChild(node('h4','Certificates'));if(!d.certificates.length)profileView.appendChild(node('p','No certificate links are shared on this profile.'));
-      for (const cert of d.certificates) { const card=node('article',undefined,'community-result-card');card.appendChild(node('h5',cert.title));if(cert.description)card.appendChild(node('p',cert.description));const href=safeUrl(cert.certificateUrl);if(href){const a=node('a','View certificate');a.href=href;a.target='_blank';a.rel='noopener noreferrer';card.appendChild(a);}await socialControls(card,'certificate',cert._id,href||shareUrl);profileView.appendChild(card); }
+      const certSection=node('section',undefined,'public-profile-section');certSection.appendChild(node('h4','Certificates'));if(!d.certificates.length)certSection.appendChild(node('p','No certificate links are shared on this profile.'));
+      for (const cert of d.certificates) { const card=node('article',undefined,'community-result-card');card.appendChild(node('h5',cert.title));if(cert.description)card.appendChild(node('p',cert.description));const href=safeUrl(cert.certificateUrl);if(href){const a=node('a','View certificate');a.href=href;a.target='_blank';a.rel='noopener noreferrer';card.appendChild(a);}await socialControls(card,'certificate',cert._id,href||shareUrl);certSection.appendChild(card); } profileView.appendChild(certSection);
       if (window.StudentPosts && typeof window.StudentPosts.renderPublicProfile === 'function') await window.StudentPosts.renderPublicProfile(profileView, id);
       profileView.scrollIntoView({behavior:'smooth',block:'start'});
     } catch(e){profileView.replaceChildren(node('p',e.message));profileView.hidden=false;}

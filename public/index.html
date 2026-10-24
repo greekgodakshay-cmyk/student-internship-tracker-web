@@ -1591,134 +1591,116 @@ main > section[hidden] {
     </section>
 
     <!-- PROFILE -->
-    <section id="profile">
-      <div class="profile-summary dashboard-card">
-        <div class="profile-avatar-wrap">
-          <img id="profilePhotoDisplay" class="profile-avatar" alt="Your profile photo" hidden>
-          <div id="profileAvatarFallback" class="profile-avatar profile-avatar-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" role="presentation"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-14 9-22 22-22s21 8 22 22"/></svg></div>
-        </div>
-        <div class="profile-summary-copy">
-          <h3 id="profileDisplayName">Loading profile...</h3>
-          <p id="profileHeadline">Add your profession and education to introduce yourself.</p>
-          <p class="profile-account-line"><span id="profileEmail">Loading...</span><span class="profile-dot">•</span><span id="profileRole">Loading...</span></p>
-        </div>
-      </div>
-
-      <div class="profile-social-stats" aria-label="Profile statistics">
-        <div><button type="button" class="profile-stat-button" data-profile-view="followers"><strong id="myFollowersCount">0</strong><span>Followers</span></button></div>
-        <div><button type="button" class="profile-stat-button" data-profile-view="following"><strong id="myFollowingCount">0</strong><span>Following</span></button></div>
-        <div><button type="button" class="profile-stat-button" data-profile-view="certificates" aria-controls="myCertificateFeed"><strong id="myCertificatesCount">0</strong><span>Certificates</span></button></div>
-      </div>
-
-
-      <section class="profile-certificate-feed dashboard-card" aria-labelledby="certificateFeedTitle">
-        <div class="profile-card-heading">
-          <div><h3 id="certificateFeedTitle">Certificate showcase</h3><p>Share credentials you've earned by adding a certificate link to a project below.</p></div>
-          <a class="profile-add-certificate" href="#projects">Add certificate</a>
-        </div>
-        <div id="myCertificateFeed" class="certificate-feed-list"><p>Your certificate posts will appear here.</p></div>
-      </section>
-
-      <section class="profile-posts-section dashboard-card" aria-labelledby="myPostsTitle">
-        <div class="profile-card-heading"><div><h3 id="myPostsTitle">My posts</h3><p>Your updates in a structured profile grid.</p></div><a class="profile-add-certificate" href="#socialFeed">Create a post</a></div>
-        <div id="myPostsGrid" class="profile-post-grid"><p>Loading your posts…</p></div>
-      </section>
-
-
-
-      <div class="dashboard-card profile-editor-card">
-        <div class="profile-card-heading">
-          <div>
-            <h3>Edit profile</h3>
-            <p>Fields marked optional can be left blank and completed later.</p>
-          </div>
-        </div>
-
-        <form id="profileForm">
-          <div class="profile-form-section">
-            <h4>Personal details</h4>
-            <div class="profile-photo-editor">
-              <div class="profile-avatar-wrap profile-avatar-wrap-small">
-                <img id="profilePhotoPreview" class="profile-avatar" alt="Selected profile photo preview" hidden>
-                <div id="profilePhotoFallback" class="profile-avatar profile-avatar-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" role="presentation"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-14 9-22 22-22s21 8 22 22"/></svg></div>
-              </div>
-              <div class="profile-photo-controls">
-                <label for="profilePhotoInput">Profile photo</label>
-                <input type="file" id="profilePhotoInput" accept="image/png,image/jpeg,image/webp">
-                <p class="profile-help">PNG, JPG or WebP. Maximum 850 KB. Your photo is stored with your profile.</p>
-                <button type="button" id="removeProfilePhoto" class="button-secondary">Remove photo</button>
-              </div>
-            </div>
-
-            <div class="profile-form-grid">
-              <div class="form-group">
-                <label for="profileAge">Age</label>
-                <input type="number" id="profileAge" name="age" min="13" max="120" step="1" placeholder="e.g. 21">
-                <small>Age is for your account profile; it is not publicly listed.</small>
-              </div>
-              <div class="form-group">
-                <label for="profileProfession">What best describes you?</label>
-                <select id="profileProfession" name="professionType">
-                  <option value="student">Student</option>
-                  <option value="working professional">Working professional</option>
-                  <option value="freelancer">Freelancer</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="profile-form-section">
-            <h4>Education and work</h4>
-            <div class="profile-form-grid">
-              <div class="form-group">
-                <label for="profileCollege">College / University</label>
-                <input type="text" id="profileCollege" name="college" maxlength="160" placeholder="e.g. Your college or university">
-              </div>
-              <div class="form-group">
-                <label for="profileDegree">Degree / Course</label>
-                <input type="text" id="profileDegree" name="degree" maxlength="120" placeholder="e.g. B.E. Computer Science">
-              </div>
-              <div class="form-group">
-                <label for="profileStudyYear">Current year / role</label>
-                <input type="text" id="profileStudyYear" name="studyYear" maxlength="60" placeholder="e.g. 3rd year or Software Engineer">
-              </div>
-              <div class="form-group">
-                <label for="profileFieldOfStudy">Field / Specialization</label>
-                <input type="text" id="profileFieldOfStudy" name="fieldOfStudy" maxlength="120" placeholder="e.g. Applied AI">
-              </div>
-            </div>
-          </div>
-
-          <div class="profile-form-section">
-            <h4>A little about you</h4>
-            <div class="profile-form-grid">
-              <div class="form-group">
-                <label for="profileLocation">City / Region</label>
-                <input type="text" id="profileLocation" name="location" maxlength="120" autocomplete="address-level2" placeholder="City or region only">
-                <small>For privacy, don't enter your full home address.</small>
-              </div>
-              <div class="form-group">
-                <label for="profileHobbies">Hobbies and interests</label>
-                <input type="text" id="profileHobbies" name="hobbies" maxlength="300" placeholder="e.g. Coding, fitness, design">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="profileBio">Bio</label>
-              <textarea id="profileBio" name="bio" rows="5" maxlength="600" placeholder="Tell us what you're learning, building, or working toward..."></textarea>
-              <small><span id="profileBioCount">0</span>/600 characters</small>
-            </div>
-          </div>
-
-          <p id="profilePrivacyNote" class="profile-privacy-note" role="note">Your profile is currently private to your signed-in account. Public profile sharing is not enabled.</p>
-          <div class="profile-visibility-control"><div><strong>Profile visibility</strong><p>Public profiles can appear in search. Your skills and certificate links are visible only when your profile is public.</p></div><label class="visibility-switch"><input type="checkbox" id="publicProfileToggle"><span>Make my profile public</span></label><p id="profileVisibilityMessage" role="status" aria-live="polite"></p></div>
-          <p id="profileMessage" class="profile-message" role="status" aria-live="polite"></p>
-          <div class="profile-form-actions">
-            <button type="submit" id="saveProfileButton">Save profile</button>
-          </div>
-        </form>
-      </div>
-    </section>
+    <section id="profile"><div class="profile-layout"><div class="profile-main-column"><div class="profile-summary dashboard-card">
+<div class="profile-avatar-wrap">
+<img alt="Your profile photo" class="profile-avatar" hidden="" id="profilePhotoDisplay"/>
+<div aria-hidden="true" class="profile-avatar profile-avatar-fallback" id="profileAvatarFallback"><svg role="presentation" viewbox="0 0 64 64"><circle cx="32" cy="21" r="12"></circle><path d="M10 57c1-14 9-22 22-22s21 8 22 22"></path></svg></div>
+</div>
+<div class="profile-summary-copy"><button class="profile-edit-link" id="openProfileEditor" type="button">Edit profile</button>
+<h3 id="profileDisplayName">Loading profile...</h3>
+<p id="profileHeadline">Add your profession and education to introduce yourself.</p>
+<p class="profile-account-line"><span id="profileEmail">Loading...</span><span class="profile-dot">•</span><span id="profileRole">Loading...</span></p>
+</div>
+<div aria-label="Profile statistics" class="profile-social-stats profile-social-stats-inline">
+<div><button class="profile-stat-button" data-profile-view="followers" type="button"><strong id="myFollowersCount">0</strong><span>Followers</span></button></div>
+<div><button class="profile-stat-button" data-profile-view="following" type="button"><strong id="myFollowingCount">0</strong><span>Following</span></button></div>
+<div><button aria-controls="myCertificateFeed" class="profile-stat-button" data-profile-view="certificates" type="button"><strong id="myCertificatesCount">0</strong><span>Certificates</span></button></div>
+</div></div><section aria-labelledby="certificateFeedTitle" class="profile-certificate-feed dashboard-card">
+<div class="profile-card-heading">
+<div><h3 id="certificateFeedTitle">Certificate showcase</h3><p>Share credentials you've earned by adding a certificate link to a project below.</p></div>
+<a class="profile-add-certificate" href="#projects">Add certificate</a>
+</div>
+<div class="certificate-feed-list" id="myCertificateFeed"><p>Your certificate posts will appear here.</p></div>
+</section><section aria-labelledby="myPostsTitle" class="profile-posts-section dashboard-card">
+<div class="profile-card-heading"><div><h3 id="myPostsTitle">My posts</h3><p>Your updates in a structured profile grid.</p></div><a class="profile-add-certificate" href="#socialFeed">Create a post</a></div>
+<div class="profile-post-grid" id="myPostsGrid"><p>Loading your posts…</p></div>
+</section></div><aside aria-label="Profile actions and details" class="profile-action-rail"><div class="profile-terminal-card"><div class="profile-terminal-top"><span aria-hidden="true" class="profile-terminal-dot"></span><span>CERTIFICATE / NEW</span></div><h3>Add a certificate</h3><p>Showcase a credential you have earned by adding it to a project.</p><a class="profile-terminal-action" href="#projects"><span aria-hidden="true">+</span> Add certificate</a></div><div class="profile-terminal-card"><div class="profile-terminal-top"><span aria-hidden="true" class="profile-terminal-dot"></span><span>POST / COMPOSE</span></div><h3>Create a post</h3><p>Share a project update, learning milestone, or useful discovery.</p><a class="profile-terminal-action" href="#socialFeed"><span aria-hidden="true">&gt;_</span> Open post composer</a></div><div class="profile-details-card dashboard-card"><p class="profile-eyebrow">PROFILE / DETAILS</p><h3>Personal details</h3><p>Keep your professional introduction current. Use Edit profile to update your headline, education, location, interests and bio.</p></div><div aria-label="Edit profile" class="dashboard-card profile-editor-card" hidden="" id="profileEditorPanel">
+<div class="profile-card-heading">
+<div>
+<h3>Edit profile</h3>
+<p>Fields marked optional can be left blank and completed later.</p>
+</div>
+<button aria-label="Close edit profile panel" class="profile-editor-close" id="closeProfileEditor" type="button">Close ×</button></div>
+<form id="profileForm">
+<div class="profile-form-section">
+<h4>Personal details</h4>
+<div class="profile-photo-editor">
+<div class="profile-avatar-wrap profile-avatar-wrap-small">
+<img alt="Selected profile photo preview" class="profile-avatar" hidden="" id="profilePhotoPreview"/>
+<div aria-hidden="true" class="profile-avatar profile-avatar-fallback" id="profilePhotoFallback"><svg role="presentation" viewbox="0 0 64 64"><circle cx="32" cy="21" r="12"></circle><path d="M10 57c1-14 9-22 22-22s21 8 22 22"></path></svg></div>
+</div>
+<div class="profile-photo-controls">
+<label for="profilePhotoInput">Profile photo</label>
+<input accept="image/png,image/jpeg,image/webp" id="profilePhotoInput" type="file"/>
+<p class="profile-help">PNG, JPG or WebP. Maximum 850 KB. Your photo is stored with your profile.</p>
+<button class="button-secondary" id="removeProfilePhoto" type="button">Remove photo</button>
+</div>
+</div>
+<div class="profile-form-grid">
+<div class="form-group">
+<label for="profileAge">Age</label>
+<input id="profileAge" max="120" min="13" name="age" placeholder="e.g. 21" step="1" type="number"/>
+<small>Age is for your account profile; it is not publicly listed.</small>
+</div>
+<div class="form-group">
+<label for="profileProfession">What best describes you?</label>
+<select id="profileProfession" name="professionType">
+<option value="student">Student</option>
+<option value="working professional">Working professional</option>
+<option value="freelancer">Freelancer</option>
+<option value="other">Other</option>
+</select>
+</div>
+</div>
+</div>
+<div class="profile-form-section">
+<h4>Education and work</h4>
+<div class="profile-form-grid">
+<div class="form-group">
+<label for="profileCollege">College / University</label>
+<input id="profileCollege" maxlength="160" name="college" placeholder="e.g. Your college or university" type="text"/>
+</div>
+<div class="form-group">
+<label for="profileDegree">Degree / Course</label>
+<input id="profileDegree" maxlength="120" name="degree" placeholder="e.g. B.E. Computer Science" type="text"/>
+</div>
+<div class="form-group">
+<label for="profileStudyYear">Current year / role</label>
+<input id="profileStudyYear" maxlength="60" name="studyYear" placeholder="e.g. 3rd year or Software Engineer" type="text"/>
+</div>
+<div class="form-group">
+<label for="profileFieldOfStudy">Field / Specialization</label>
+<input id="profileFieldOfStudy" maxlength="120" name="fieldOfStudy" placeholder="e.g. Applied AI" type="text"/>
+</div>
+</div>
+</div>
+<div class="profile-form-section">
+<h4>A little about you</h4>
+<div class="profile-form-grid">
+<div class="form-group">
+<label for="profileLocation">City / Region</label>
+<input autocomplete="address-level2" id="profileLocation" maxlength="120" name="location" placeholder="City or region only" type="text"/>
+<small>For privacy, don't enter your full home address.</small>
+</div>
+<div class="form-group">
+<label for="profileHobbies">Hobbies and interests</label>
+<input id="profileHobbies" maxlength="300" name="hobbies" placeholder="e.g. Coding, fitness, design" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label for="profileBio">Bio</label>
+<textarea id="profileBio" maxlength="600" name="bio" placeholder="Tell us what you're learning, building, or working toward..." rows="5"></textarea>
+<small><span id="profileBioCount">0</span>/600 characters</small>
+</div>
+</div>
+<p class="profile-privacy-note" id="profilePrivacyNote" role="note">Your profile is currently private to your signed-in account. Public profile sharing is not enabled.</p>
+<div class="profile-visibility-control"><div><strong>Profile visibility</strong><p>Public profiles can appear in search. Your skills and certificate links are visible only when your profile is public.</p></div><label class="visibility-switch"><input id="publicProfileToggle" type="checkbox"/><span>Make my profile public</span></label><p aria-live="polite" id="profileVisibilityMessage" role="status"></p></div>
+<p aria-live="polite" class="profile-message" id="profileMessage" role="status"></p>
+<div class="profile-form-actions">
+<button id="saveProfileButton" type="submit">Save profile</button>
+</div>
+</form>
+</div></aside></div></section>
 
     <!-- ADMIN COURSE MANAGEMENT -->
     <section id="adminCourses" hidden>

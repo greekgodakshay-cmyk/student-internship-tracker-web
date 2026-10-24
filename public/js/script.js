@@ -2479,3 +2479,80 @@ async function loadAdminCourses() {
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startScrollReveal, { once: true });
   else startScrollReveal();
 })();
+
+/* Profile editor placement and mobile section navigation. */
+(() => {
+  const profile = document.getElementById("profile");
+  if (!profile) return;
+
+  const openButton = document.getElementById("openProfileEditor");
+  const editorPanel = document.getElementById("profileEditorPanel");
+  const closeButton = document.getElementById("closeProfileEditor");
+
+  const openEditor = () => {
+    if (!editorPanel) return;
+    editorPanel.hidden = false;
+    editorPanel.classList.add("profile-editor-is-open");
+    editorPanel.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start"
+    });
+    const firstField = editorPanel.querySelector("input:not([type='checkbox']), textarea, select");
+    if (firstField) window.setTimeout(() => firstField.focus({ preventScroll: true }), 250);
+  };
+
+  const closeEditor = () => {
+    if (!editorPanel) return;
+    editorPanel.hidden = true;
+    editorPanel.classList.remove("profile-editor-is-open");
+    if (openButton) openButton.focus({ preventScroll: true });
+  };
+
+  if (openButton) openButton.addEventListener("click", openEditor);
+  if (closeButton) closeButton.addEventListener("click", closeEditor);
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && editorPanel && !editorPanel.hidden) closeEditor();
+  });
+
+  // Explicitly scroll to the chosen section after closing the mobile drawer.
+  // This prevents the fixed dashboard toolbar/drawer from making navigation
+  // appear to change the URL while leaving the old section on screen.
+  const sidebar = document.querySelector("body > header");
+  const toggle = document.getElementById("dashboardSidebarToggle");
+  const mobileNav = window.matchMedia("(max-width: 760px)");
+
+  if (sidebar) {
+    sidebar.querySelectorAll('nav a[href^="#"]').forEach(link => {
+      link.addEventListener("click", event => {
+        const id = decodeURIComponent(link.hash.slice(1));
+        const target = document.getElementById(id);
+        if (!target || target.hidden) return;
+
+        event.preventDefault();
+        if (mobileNav.matches) {
+          document.body.classList.remove("mobile-nav-open");
+          if (toggle) {
+            toggle.setAttribute("aria-pressed", "false");
+            toggle.setAttribute("aria-label", "Open navigation menu");
+            toggle.title = "Open navigation menu";
+          }
+        }
+
+        if (window.location.hash !== link.hash) {
+          window.history.pushState(null, "", link.hash);
+        }
+
+        sidebar.querySelectorAll('nav a[aria-current="page"]').forEach(item => item.removeAttribute("aria-current"));
+        link.setAttribute("aria-current", "page");
+
+        window.requestAnimationFrame(() => {
+          target.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            block: "start"
+          });
+        });
+      });
+    });
+  }
+})();

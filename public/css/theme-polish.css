@@ -584,3 +584,59 @@ body.dashboard-app[data-theme="dark"] .community-discovery-link { color: #9bc9ef
   .community-discovery-card { transition: none !important; }
   .community-discovery-card:hover { transform: none !important; }
 }
+
+
+/* Dashboard contrast repair: make text follow the active surface theme. Keep layout, APIs and interactions unchanged. */
+body.dashboard-app[data-theme="dark"] main,
+body.dashboard-app[data-theme="dark"] main section,
+body.dashboard-app[data-theme="dark"] #dashboard,
+body.dashboard-app[data-theme="dark"] #dashboard h1,
+body.dashboard-app[data-theme="dark"] #dashboard h2,
+body.dashboard-app[data-theme="dark"] #dashboard h3,
+body.dashboard-app[data-theme="dark"] #dashboard h4,
+body.dashboard-app[data-theme="dark"] #dashboard p,
+body.dashboard-app[data-theme="dark"] #dashboard label,
+body.dashboard-app[data-theme="dark"] #dashboard span,
+body.dashboard-app[data-theme="dark"] #dashboard strong,
+body.dashboard-app[data-theme="dark"] #dashboard li,
+body.dashboard-app[data-theme="dark"] main section h1,
+body.dashboard-app[data-theme="dark"] main section h2,
+body.dashboard-app[data-theme="dark"] main section h3,
+body.dashboard-app[data-theme="dark"] main section h4,
+body.dashboard-app[data-theme="dark"] main section p,
+body.dashboard-app[data-theme="dark"] main section label,
+body.dashboard-app[data-theme="dark"] main section li,
+body.dashboard-app[data-theme="dark"] .dashboard-card,
+body.dashboard-app[data-theme="dark"] .dashboard-card h3,
+body.dashboard-app[data-theme="dark"] .dashboard-card p,
+body.dashboard-app[data-theme="dark"] .analytics-card,
+body.dashboard-app[data-theme="dark"] .analytics-card h3,
+body.dashboard-app[data-theme="dark"] .analytics-card p { color: #edf3f6 !important; }
+body.dashboard-app[data-theme="dark"] main section p,
+body.dashboard-app[data-theme="dark"] #dashboard > p,
+body.dashboard-app[data-theme="dark"] .dashboard-card .muted,
+body.dashboard-app[data-theme="dark"] .analytics-card .muted { color: #c0ccd3 !important; }
+body.dashboard-app[data-theme="dark"] .dashboard-card,
+body.dashboard-app[data-theme="dark"] .analytics-card,
+body.dashboard-app[data-theme="dark"] .analytics-metric,
+body.dashboard-app[data-theme="dark"] #coursesList > *,
+body.dashboard-app[data-theme="dark"] #skillsList > *,
+body.dashboard-app[data-theme="dark"] #projectsList > *,
+body.dashboard-app[data-theme="dark"] #internshipsList > *,
+body.dashboard-app[data-theme="dark"] #applicationsList > * { background-color: #192630 !important; border-color: #40515d !important; }
+body.dashboard-app[data-theme="dark"] input,
+body.dashboard-app[data-theme="dark"] textarea,
+body.dashboard-app[data-theme="dark"] select { color: #edf3f6 !important; background-color: #192630 !important; border-color: #536571 !important; }
+body.dashboard-app[data-theme="dark"] input::placeholder,
+body.dashboard-app[data-theme="dark"] textarea::placeholder { color: #bdc9d0 !important; opacity: 1; }
+body.dashboard-app[data-theme="light"] #dashboard h1,
+body.dashboard-app[data-theme="light"] #dashboard h2,
+body.dashboard-app[data-theme="light"] #dashboard h3,
+body.dashboard-app[data-theme="light"] #dashboard h4,
+body.dashboard-app[data-theme="light"] #dashboard p,
+body.dashboard-app[data-theme="light"] #dashboard label,
+body.dashboard-app[data-theme="light"] #dashboard li,
+body.dashboard-app[data-theme="light"] .dashboard-card,
+body.dashboard-app[data-theme="light"] .analytics-card { color: #203442 !important; }
+body.dashboard-app[data-theme="light"] #dashboard > p,
+body.dashboard-app[data-theme="light"] .dashboard-card .muted { color: #52616d !important; }

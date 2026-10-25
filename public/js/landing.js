@@ -97,6 +97,19 @@
       }
     });
   }
+
+  // Feature cards are keyboard-accessible navigation surfaces. Existing hover and reveal effects remain untouched.
+  document.querySelectorAll(".feature-navigable[data-feature]").forEach((card) => {
+    const openFeature = () => { window.location.href = `/feature.html?topic=${encodeURIComponent(card.dataset.feature)}`; };
+    card.addEventListener("click", (event) => {
+      if (event.target.closest("a, button")) return;
+      openFeature();
+    });
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openFeature(); }
+    });
+  });
+
   const year = document.querySelector("#current-year");
   if (year) year.textContent = String(new Date().getFullYear());
 })();

@@ -1,0 +1,16 @@
+/* Focused detail-page styling; the landing page's existing hover effects are not modified. */
+.feature-detail { padding-top: 34px; padding-bottom: 84px; }
+.feature-back { display: inline-flex; margin: 0 0 24px; text-decoration: none; }
+.feature-detail-hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); align-items: center; gap: clamp(28px, 5vw, 76px); }
+.feature-detail-image { min-height: 360px; height: clamp(360px, 48vw, 570px); overflow: hidden; border-radius: 18px; background: var(--theme-surface, #fff); box-shadow: 0 18px 45px rgba(25, 40, 52, .13); }
+.feature-detail-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.feature-detail-heading { max-width: 520px; padding: 18px 0; }
+.feature-detail-heading h1 { margin: 12px 0 18px; font-size: clamp(36px, 4.2vw, 58px); line-height: 1.08; letter-spacing: -.035em; color: var(--theme-ink, #182831); }
+.feature-detail-heading > p:not(.eyebrow) { margin: 0 0 26px; color: var(--theme-muted, #596873); font-size: clamp(17px, 1.5vw, 20px); line-height: 1.75; }
+.feature-detail-body { max-width: 850px; margin: clamp(54px, 8vw, 100px) auto 0; }
+.feature-detail-body h2 { margin: 10px 0 22px; color: var(--theme-ink, #182831); font-size: clamp(27px, 3vw, 39px); line-height: 1.2; letter-spacing: -.025em; }
+.feature-detail-body p:not(.eyebrow) { color: var(--theme-muted, #596873); font-size: 17px; line-height: 1.9; margin: 0 0 18px; }
+.feature-detail-note { display: flex; flex-direction: column; gap: 7px; margin-top: 30px; padding: 22px 24px; border-left: 3px solid var(--theme-action, #183b59); border-radius: 0 10px 10px 0; background: var(--theme-surface, #fff); color: var(--theme-ink, #182831); }
+.feature-detail-note span { color: var(--theme-muted, #596873); line-height: 1.65; }
+body[data-theme="dark"] .feature-detail-image { background: #192630; box-shadow: 0 18px 45px rgba(0,0,0,.3); }
+@media (max-width: 760px) { .feature-detail { padding-top: 24px; padding-bottom: 54px; } .feature-detail-hero { grid-template-columns: 1fr; gap: 24px; } .feature-detail-image { height: clamp(250px, 68vw, 420px); min-height: 250px; } .feature-detail-heading { padding: 0; } .feature-detail-body { margin-top: 52px; } }

@@ -1104,3 +1104,11 @@ body[data-theme="dark"] .site-footer a:hover { color: #e0bd85 !important; }
   .site-footer .footer-links { gap: 10px 14px; flex-wrap: wrap; }
   .site-header .header-inner { gap: 12px; }
 }
+
+/* Accessible navigation affordance for the existing feature cards. Hover animation rules above remain unchanged. */
+.feature-navigable { cursor: pointer; }
+.feature-navigable:focus-visible { outline: 3px solid #2873a8; outline-offset: 5px; }
+.feature-open-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 12px; color: var(--theme-link, #174f83); font-size: 14px; font-weight: 700; }
+.feature-open-link span { transition: transform .2s ease; }
+.feature-navigable:hover .feature-open-link span { transform: translateX(4px); }
+body[data-theme="dark"] .feature-open-link { color: #a9d5ff; }

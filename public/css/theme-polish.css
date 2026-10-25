@@ -724,3 +724,143 @@ body.dashboard-app[data-theme="light"] > header { background-color: #203746; }
 @media (prefers-reduced-motion: reduce) {
   body.dashboard-app[data-theme="light"] *, body.dashboard-app[data-theme="light"] *::before, body.dashboard-app[data-theme="light"] *::after { scroll-behavior: auto !important; }
 }
+
+/* ==========================================================
+   LIGHT MODE VISIBILITY + BLUE SCROLLBAR POLISH
+   Dashboard/index only. Dark-mode styles are deliberately untouched.
+   ========================================================== */
+body.dashboard-app[data-theme="light"] {
+  color-scheme: light;
+  --page-bg: #f2f5f9;
+  --card-bg: #ffffff;
+  --text-color: #101c2c;
+  --heading-color: #0b1728;
+  --muted: #394b60;
+  --line: #c8d4e2;
+  scrollbar-color: #1769aa #e1eaf4;
+  scrollbar-width: thin;
+}
+
+/* A polished navy-to-LinkedIn-blue scrollbar for the index page. */
+body.dashboard-app[data-theme="light"] * {
+  scrollbar-color: #1769aa #e1eaf4;
+  scrollbar-width: thin;
+}
+body.dashboard-app[data-theme="light"] ::-webkit-scrollbar { width: 12px; height: 12px; }
+body.dashboard-app[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #e5edf6;
+  border-radius: 999px;
+  border: 2px solid #f2f5f9;
+}
+body.dashboard-app[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2478bd 0%, #123d70 100%);
+  border: 3px solid #e5edf6;
+  border-radius: 999px;
+  min-height: 36px;
+}
+body.dashboard-app[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0a66c2 0%, #0b2e59 100%);
+}
+
+/* Strong, consistent readable text across dashboard sections and nested cards. */
+body.dashboard-app[data-theme="light"] main,
+body.dashboard-app[data-theme="light"] main section,
+body.dashboard-app[data-theme="light"] main article,
+body.dashboard-app[data-theme="light"] main .dashboard-card,
+body.dashboard-app[data-theme="light"] main .analytics-card,
+body.dashboard-app[data-theme="light"] main .analytics-metric,
+body.dashboard-app[data-theme="light"] main .community-panel,
+body.dashboard-app[data-theme="light"] main .student-analytics,
+body.dashboard-app[data-theme="light"] main .social-post-card,
+body.dashboard-app[data-theme="light"] main .social-post-composer-card,
+body.dashboard-app[data-theme="light"] main .community-discovery-card,
+body.dashboard-app[data-theme="light"] main .profile-content,
+body.dashboard-app[data-theme="light"] main .profile-action-rail {
+  color: #101c2c !important;
+  -webkit-text-fill-color: currentColor;
+}
+body.dashboard-app[data-theme="light"] main h1,
+body.dashboard-app[data-theme="light"] main h2,
+body.dashboard-app[data-theme="light"] main h3,
+body.dashboard-app[data-theme="light"] main h4,
+body.dashboard-app[data-theme="light"] main h5,
+body.dashboard-app[data-theme="light"] main h6,
+body.dashboard-app[data-theme="light"] main .section-title,
+body.dashboard-app[data-theme="light"] main .card-title {
+  color: #0b1728 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9), 0 0 1px rgba(11,23,40,.22);
+}
+body.dashboard-app[data-theme="light"] main p,
+body.dashboard-app[data-theme="light"] main li,
+body.dashboard-app[data-theme="light"] main label,
+body.dashboard-app[data-theme="light"] main small,
+body.dashboard-app[data-theme="light"] main span,
+body.dashboard-app[data-theme="light"] main dt,
+body.dashboard-app[data-theme="light"] main dd,
+body.dashboard-app[data-theme="light"] main figcaption,
+body.dashboard-app[data-theme="light"] main .muted,
+body.dashboard-app[data-theme="light"] main .text-muted,
+body.dashboard-app[data-theme="light"] main .community-discovery-meta,
+body.dashboard-app[data-theme="light"] main .community-discovery-date {
+  color: #35475b !important;
+  -webkit-text-fill-color: currentColor;
+}
+body.dashboard-app[data-theme="light"] main a:not(.button):not([role="button"]) {
+  color: #075da8 !important;
+  text-decoration-color: rgba(7,93,168,.42);
+  text-underline-offset: 3px;
+}
+body.dashboard-app[data-theme="light"] main a:not(.button):not([role="button"]):hover {
+  color: #063f78 !important;
+}
+
+/* Warm gold is an accent, not a replacement for readable body text. */
+body.dashboard-app[data-theme="light"] main .analytics-metric strong,
+body.dashboard-app[data-theme="light"] main .metric-value,
+body.dashboard-app[data-theme="light"] main .stat-value {
+  color: #8a5a00 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.95), 0 0 1px rgba(138,90,0,.18);
+}
+body.dashboard-app[data-theme="light"] main .dashboard-card,
+body.dashboard-app[data-theme="light"] main .analytics-card,
+body.dashboard-app[data-theme="light"] main .analytics-metric,
+body.dashboard-app[data-theme="light"] main .community-panel,
+body.dashboard-app[data-theme="light"] main .social-post-card,
+body.dashboard-app[data-theme="light"] main .social-post-composer-card,
+body.dashboard-app[data-theme="light"] main .community-discovery-card {
+  background: #ffffff !important;
+  border: 1px solid #d1dce8 !important;
+  box-shadow: 0 3px 8px rgba(17,42,70,.055), 0 12px 28px -22px rgba(17,42,70,.34) !important;
+}
+body.dashboard-app[data-theme="light"] main input,
+body.dashboard-app[data-theme="light"] main textarea,
+body.dashboard-app[data-theme="light"] main select {
+  color: #101c2c !important;
+  -webkit-text-fill-color: #101c2c !important;
+  background: #ffffff !important;
+  border: 1px solid #9eb4ca !important;
+  box-shadow: inset 0 1px 2px rgba(17,42,70,.04);
+}
+body.dashboard-app[data-theme="light"] main input::placeholder,
+body.dashboard-app[data-theme="light"] main textarea::placeholder {
+  color: #5b6d80 !important;
+  -webkit-text-fill-color: #5b6d80 !important;
+  opacity: 1 !important;
+}
+body.dashboard-app[data-theme="light"] main input:focus,
+body.dashboard-app[data-theme="light"] main textarea:focus,
+body.dashboard-app[data-theme="light"] main select:focus {
+  outline: 2px solid rgba(10,102,194,.28) !important;
+  outline-offset: 1px;
+  border-color: #0a66c2 !important;
+}
+body.dashboard-app[data-theme="light"] main button,
+body.dashboard-app[data-theme="light"] main [role="button"] {
+  text-shadow: none;
+}
+body.dashboard-app[data-theme="light"] main button:focus-visible,
+body.dashboard-app[data-theme="light"] main a:focus-visible,
+body.dashboard-app[data-theme="light"] main [role="button"]:focus-visible {
+  outline: 3px solid #0a66c2 !important;
+  outline-offset: 3px;
+}

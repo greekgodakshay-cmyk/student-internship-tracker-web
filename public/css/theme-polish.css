@@ -122,3 +122,158 @@ body[data-theme="dark"] body > header nav a:hover {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   Authoritative layer (loaded last in index.html)
+   1. Tokens defined once on :root, overridden for body[data-theme="dark"].
+   2. One logout rule for desktop sidebar and mobile drawer, both themes.
+   3. Desktop dark sidebar: themed instead of the forced white surface.
+   4. Interactive course and internship cards: lift, focus-within, reduced motion.
+   ========================================================================== */
+
+:root {
+  /* Palette: royal blue (actions, focus), navy (headings, sidebar),
+     brass (accents), warm white surfaces. */
+  --focus-color: #1f4fbf;
+  --card-lift-shadow: 0 14px 28px -16px rgba(23, 39, 53, .32), 0 3px 8px -4px rgba(23, 39, 53, .14);
+
+  --sb-surface: #ffffff;
+  --sb-ink: #172735;
+  --sb-line: #d7e0e7;
+  --sb-line-strong: #7f8e9a;
+  --sb-hover: #eef3f7;
+  --sb-hover-line: #172735;
+  --sb-disabled: #6b7782;
+  --sb-nav-icon: #526b7c;
+  --sb-nav-hover-ink: #172735;
+}
+
+body[data-theme="dark"] {
+  --focus-color: #d9b67a;
+  --card-lift-shadow: 0 14px 28px -16px rgba(0, 0, 0, .55), 0 3px 8px -4px rgba(0, 0, 0, .3);
+
+  --sb-surface: #19232d;
+  --sb-ink: #edf2f5;
+  --sb-line: #34434e;
+  --sb-line-strong: #6b7b87;
+  --sb-hover: #263b4a;
+  --sb-hover-line: #d9b67a;
+  --sb-disabled: #8c99a3;
+  --sb-nav-icon: #9fb3c2;
+  --sb-nav-hover-ink: #9bc9ef;
+}
+
+/* Global focus ring uses the palette token, so it reads in both themes */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--focus-color) !important;
+  outline-offset: 2px;
+}
+
+/* Disabled controls: clearly inert in both themes */
+body.dashboard-app button:disabled,
+body.dashboard-app input:disabled,
+body.dashboard-app select:disabled,
+body.dashboard-app textarea:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+/* Desktop sidebar in dark theme: themed surface and readable nav text.
+   Mirrors the existing mobile-drawer dark values so both breakpoints match. */
+body.dashboard-app[data-theme="dark"] > header {
+  background: var(--sb-surface) !important;
+  color: var(--sb-ink) !important;
+  border-right-color: var(--sb-line) !important;
+}
+body.dashboard-app[data-theme="dark"] > header h1 { color: #9bc9ef !important; }
+body.dashboard-app[data-theme="dark"] > header::after { color: #a8b4bd !important; }
+body.dashboard-app[data-theme="dark"] > header nav a { color: #d5e0e7 !important; }
+body.dashboard-app[data-theme="dark"] > header nav a::before { color: var(--sb-nav-icon) !important; }
+body.dashboard-app[data-theme="dark"] > header nav a:hover,
+body.dashboard-app[data-theme="dark"] > header nav a[aria-current="page"] {
+  color: var(--sb-nav-hover-ink) !important;
+  background: var(--sb-hover) !important;
+}
+
+/* Logout: one authoritative rule, desktop sidebar and mobile drawer, both themes.
+   Solid surface and token-driven ink and border, so it never depends on the
+   navy/on-navy pair flipping between themes. */
+body.dashboard-app #logoutButton {
+  display: block;
+  box-sizing: border-box;
+  position: static !important;
+  order: 3;
+  width: 100%;
+  min-height: 44px;
+  margin: auto 0 0 !important;
+  padding: 11px 13px !important;
+  border: 1px solid var(--sb-line-strong) !important;
+  border-radius: 9px !important;
+  background: var(--sb-surface) !important;
+  color: var(--sb-ink) !important;
+  font-size: 13px !important;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+body.dashboard-app #logoutButton:hover {
+  background: var(--sb-hover) !important;
+  border-color: var(--sb-hover-line) !important;
+  color: var(--sb-ink) !important;
+}
+body.dashboard-app #logoutButton:focus-visible {
+  outline: 2px solid var(--focus-color) !important;
+  outline-offset: 2px;
+}
+body.dashboard-app #logoutButton:disabled {
+  cursor: not-allowed;
+  color: var(--sb-disabled) !important;
+  border-color: var(--sb-line-strong) !important;
+  opacity: 1;
+}
+
+/* Interactive cards: lift about 4px on hover and keyboard focus-within, 200ms */
+body.dashboard-app .course-card,
+body.dashboard-app .internship-card,
+body.dashboard-app #coursesList > *,
+body.dashboard-app #internshipsList > * {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+body.dashboard-app .course-card:hover,
+body.dashboard-app .internship-card:hover,
+body.dashboard-app #coursesList > *:hover,
+body.dashboard-app #internshipsList > *:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-lift-shadow);
+}
+body.dashboard-app .course-card:focus-within,
+body.dashboard-app .internship-card:focus-within,
+body.dashboard-app #coursesList > *:focus-within,
+body.dashboard-app #internshipsList > *:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px var(--focus-color), var(--card-lift-shadow);
+}
+
+/* Reduced motion: no lift, no transition on cards */
+@media (prefers-reduced-motion: reduce) {
+  body.dashboard-app .course-card,
+  body.dashboard-app .internship-card,
+  body.dashboard-app #coursesList > *,
+  body.dashboard-app #internshipsList > * {
+    transition: none !important;
+  }
+  body.dashboard-app .course-card:hover,
+  body.dashboard-app .internship-card:hover,
+  body.dashboard-app #coursesList > *:hover,
+  body.dashboard-app #internshipsList > *:hover,
+  body.dashboard-app .course-card:focus-within,
+  body.dashboard-app .internship-card:focus-within,
+  body.dashboard-app #coursesList > *:focus-within,
+  body.dashboard-app #internshipsList > *:focus-within {
+    transform: none !important;
+  }
+}

@@ -41,7 +41,7 @@ router.get('/users/:id', async(req,res)=>{
 });
 router.patch('/privacy', async(req,res)=>{
  if(typeof req.body.publicProfile!=='boolean') return res.status(400).json({message:'Choose public or private profile visibility.'});
- try { const current=await User.findById(req.session.userId).select('age'); if(req.body.publicProfile && current?.age !== null && current?.age !== undefined && current.age < 18) return res.status(403).json({message:'Public profile visibility is unavailable for accounts with an age under 18.'}); const user=await User.findByIdAndUpdate(req.session.userId,{$set:{publicProfile:req.body.publicProfile}},{new:true}).select('publicProfile'); res.json({publicProfile:user.publicProfile,message:`Profile is now ${user.publicProfile?'public':'private'}.`}); }
+ try { const current=await User.findById(req.session.userId).select('age'); if(req.body.publicProfile && (current?.age === null || current?.age === undefined)) return res.status(403).json({message:'Add your age (18 or older) in your profile before making it public.'});if(req.body.publicProfile && current.age < 18) return res.status(403).json({message:'Public profile visibility is unavailable for accounts with an age under 18.'}); const user=await User.findByIdAndUpdate(req.session.userId,{$set:{publicProfile:req.body.publicProfile}},{new:true}).select('publicProfile'); res.json({publicProfile:user.publicProfile,message:`Profile is now ${user.publicProfile?'public':'private'}.`}); }
  catch(e){ console.error('Privacy update:'.replace(/[: ]+$/, "") + " failed."); res.status(500).json({message:'Unable to update profile visibility.'}); }
 });
 router.get('/interactions/:type/:id', async(req,res)=>{

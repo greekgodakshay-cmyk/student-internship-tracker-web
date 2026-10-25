@@ -1581,9 +1581,10 @@ function initializeSectionNavigation() {
 
   function showActiveSection() {
     const requestedId = window.location.hash.slice(1);
+    const sectionId = requestedId === "socialFeed" ? "community" : requestedId;
 
     let activeSection = sections.find(
-      (section) => section.id === requestedId
+      (section) => section.id === sectionId
     );
 
     if (!activeSection) {
@@ -1602,6 +1603,11 @@ function initializeSectionNavigation() {
       section.hidden = !isActive;
       section.classList.toggle("is-active", isActive);
     });
+
+    document.querySelectorAll('body > header nav a[aria-current="page"]').forEach((item) => item.removeAttribute("aria-current"));
+    const activeNav = document.querySelector(`body > header nav a[href="#${requestedId}"]`) ||
+      document.querySelector(`body > header nav a[href="#${activeSection.id}"]`);
+    if (activeNav) activeNav.setAttribute("aria-current", "page");
 
     window.scrollTo(0, 0);
   }
@@ -1989,7 +1995,10 @@ function initializeStudentAnalytics() {
 }
 
 function navigateToAppSection(sectionId) {
-  const targetId = String(sectionId || "dashboard").replace(/^#/, "");
+  const requestedId = String(sectionId || "dashboard").replace(/^#/, "");
+  // The sidebar's Community Feed link targets a nested section; its visible
+  // top-level panel is #community. Keep the URL and selected link meaningful.
+  const targetId = requestedId === "socialFeed" ? "community" : requestedId;
   const main = document.querySelector("main");
   if (!main) return;
   const sections = Array.from(main.children).filter(el => el.tagName === "SECTION");
@@ -2003,12 +2012,13 @@ function navigateToAppSection(sectionId) {
     s.classList.toggle("is-active", active);
   });
 
-  if (window.location.hash !== `#${targetId}`) {
-    window.history.pushState(null, "", `#${targetId}`);
+  if (window.location.hash !== `#${requestedId}`) {
+    window.history.pushState(null, "", `#${requestedId}`);
   }
 
   document.querySelectorAll('body > header nav a[aria-current="page"]').forEach(item => item.removeAttribute("aria-current"));
-  const activeNav = document.querySelector(`body > header nav a[href="#${targetId}"]`);
+  const activeNav = document.querySelector(`body > header nav a[href="#${requestedId}"]`) ||
+    document.querySelector(`body > header nav a[href="#${targetId}"]`);
   if (activeNav) activeNav.setAttribute("aria-current", "page");
 
   window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });

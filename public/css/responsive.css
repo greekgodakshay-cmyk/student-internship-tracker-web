@@ -10,10 +10,10 @@ input, textarea, select, button { max-width: 100%; }
 
 /* Landing page: preserve the existing desktop composition; prevent narrow-screen overflow. */
 @media (max-width: 760px) {
-  .header-inner { width: calc(100% - 32px); min-height: 70px; gap: 12px; }
-  .brand { min-width: 0; flex: 1 1 auto; gap: 9px; }
-  .brand-name { max-width: 180px; font-size: 12px; }
-  .primary-nav { max-width: 100%; }
+  .header-inner { width: calc(100% - 24px); min-height: 64px; gap: 10px; }
+  .brand { min-width: 0; flex: 1 1 auto; gap: 8px; }
+  .brand-name { max-width: clamp(140px, 48vw, 190px); font-size: 12px; }
+  .primary-nav:not(.is-open) { display: none !important; }
   .hero, .intro-inner, .about-section, .cta-inner { min-width: 0; }
   .hero-copy, .hero-art, .feature-card, .step-card { min-width: 0; }
   .hero h1 { overflow-wrap: anywhere; }
@@ -24,14 +24,18 @@ input, textarea, select, button { max-width: 100%; }
 }
 @media (max-width: 480px) {
   .section-wrap { width: calc(100% - 30px); }
-  .header-inner { width: calc(100% - 24px); min-height: 64px; }
+  .header-inner { width: calc(100% - 20px); min-height: 60px; }
   .brand-logo { width: 36px; height: 36px; flex-basis: 36px; }
-  .brand-name { max-width: 150px; font-size: 11px; }
+  .brand-name { max-width: 165px; font-size: 11.5px; }
   .feature-grid { grid-template-columns: minmax(0, 1fr); }
   .feature-card, .feature-large, .feature-wide { grid-column: auto; }
   .hero-photo { height: clamp(280px, 92vw, 390px); }
   .hero-art { min-width: 0; }
   .footer-links { gap: 10px 16px; }
+}
+@media (max-width: 340px) {
+  .header-inner { width: calc(100% - 16px); }
+  .brand-name { max-width: 145px; font-size: 11px; }
 }
 
 /* Dashboard: use an off-canvas vertical navigation drawer on phones rather than

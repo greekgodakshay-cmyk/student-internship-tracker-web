@@ -1102,3 +1102,133 @@ body.dashboard-app[data-theme="light"] main [role="button"]:focus-visible {
   outline: 3px solid #0a66c2 !important;
   outline-offset: 3px;
 }
+
+
+/* =========================================================================
+   Visual Depth & Professional Hierarchy (Dashboard & Domain Cards)
+   ========================================================================= */
+
+/* Metric Cards: Domain Top Accent Borders and Subtle Tint Gradients */
+body.dashboard-app[data-theme="light"] #dashboard > .dashboard-card:nth-of-type(1),
+body.dashboard-app:not([data-theme="dark"]) #dashboard > .dashboard-card:nth-of-type(1),
+body.dashboard-app #dashboard > .dashboard-card:has(#dashboardCourseSummary) {
+  border-top: 3px solid #0a66c2 !important;
+  background: linear-gradient(180deg, #f7faff 0%, #ffffff 42%) !important;
+}
+
+body.dashboard-app[data-theme="light"] #dashboard > .dashboard-card:nth-of-type(2),
+body.dashboard-app:not([data-theme="dark"]) #dashboard > .dashboard-card:nth-of-type(2),
+body.dashboard-app #dashboard > .dashboard-card:has(#skillSummary) {
+  border-top: 3px solid #0f766e !important;
+  background: linear-gradient(180deg, #f5fdfb 0%, #ffffff 42%) !important;
+}
+
+body.dashboard-app[data-theme="light"] #dashboard > .dashboard-card:nth-of-type(3),
+body.dashboard-app:not([data-theme="dark"]) #dashboard > .dashboard-card:nth-of-type(3),
+body.dashboard-app #dashboard > .dashboard-card:has(#dashboardProjectSummary) {
+  border-top: 3px solid #b45309 !important;
+  background: linear-gradient(180deg, #fdfbf7 0%, #ffffff 42%) !important;
+}
+
+body.dashboard-app[data-theme="light"] #dashboard > .dashboard-card:nth-of-type(4),
+body.dashboard-app:not([data-theme="dark"]) #dashboard > .dashboard-card:nth-of-type(4),
+body.dashboard-app #dashboard > .dashboard-card:has(#applicationsSummary) {
+  border-top: 3px solid #2563eb !important;
+  background: linear-gradient(180deg, #f6f8ff 0%, #ffffff 42%) !important;
+}
+
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:nth-of-type(1),
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:has(#dashboardCourseSummary) {
+  border-top: 3px solid #4ea2e8 !important;
+  background: linear-gradient(180deg, #162432 0%, #131c25 42%) !important;
+}
+
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:nth-of-type(2),
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:has(#skillSummary) {
+  border-top: 3px solid #2dd4bf !important;
+  background: linear-gradient(180deg, #122828 0%, #131c25 42%) !important;
+}
+
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:nth-of-type(3),
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:has(#dashboardProjectSummary) {
+  border-top: 3px solid #f59e0b !important;
+  background: linear-gradient(180deg, #252016 0%, #131c25 42%) !important;
+}
+
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:nth-of-type(4),
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card:has(#applicationsSummary) {
+  border-top: 3px solid #60a5fa !important;
+  background: linear-gradient(180deg, #152236 0%, #131c25 42%) !important;
+}
+
+/* Panels with subtle background depth */
+body.dashboard-app[data-theme="light"] .career-chart-panel,
+body.dashboard-app[data-theme="light"] .student-analytics,
+body.dashboard-app:not([data-theme="dark"]) .career-chart-panel,
+body.dashboard-app:not([data-theme="dark"]) .student-analytics {
+  background: #f7fafc !important;
+  border: 1px solid #d4e2ed !important;
+  box-shadow: 0 4px 18px rgba(18, 38, 55, 0.04) !important;
+  border-radius: 16px !important;
+}
+
+body.dashboard-app[data-theme="dark"] .career-chart-panel,
+body.dashboard-app[data-theme="dark"] .student-analytics {
+  background: #121c25 !important;
+  border: 1px solid #253746 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Styled Section Kickers and Eyebrow Badges */
+body.dashboard-app[data-theme="light"] .section-kicker,
+body.dashboard-app[data-theme="light"] .profile-eyebrow,
+body.dashboard-app:not([data-theme="dark"]) .section-kicker,
+body.dashboard-app:not([data-theme="dark"]) .profile-eyebrow {
+  display: inline-block !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  color: #0a66c2 !important;
+  background: #eaf4fc !important;
+  border: 1px solid #cce4f7 !important;
+  padding: 3px 8px !important;
+  border-radius: 5px !important;
+  margin-bottom: 6px !important;
+}
+
+body.dashboard-app[data-theme="dark"] .section-kicker,
+body.dashboard-app[data-theme="dark"] .profile-eyebrow {
+  display: inline-block !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  color: #72b6eb !important;
+  background: #162a3a !important;
+  border: 1px solid #294964 !important;
+  padding: 3px 8px !important;
+  border-radius: 5px !important;
+  margin-bottom: 6px !important;
+}
+
+/* Repeatable scroll-reveal animation styles */
+.abi-scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 520ms ease, transform 520ms cubic-bezier(.2, .65, .25, 1);
+  will-change: opacity, transform;
+}
+
+.abi-scroll-reveal.abi-scroll-visible {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abi-scroll-reveal,
+  .abi-scroll-reveal.abi-scroll-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto;
+  }
+}

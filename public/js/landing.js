@@ -56,8 +56,12 @@
     const revealSelector = ".hero-copy, .hero-art, .feature-card, .step-card, .about-content, .about-mark, .section-heading, .learning-team-photo";
     const observed = new WeakSet();
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-      if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
-    }), { threshold: 0.04, rootMargin: "0px 0px -25px 0px" });
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+      } else {
+        entry.target.classList.remove("is-visible");
+      }
+    }), { threshold: 0.08, rootMargin: "0px 0px -20px 0px" });
     const scan = (root) => {
       const items = [];
       if (root instanceof Element && root.matches(revealSelector)) items.push(root);
@@ -78,22 +82,35 @@
   const toggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector("#primary-nav");
   if (toggle && nav) {
-    toggle.addEventListener("click", () => {
+    const closeNav = () => {
+      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
       const expanded = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", String(!expanded));
       nav.classList.toggle("is-open", !expanded);
     });
     nav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
+        closeNav();
       });
     });
+    document.addEventListener("click", (event) => {
+      if (nav.classList.contains("is-open") && !nav.contains(event.target) && !toggle.contains(event.target)) {
+        closeNav();
+      }
+    });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
+      if (event.key === "Escape" && nav.classList.contains("is-open")) {
+        closeNav();
         toggle.focus();
+      }
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 760 && nav.classList.contains("is-open")) {
+        closeNav();
       }
     });
   }

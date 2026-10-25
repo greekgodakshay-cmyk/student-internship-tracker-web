@@ -2982,10 +2982,11 @@ async function loadAdminCourses() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("abi-scroll-visible");
-          observer.unobserve(entry.target);
+        } else {
+          entry.target.classList.remove("abi-scroll-visible");
         }
       });
-    }, { threshold: 0.03, rootMargin: "0px 0px -18px 0px" });
+    }, { threshold: 0.04, rootMargin: "0px 0px -18px 0px" });
     const scan = (root) => {
       if (!(root instanceof Element || root instanceof Document)) return;
       const items = [];

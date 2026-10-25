@@ -1919,11 +1919,11 @@ function renderCareerActivityCharts(metricDefs, counts, maxCount) {
   const profile = document.createElementNS(ns, "polygon");
   /* Preserve the correct axis index even when multiple categories share a count. */
   profile.setAttribute("points", polygon(values.map((v, i) => point(i, v / chartMax))));
-  profile.setAttribute("fill", "#3976a8"); profile.setAttribute("fill-opacity", ".16");
-  profile.setAttribute("stroke", "#3976a8"); profile.setAttribute("stroke-width", "2"); svg.appendChild(profile);
+  profile.setAttribute("fill", "#a77b3d"); profile.setAttribute("fill-opacity", ".16");
+  profile.setAttribute("stroke", "#a77b3d"); profile.setAttribute("stroke-width", "2"); svg.appendChild(profile);
   values.forEach((v, i) => {
     const [x, y] = point(i, v / chartMax);
-    const dot = document.createElementNS(ns, "circle"); dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.setAttribute("r", "3.5"); dot.setAttribute("fill", "#3976a8"); svg.appendChild(dot);
+    const dot = document.createElementNS(ns, "circle"); dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.setAttribute("r", "3.5"); dot.setAttribute("fill", "#a77b3d"); svg.appendChild(dot);
   });
   radarHost.replaceChildren(svg);
   const bars = document.createDocumentFragment();

@@ -722,14 +722,14 @@ main > section[hidden] {
     }
 
     /* LinkedIn / Indeed-inspired light professional system: legibility first */
-    :root { color-scheme: light; --bg:#f3f6f8; --surface:#ffffff; --surface-soft:#eef3f7; --ink:#1f2933; --muted:#52616d; --line:#d7e0e7; --navy:#173b57; --navy-soft:#245b80; --blue:#0a66c2; --accent:#0a66c2; --green:#167d55; --red:#a33a3a; --radius:10px; --shadow:0 1px 3px rgba(24,48,66,.08); }
+    :root { color-scheme: light; --bg:#f3f6f8; --surface:#ffffff; --surface-soft:#eef3f7; --ink:#1f2933; --muted:#52616d; --line:#d7e0e7; --navy:#173b57; --navy-soft:#263b4a; --blue:#172735; --accent:#a77b3d; --green:#167d55; --red:#a33a3a; --radius:10px; --shadow:0 1px 3px rgba(24,48,66,.08); }
     body { background:#f3f6f8; color:#1f2933; font-size:16px; line-height:1.65; }
     body > header { background:#fff; color:#243746; border-right:1px solid #d7e0e7; box-shadow:2px 0 8px rgba(23,59,87,.04); }
-    body > header h1 { color:#0a66c2; font-family:Inter,Arial,sans-serif; font-size:25px; font-weight:800; letter-spacing:-.8px; }
+    body > header h1 { color:#172735; font-family:Inter,Arial,sans-serif; font-size:25px; font-weight:800; letter-spacing:-.8px; }
     body > header nav a { color:#354957; font-size:15px; font-weight:650; min-height:46px; }
     body > header nav a::before { color:#526b7c; }
     body > header nav a:hover, body:has(#dashboard:target) nav a[href="#dashboard"], body:has(#learning:target) nav a[href="#learning"], body:has(#skills:target) nav a[href="#skills"],
-    body:has(#projects:target) nav a[href="#projects"], body:has(#internships:target) nav a[href="#internships"], body:has(#profile:target) nav a[href="#profile"], body:has(#community:target) nav a[href="#community"], body:has(#adminCourses:target) nav a[href="#adminCourses"] { color:#0a66c2; background:#eaf4fc; border-color:#d1e6f7; box-shadow:inset 3px 0 #0a66c2; }
+    body:has(#projects:target) nav a[href="#projects"], body:has(#internships:target) nav a[href="#internships"], body:has(#profile:target) nav a[href="#profile"], body:has(#community:target) nav a[href="#community"], body:has(#adminCourses:target) nav a[href="#adminCourses"] { color:#172735; background:#f3ede2; border-color:#e6d9c2; box-shadow:inset 3px 0 #172735; }
     body > header::after { color:#52616d; font-size:10px; }
     main > section > h2, #dashboard > h2 { color:#183b53; font-family:Inter,Arial,sans-serif; font-weight:800; letter-spacing:-1px; font-size:clamp(32px,3vw,42px); }
     main > section > p, #dashboard > p { color:#52616d; font-size:16px; }
@@ -737,7 +737,7 @@ main > section[hidden] {
     .dashboard-card, #coursesList > *, #skillsList > *, #projectsList > *, #internshipsList > *, #adminCoursesList > *, #adminInternshipsList > * { background:#fff; border:1px solid #d7e0e7; border-radius:10px; box-shadow:0 1px 3px rgba(24,48,66,.06); }
     #dashboard > .dashboard-card h3 { color:#354957; font-size:14px; }
     #dashboard > .dashboard-card > p { color:#203b4e; font-family:Inter,Arial,sans-serif; font-size:23px; font-weight:750; }
-    .dashboard-card a:not([class]), #login-page a, #register-page a { color:#0a66c2; font-size:15px; }
+    .dashboard-card a:not([class]), #login-page a, #register-page a { color:#172735; font-size:15px; }
     button, input, textarea, select { font-size:16px; }
     button { font-weight:700; }
     button:not(.button-secondary) { border-radius:7px; }
@@ -749,27 +749,27 @@ main > section[hidden] {
     .site-footer .footer-brand strong { color:#183b53; font-size:18px; }
     .site-footer .footer-brand span, .footer-disclaimer { font-size:13px; }
     .site-footer nav { display:flex; flex-wrap:wrap; gap:12px 24px; margin:14px 0; }
-    .site-footer nav a { color:#0a66c2; text-decoration:underline; text-underline-offset:4px; }
-    .site-footer nav a:hover { color:#004182; }
+    .site-footer nav a { color:#172735; text-decoration:underline; text-underline-offset:4px; }
+    .site-footer nav a:hover { color:#0f1d28; }
     .footer-disclaimer { max-width:900px; margin:10px 0 0; }
-    .profile-avatar-fallback { background:#eaf4fc !important; border:1px solid #c6dce9; }
+    .profile-avatar-fallback { background:#f3ede2 !important; border:1px solid #c6dce9; }
     .profile-avatar-fallback svg { stroke:#0a548f; }
     #login-page, #register-page { background:#fff; border-color:#d7e0e7; color:#1f2933; box-shadow:0 8px 28px rgba(23,59,87,.09); }
     #login-page h1, #register-page h1, #login-page h2, #register-page h2 { color:#173b57; font-family:Inter,Arial,sans-serif; font-weight:800; }
     #login-page > p, #register-page > p { color:#52616d; }
     #login-page label, #register-page label { color:#263b4a; font-size:15px; }
     #login-page input, #register-page input { background:#fff; border-color:#9fb0bc; color:#1f2933; }
-    #login-page button[type="submit"], #register-page button[type="submit"] { background:#0a66c2; border-color:#0a66c2; color:#fff; }
-    #login-page button[type="submit"]:hover, #register-page button[type="submit"]:hover { background:#004182; }
-    #login-page a, #register-page a { color:#0a66c2; }
-    .consent-panel { background:#f3f6f8; border-color:#d7e0e7; border-left-color:#0a66c2; }
+    #login-page button[type="submit"], #register-page button[type="submit"] { background:#172735; border-color:#172735; color:#fff; }
+    #login-page button[type="submit"]:hover, #register-page button[type="submit"]:hover { background:#0f1d28; }
+    #login-page a, #register-page a { color:#172735; }
+    .consent-panel { background:#f3f6f8; border-color:#d7e0e7; border-left-color:#172735; }
     #register-page .consent-option { color:#354957; font-size:15px; }
-    #dashboard > h2::before { color:#0a66c2; font-size:11px; }
+    #dashboard > h2::before { color:#172735; font-size:11px; }
     .student-analytics, .community-panel { margin-top:30px; padding:26px; background:#fff; border:1px solid #d7e0e7; border-radius:10px; }
     .analytics-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:22px; }
     .analytics-heading h3 { margin:0; font-size:24px; }
     .analytics-heading > p { max-width:340px; margin:0; color:#52616d; font-size:14px; }
-    .section-kicker { margin:0 0 5px; color:#0a66c2; font-size:11px; font-weight:800; letter-spacing:1.4px; }
+    .section-kicker { margin:0 0 5px; color:#172735; font-size:11px; font-weight:800; letter-spacing:1.4px; }
 
     /* Career analytics: restrained enterprise charts, placed before the metric cards. */
     .career-chart-panel { margin-top:26px; padding:24px; background:#fff; border:1px solid #d7e0e7; border-radius:10px; }
@@ -797,13 +797,13 @@ main > section[hidden] {
     .analytics-metric h4 { margin:0 0 9px; color:#354957; font-size:14px; font-weight:750; }
     .analytics-metric p { margin:6px 0 0; color:#52616d; font-size:13px; }
     .metric-track { height:8px; margin-top:13px; overflow:hidden; border-radius:2px; background:#e1e9ee; }
-    .metric-bar { display:block; height:100%; width:0; background:#0a66c2; transition:width .25s ease; }
+    .metric-bar { display:block; height:100%; width:0; background:#172735; transition:width .25s ease; }
     .analytics-metric:nth-child(2) .metric-bar, .analytics-metric:nth-child(5) .metric-bar { background:#16805d; }
     .analytics-metric:nth-child(3) .metric-bar { background:#b07a24; }
     .analytics-loading { color:#52616d; }
     .community-search-form { display:flex; gap:10px; margin:18px 0 8px; }
     .community-search-form input { flex:1; min-width:0; padding:12px 15px; border:1px solid #9fb0bc; border-radius:7px; }
-    .community-search-form button, .community-action { padding:10px 16px; background:#0a66c2; color:#fff; border:1px solid #0a66c2; border-radius:7px; }
+    .community-search-form button, .community-action { padding:10px 16px; background:#172735; color:#fff; border:1px solid #172735; border-radius:7px; }
     #communitySearchMessage { color:#52616d; font-size:14px; }
     .community-results-columns { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px; }
     .community-results-columns h4 { margin:0 0 10px; font-size:18px; color:#203b4e; }
@@ -816,12 +816,12 @@ main > section[hidden] {
     .public-profile-view { margin-top:24px; padding:22px; border:1px solid #c5d8e5; border-radius:8px; background:#f8fbfd; }
     .public-profile-view h4 { color:#183b53; font-size:19px; }
     .public-profile-view .public-skills { display:flex; flex-wrap:wrap; gap:8px; }
-    .public-skill { padding:5px 9px; background:#eaf4fc; color:#164e78; border:1px solid #d1e6f7; border-radius:5px; font-size:14px; }
+    .public-skill { padding:5px 9px; background:#f3ede2; color:#164e78; border:1px solid #e6d9c2; border-radius:5px; font-size:14px; }
     .social-comment { margin-top:8px; padding:8px 10px; border-left:3px solid #c6dce9; background:#fff; color:#354957; font-size:14px; }
     .profile-visibility-control { margin:18px 0; padding:16px; border:1px solid #d7e0e7; border-radius:8px; background:#f8fafb; }
     .profile-visibility-control > div > p { margin:4px 0; color:#52616d; font-size:14px; }
     .visibility-switch { display:flex; gap:10px; align-items:center; margin-top:12px; font-weight:750; }
-    .visibility-switch input { width:20px; min-height:20px; accent-color:#0a66c2; }
+    .visibility-switch input { width:20px; min-height:20px; accent-color:#172735; }
     #profileVisibilityMessage { margin:8px 0 0; color:#167d55; }
     /* Dashboard top bar: centered search with circular notification and profile actions */
     #dashboard > .dashboard-topbar { grid-column: 1 / -1; }
@@ -841,7 +841,7 @@ main > section[hidden] {
       border-radius:12px; background:#fff; color:#174c79;
       box-shadow:0 3px 12px rgba(20,50,75,.06); font-size:22px;
     }
-    .dashboard-sidebar-toggle:hover { background:#edf5fc; border-color:#0a66c2; }
+    .dashboard-sidebar-toggle:hover { background:#f3ede2; border-color:#172735; }
     body.sidebar-collapsed > header { transform:translateX(-100%); }
     body.sidebar-collapsed main { width:100%; margin-left:0; }
     body.sidebar-collapsed > footer { margin-left:0; }
@@ -882,13 +882,13 @@ main > section[hidden] {
       flex: 0 0 auto;
       min-height: 38px;
       padding: 8px 16px;
-      border: 1px solid #0a66c2;
+      border: 1px solid #172735;
       border-radius: 999px;
-      background: #0a66c2;
+      background: #172735;
       color: #fff;
     }
     .dashboard-topbar .dashboard-quick-search button:hover {
-      background: #004182;
+      background: #0f1d28;
     }
     .dashboard-icon-button,
     .dashboard-profile-button {
@@ -908,8 +908,8 @@ main > section[hidden] {
     }
     .dashboard-icon-button:hover,
     .dashboard-profile-button:hover {
-      border-color: #0a66c2;
-      background: #edf5fc;
+      border-color: #172735;
+      background: #f3ede2;
     }
     .dashboard-icon-button svg {
       width: 22px;
@@ -1008,7 +1008,7 @@ main > section[hidden] {
     .community-sheet-heading .analytics-heading { flex:1; min-width:0; margin-bottom:0; }
     #closeCommunitySheet { display: none !important; }
     .community-results-columns { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap:24px; margin-top:20px; }
-    .search-Target-highlight { outline: 3px solid #0a66c2 !important; box-shadow: 0 0 0 6px rgba(10,102,194,.16) !important; transition: outline .3s ease, box-shadow .3s ease; }
+    .search-Target-highlight { outline: 3px solid #172735 !important; box-shadow: 0 0 0 6px rgba(167,123,61,.18) !important; transition: outline .3s ease, box-shadow .3s ease; }
     body.sidebar-collapsed .dashboard-topbar { max-width:1500px; }
     @media(max-width:700px) {
       #community.community-panel { padding:16px; border-radius:12px; }
@@ -1249,13 +1249,13 @@ main > section[hidden] {
     .recent-search-items { display: grid; gap: 4px; }
     .recent-search-item { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; padding: 9px 10px; border: 0; border-radius: 8px; background: transparent; color: inherit; cursor: pointer; }
     .recent-search-item:hover, .recent-search-item:focus-visible { background: rgba(10,102,194,.09); }
-    .clear-recent-searches { margin-top: 8px; padding: 6px 0; border: 0; background: transparent; color: #0a66c2; cursor: pointer; font-weight: 700; }
+    .clear-recent-searches { margin-top: 8px; padding: 6px 0; border: 0; background: transparent; color: #172735; cursor: pointer; font-weight: 700; }
     #publicProfileView.public-profile-page { display: block; margin-top: 18px; padding: 22px; border: 1px solid var(--border-color, #d9e1e8); border-radius: 16px; background: var(--card-bg, #fff); }
     .public-profile-page .public-profile-hero { display:flex; align-items:center; gap:16px; margin-bottom:18px; }
     .public-profile-page .public-profile-avatar { width:82px; height:82px; flex:0 0 82px; border-radius:50%; object-fit:cover; background:#e8eef3; }
     .public-profile-page .public-profile-avatar-fallback { display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; color:#345; }
     .public-profile-page .public-profile-actions { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 18px; }
-    .public-profile-page .public-profile-actions button, .public-profile-page .public-profile-actions a { border:1px solid #0a66c2; border-radius:8px; padding:9px 14px; background:#0a66c2; color:white; text-decoration:none; font-weight:700; cursor:pointer; }
+    .public-profile-page .public-profile-actions button, .public-profile-page .public-profile-actions a { border:1px solid #172735; border-radius:8px; padding:9px 14px; background:#172735; color:white; text-decoration:none; font-weight:700; cursor:pointer; }
     .public-profile-page .public-profile-section { margin-top:18px; padding-top:14px; border-top:1px solid var(--border-color, #e1e7ec); }
     .public-profile-page .public-profile-stat-row { display:flex; flex-wrap:wrap; gap:14px; color:var(--text-color, #253746); }
     @media(max-width:700px) {
@@ -1265,6 +1265,7 @@ main > section[hidden] {
     }
 </style>
   <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/theme-polish.css">
 </head>
 
 <body class="dashboard-app">

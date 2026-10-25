@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Student Tracker, dashboard polish layer
+   Loaded last. Refines the palette (navy + brass on warm paper), focus rings,
+   dark-mode actions and numeric typography. Layout and behaviour unchanged.
+   ========================================================================== */
+
+:root {
+  --accent: #a77b3d;
+  --accent-ink: #7a5628;
+  --focus-ring: rgba(167, 123, 61, .45);
+}
+
+/* Brand heading in the sidebar: serif, matches the landing page */
+body > header h1 {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+
+/* Section headings: editorial serif */
+main > section > h2,
+#dashboard > h2 {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: #172735;
+}
+
+/* Consistent brass focus ring across the app */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px;
+}
+
+/* Cards: calmer border and shadow */
+.dashboard-card,
+.analytics-metric,
+.course-card,
+.skill-item,
+.internship-card,
+.project-card,
+.social-post-card,
+.certificate-feed-card {
+  border-color: var(--line, #e3e0d6);
+  box-shadow: 0 1px 2px rgba(23, 39, 53, .04), 0 10px 26px -20px rgba(23, 39, 53, .28);
+}
+
+/* Numbers align in columns */
+.analytics-metric strong,
+.career-bar-value,
+.profile-stat-button strong,
+.profile-social-stats strong,
+.notification-unread-badge,
+.social-conversation-unread {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Active sidebar item: brass indicator rather than a blue wash */
+body > header nav a[aria-current="page"] {
+  color: #fff;
+  background: rgba(255, 255, 255, .10);
+  box-shadow: inset 3px 0 #c9a56d;
+}
+
+/* Recent-search and clear buttons use the brand brass for hover feedback */
+.clear-recent-searches:hover,
+.recent-search-item:hover {
+  color: #7a5628;
+}
+
+/* ---------- Dark mode: primary actions in brass, not navy ---------- */
+body[data-theme="dark"] .community-search-form button,
+body[data-theme="dark"] .community-action,
+body[data-theme="dark"] .social-post-composer-footer button,
+body[data-theme="dark"] .social-send-form button,
+body[data-theme="dark"] .profile-add-certificate,
+body[data-theme="dark"] .certificate-view-link,
+body[data-theme="dark"] .public-profile-page .public-profile-actions button,
+body[data-theme="dark"] .public-profile-page .public-profile-actions a,
+body[data-theme="dark"] #login-page button[type="submit"],
+body[data-theme="dark"] #register-page button[type="submit"],
+body[data-theme="dark"] .dashboard-quick-search button {
+  background: #d9b67a;
+  border-color: #d9b67a;
+  color: #14202a;
+}
+
+body[data-theme="dark"] .community-search-form button:hover,
+body[data-theme="dark"] .community-action:hover,
+body[data-theme="dark"] .social-post-composer-footer button:hover,
+body[data-theme="dark"] .social-send-form button:hover {
+  background: #e6c18a;
+  border-color: #e6c18a;
+}
+
+body[data-theme="dark"] .clear-recent-searches,
+body[data-theme="dark"] .dashboard-card a:not([class]),
+body[data-theme="dark"] #login-page a,
+body[data-theme="dark"] #register-page a {
+  color: #d9b67a;
+}
+
+body[data-theme="dark"] .metric-bar {
+  background: #d9b67a;
+}
+
+body[data-theme="dark"] body > header nav a[aria-current="page"],
+body[data-theme="dark"] body > header nav a:hover {
+  box-shadow: inset 3px 0 #d9b67a;
+}
+
+/* Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

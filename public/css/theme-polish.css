@@ -59,8 +59,8 @@ select:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 
-/* Active sidebar item: brass indicator rather than a blue wash */
-body > header nav a[aria-current="page"] {
+/* Active sidebar item in dark theme (light mode handled in Authoritative layer) */
+body.dashboard-app[data-theme="dark"] > header nav a[aria-current="page"] {
   color: #fff;
   background: rgba(255, 255, 255, .10);
   box-shadow: inset 3px 0 #c9a56d;
@@ -182,21 +182,143 @@ body.dashboard-app textarea:disabled {
   opacity: .6;
 }
 
-/* Desktop sidebar in dark theme: themed surface and readable nav text.
-   Mirrors the existing mobile-drawer dark values so both breakpoints match. */
+/* Sidebar in light theme: clean white/light neutral surface with high-contrast text and icons. */
+body.dashboard-app > header,
+body.dashboard-app[data-theme="light"] > header,
+body.dashboard-app:not([data-theme="dark"]) > header {
+  background: var(--sb-surface, #ffffff) !important;
+  color: var(--sb-ink, #172735) !important;
+  border-right: 1px solid var(--sb-line, #d7e0e7) !important;
+  box-shadow: 2px 0 8px rgba(23, 59, 87, .04);
+}
+body.dashboard-app > header h1,
+body.dashboard-app[data-theme="light"] > header h1,
+body.dashboard-app:not([data-theme="dark"]) > header h1 {
+  color: #172735 !important;
+}
+body.dashboard-app > header::after,
+body.dashboard-app[data-theme="light"] > header::after,
+body.dashboard-app:not([data-theme="dark"]) > header::after {
+  color: #4f6170 !important;
+}
+body.dashboard-app > header nav a,
+body.dashboard-app[data-theme="light"] > header nav a,
+body.dashboard-app:not([data-theme="dark"]) > header nav a {
+  color: #203342 !important;
+}
+body.dashboard-app > header nav a::before,
+body.dashboard-app[data-theme="light"] > header nav a::before,
+body.dashboard-app:not([data-theme="dark"]) > header nav a::before {
+  color: var(--sb-nav-icon, #4b6375) !important;
+}
+body.dashboard-app > header nav a:hover,
+body.dashboard-app[data-theme="light"] > header nav a:hover,
+body.dashboard-app:not([data-theme="dark"]) > header nav a:hover {
+  color: #074f96 !important;
+  background: var(--sb-hover, #eef4f8) !important;
+}
+body.dashboard-app > header nav a:hover::before,
+body.dashboard-app[data-theme="light"] > header nav a:hover::before,
+body.dashboard-app:not([data-theme="dark"]) > header nav a:hover::before {
+  color: #074f96 !important;
+}
+body.dashboard-app > header nav a[aria-current="page"],
+body.dashboard-app[data-theme="light"] > header nav a[aria-current="page"],
+body.dashboard-app:not([data-theme="dark"]) > header nav a[aria-current="page"],
+body.dashboard-app:not([data-theme="dark"]):has(#dashboard:target) > header nav a[href="#dashboard"],
+body.dashboard-app:not([data-theme="dark"]):has(#socialFeed:target) > header nav a[href="#socialFeed"],
+body.dashboard-app:not([data-theme="dark"]):has(#learning:target) > header nav a[href="#learning"],
+body.dashboard-app:not([data-theme="dark"]):has(#skills:target) > header nav a[href="#skills"],
+body.dashboard-app:not([data-theme="dark"]):has(#projects:target) > header nav a[href="#projects"],
+body.dashboard-app:not([data-theme="dark"]):has(#internships:target) > header nav a[href="#internships"],
+body.dashboard-app:not([data-theme="dark"]):has(#profile:target) > header nav a[href="#profile"],
+body.dashboard-app:not([data-theme="dark"]):has(#community:target) > header nav a[href="#community"],
+body.dashboard-app:not([data-theme="dark"]):has(#adminCourses:target) > header nav a[href="#adminCourses"] {
+  color: #074f96 !important;
+  background: #eaf4fc !important;
+  border-color: #d1e6f7 !important;
+  box-shadow: inset 3px 0 #c9a56d !important;
+  font-weight: 600;
+}
+body.dashboard-app > header nav a[aria-current="page"]::before,
+body.dashboard-app[data-theme="light"] > header nav a[aria-current="page"]::before,
+body.dashboard-app:not([data-theme="dark"]) > header nav a[aria-current="page"]::before {
+  color: #074f96 !important;
+}
+body.dashboard-app > header nav a.sidebar-profile-link,
+body.dashboard-app[data-theme="light"] > header nav a.sidebar-profile-link,
+body.dashboard-app:not([data-theme="dark"]) > header nav a.sidebar-profile-link {
+  color: #203342 !important;
+}
+body.dashboard-app > header nav a.sidebar-profile-link:hover,
+body.dashboard-app[data-theme="light"] > header nav a.sidebar-profile-link:hover,
+body.dashboard-app:not([data-theme="dark"]) > header nav a.sidebar-profile-link:hover {
+  color: #074f96 !important;
+}
+body.dashboard-app > header .sidebar-profile-avatar,
+body.dashboard-app[data-theme="light"] > header .sidebar-profile-avatar,
+body.dashboard-app:not([data-theme="dark"]) > header .sidebar-profile-avatar {
+  border-color: #cbd8e1 !important;
+}
+body.dashboard-app > header .sidebar-profile-avatar > span,
+body.dashboard-app[data-theme="light"] > header .sidebar-profile-avatar > span,
+body.dashboard-app:not([data-theme="dark"]) > header .sidebar-profile-avatar > span {
+  background: #e4edf6 !important;
+  color: #174c79 !important;
+}
+body.dashboard-app:not([data-theme="dark"]).sidebar-collapsed > header,
+body.dashboard-app:not([data-theme="dark"]).mobile-nav-open > header,
+body.dashboard-app[data-theme="light"].sidebar-collapsed > header,
+body.dashboard-app[data-theme="light"].mobile-nav-open > header {
+  background: #ffffff !important;
+  color: #172735 !important;
+  border-right-color: #d7e0e7 !important;
+}
+
+/* Sidebar in dark theme: themed dark surface with light, readable text and icons. */
 body.dashboard-app[data-theme="dark"] > header {
   background: var(--sb-surface) !important;
   color: var(--sb-ink) !important;
-  border-right-color: var(--sb-line) !important;
+  border-right: 1px solid var(--sb-line) !important;
 }
 body.dashboard-app[data-theme="dark"] > header h1 { color: #9bc9ef !important; }
 body.dashboard-app[data-theme="dark"] > header::after { color: #a8b4bd !important; }
-body.dashboard-app[data-theme="dark"] > header nav a { color: #d5e0e7 !important; }
+body.dashboard-app[data-theme="dark"] > header nav a { color: #dbe6ee !important; }
 body.dashboard-app[data-theme="dark"] > header nav a::before { color: var(--sb-nav-icon) !important; }
-body.dashboard-app[data-theme="dark"] > header nav a:hover,
+body.dashboard-app[data-theme="dark"] > header nav a:hover {
+  color: #ffffff !important;
+  background: #223b4d !important;
+}
+body.dashboard-app[data-theme="dark"] > header nav a:hover::before {
+  color: #ffffff !important;
+}
 body.dashboard-app[data-theme="dark"] > header nav a[aria-current="page"] {
-  color: var(--sb-nav-hover-ink) !important;
-  background: var(--sb-hover) !important;
+  color: #ffffff !important;
+  background: #29465a !important;
+  box-shadow: inset 3px 0 #d9b67a !important;
+  font-weight: 600;
+}
+body.dashboard-app[data-theme="dark"] > header nav a[aria-current="page"]::before {
+  color: #d9b67a !important;
+}
+body.dashboard-app[data-theme="dark"] > header nav a.sidebar-profile-link {
+  color: #dbe6ee !important;
+}
+body.dashboard-app[data-theme="dark"] > header nav a.sidebar-profile-link:hover {
+  color: #ffffff !important;
+}
+body.dashboard-app[data-theme="dark"] > header .sidebar-profile-avatar {
+  border-color: #3d566e !important;
+}
+body.dashboard-app[data-theme="dark"] > header .sidebar-profile-avatar > span {
+  background: #243a4d !important;
+  color: #9bc9ef !important;
+}
+body.dashboard-app[data-theme="dark"].sidebar-collapsed > header,
+body.dashboard-app[data-theme="dark"].mobile-nav-open > header {
+  background: #172d3e !important;
+  color: #e7eef4 !important;
+  border-right-color: #34434e !important;
 }
 
 /* Logout: one authoritative rule, desktop sidebar and mobile drawer, both themes.
@@ -720,7 +842,6 @@ body.dashboard-app[data-theme="light"] .community-action {
 body.dashboard-app[data-theme="light"] .social-post-composer-footer button:hover,
 body.dashboard-app[data-theme="light"] .community-search-form button:hover,
 body.dashboard-app[data-theme="light"] .community-action:hover { background: #31556a; border-color: #31556a; }
-body.dashboard-app[data-theme="light"] > header { background-color: #203746; }
 @media (prefers-reduced-motion: reduce) {
   body.dashboard-app[data-theme="light"] *, body.dashboard-app[data-theme="light"] *::before, body.dashboard-app[data-theme="light"] *::after { scroll-behavior: auto !important; }
 }

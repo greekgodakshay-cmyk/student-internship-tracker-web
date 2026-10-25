@@ -507,229 +507,80 @@ body.dashboard-app .social-post-card:focus-within {
 }
 
 
-/* ==========================================================================
-   Targeted finishing pass — community actions, profile controls, navigation,
-   theme toggle and consistent card lift. Appended to avoid disturbing base UI.
-   ========================================================================== */
-
-/* A quieter blue for light-mode community search and Appreciate actions. */
-body[data-theme="light"] .community-search-form button,
-body:not([data-theme="dark"]) .community-search-form button {
-  background: #356f91 !important;
-  border-color: #356f91 !important;
-  color: #fff !important;
+/* Final UI adjustments: dashboard applications, dark sidebar toggle, and a
+   blended community feed for public posts plus course/internship updates. */
+body.dashboard-app[data-theme="dark"] #manageApplicationsButton {
+  background: #192b3a !important;
+  color: #edf3f7 !important;
+  border-color: #516777 !important;
 }
-body[data-theme="light"] .community-search-form button:hover,
-body:not([data-theme="dark"]) .community-search-form button:hover {
-  background: #2d607e !important;
-  border-color: #2d607e !important;
+body.dashboard-app[data-theme="dark"] #manageApplicationsButton:hover,
+body.dashboard-app[data-theme="dark"] #manageApplicationsButton:focus-visible {
+  background: #243d50 !important;
+  color: #ffffff !important;
+  border-color: #8ca6b8 !important;
 }
-body[data-theme="light"] .social-post-actions button:first-child,
-body:not([data-theme="dark"]) .social-post-actions button:first-child,
-body[data-theme="light"] .certificate-feed-card button:first-child,
-body:not([data-theme="dark"]) .certificate-feed-card button:first-child {
-  background: #e0edf5 !important;
-  border-color: #b7d0e0 !important;
-  color: #244d66 !important;
+body.dashboard-app[data-theme="dark"] .dashboard-sidebar-toggle {
+  background: #1b3447 !important;
+  color: #e7eef4 !important;
+  border-color: #4b6578 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.22);
 }
-body[data-theme="light"] .social-post-actions button:first-child:hover,
-body:not([data-theme="dark"]) .social-post-actions button:first-child:hover,
-body[data-theme="light"] .certificate-feed-card button:first-child:hover,
-body:not([data-theme="dark"]) .certificate-feed-card button:first-child:hover {
-  background: #d0e3ef !important;
-  border-color: #8fb6ce !important;
-  color: #1d4056 !important;
+body.dashboard-app[data-theme="dark"] .dashboard-sidebar-toggle:hover,
+body.dashboard-app[data-theme="dark"] .dashboard-sidebar-toggle:focus-visible {
+  background: #29475d !important;
+  color: #ffffff !important;
+  border-color: #7894a8 !important;
 }
-
-/* In dark mode, comment/share controls use a soft, readable surface with dark ink. */
-body[data-theme="dark"] .social-post-actions button,
-body[data-theme="dark"] .social-post-comment-form button,
-body[data-theme="dark"] .certificate-feed-card .certificate-feed-actions button,
-body[data-theme="dark"] .social-action {
-  background: #d6e0e7 !important;
-  border-color: #aabac6 !important;
-  color: #1b2a35 !important;
+body.dashboard-app[data-theme="dark"].sidebar-collapsed > header,
+body.dashboard-app[data-theme="dark"].mobile-nav-open > header {
+  background: #172d3e !important;
+  color: #e7eef4 !important;
 }
-body[data-theme="dark"] .social-post-actions button:hover,
-body[data-theme="dark"] .social-post-comment-form button:hover,
-body[data-theme="dark"] .certificate-feed-card .certificate-feed-actions button:hover,
-body[data-theme="dark"] .social-action:hover {
-  background: #c4d2dc !important;
-  border-color: #91a7b6 !important;
-  color: #15232d !important;
-}
-body[data-theme="dark"] .social-post-actions button[aria-pressed="true"] {
-  background: #d9b67a !important;
-  border-color: #d9b67a !important;
-  color: #172735 !important;
-}
-
-/* Profile actions: filled red Edit Profile, firm Back button, gold CTAs. */
-body.dashboard-app .profile-edit-link {
-  background: #a83232 !important;
-  border: 1px solid #a83232 !important;
-  color: #fff !important;
-  box-shadow: 0 3px 8px rgba(111, 25, 25, .18);
-  transition: background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
-}
-body.dashboard-app .profile-edit-link:hover,
-body.dashboard-app .profile-edit-link:focus-visible {
-  background: #c24646 !important;
-  border-color: #c24646 !important;
-  color: #fff !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(111, 25, 25, .22);
-}
-body.dashboard-app .profile-editor-close {
-  background: #52616d !important;
-  border: 1px solid #52616d !important;
-  color: #fff !important;
-}
-body.dashboard-app .profile-editor-close:hover,
-body.dashboard-app .profile-editor-close:focus-visible {
-  background: #3d4a55 !important;
-  border-color: #3d4a55 !important;
-  color: #fff !important;
-}
-body.dashboard-app .profile-add-certificate,
-body.dashboard-app .profile-card-heading .profile-add-certificate,
-body.dashboard-app .certificate-view-link {
-  background: #e4b94f !important;
-  border-color: #d4a83b !important;
-  color: #202a32 !important;
-  font-weight: 700;
-}
-body.dashboard-app .profile-add-certificate:hover,
-body.dashboard-app .profile-card-heading .profile-add-certificate:hover,
-body.dashboard-app .certificate-view-link:hover {
-  background: #f0c95e !important;
-  border-color: #dcb143 !important;
-  color: #17232c !important;
-}
-body.dashboard-app #profile .profile-stat-button strong,
-body.dashboard-app .profile-social-stats strong {
-  color: #263746;
-}
-body.dashboard-app[data-theme="dark"] #profile .profile-stat-button strong,
-body.dashboard-app[data-theme="dark"] .profile-social-stats strong {
-  color: #edf2f5;
-}
-
-/* The landing-page theme switch should be visible, not a bright white tile at night. */
-body[data-theme="dark"] .theme-toggle,
-body[data-theme="dark"] .floating-theme-toggle {
-  background: #27333d !important;
-  border-color: #53616c !important;
-  color: #e4c17f !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .22);
-}
-body[data-theme="dark"] .theme-toggle:hover,
-body[data-theme="dark"] .floating-theme-toggle:hover {
-  background: #32414c !important;
-  border-color: #788691 !important;
-}
-
-/* One restrained glass-like lift across dashboard cards, including Skills/Projects. */
-body.dashboard-app .dashboard-card,
-body.dashboard-app .analytics-metric,
-body.dashboard-app .course-card,
-body.dashboard-app .skill-card,
-body.dashboard-app .skill-item,
-body.dashboard-app .project-card,
-body.dashboard-app .internship-card,
-body.dashboard-app .application-card,
-body.dashboard-app .certificate-card,
-body.dashboard-app .social-post-card,
-body.dashboard-app .certificate-feed-card,
-body.dashboard-app .profile-card,
-body.dashboard-app #skillsList > *,
-body.dashboard-app #projectsList > *,
-body.dashboard-app #coursesList > *,
-body.dashboard-app #internshipsList > * {
-  transition: transform .22s cubic-bezier(.2, .7, .25, 1), box-shadow .22s ease, border-color .22s ease;
-}
-body.dashboard-app .dashboard-card:hover,
-body.dashboard-app .analytics-metric:hover,
-body.dashboard-app .course-card:hover,
-body.dashboard-app .skill-card:hover,
-body.dashboard-app .skill-item:hover,
-body.dashboard-app .project-card:hover,
-body.dashboard-app .internship-card:hover,
-body.dashboard-app .application-card:hover,
-body.dashboard-app .certificate-card:hover,
-body.dashboard-app .social-post-card:hover,
-body.dashboard-app .certificate-feed-card:hover,
-body.dashboard-app .profile-card:hover,
-body.dashboard-app #skillsList > *:hover,
-body.dashboard-app #projectsList > *:hover,
-body.dashboard-app #coursesList > *:hover,
-body.dashboard-app #internshipsList > *:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--card-lift-shadow, 0 12px 26px -15px rgba(23,39,53,.35));
-  border-color: var(--focus-color, #a77b3d);
-}
-body.dashboard-app .dashboard-card:focus-within,
-body.dashboard-app .analytics-metric:focus-within,
-body.dashboard-app .course-card:focus-within,
-body.dashboard-app .skill-card:focus-within,
-body.dashboard-app .skill-item:focus-within,
-body.dashboard-app .project-card:focus-within,
-body.dashboard-app .internship-card:focus-within,
-body.dashboard-app .application-card:focus-within,
-body.dashboard-app .certificate-card:focus-within,
-body.dashboard-app .social-post-card:focus-within,
-body.dashboard-app .certificate-feed-card:focus-within,
-body.dashboard-app .profile-card:focus-within {
-  box-shadow: 0 0 0 2px var(--focus-color, #a77b3d), var(--card-lift-shadow);
-}
-@media (prefers-reduced-motion: reduce) {
-  body.dashboard-app .dashboard-card,
-  body.dashboard-app .analytics-metric,
-  body.dashboard-app .course-card,
-  body.dashboard-app .skill-card,
-  body.dashboard-app .skill-item,
-  body.dashboard-app .project-card,
-  body.dashboard-app .internship-card,
-  body.dashboard-app .application-card,
-  body.dashboard-app .certificate-card,
-  body.dashboard-app .social-post-card,
-  body.dashboard-app .certificate-feed-card,
-  body.dashboard-app .profile-card,
-  body.dashboard-app #skillsList > *,
-  body.dashboard-app #projectsList > *,
-  body.dashboard-app #coursesList > *,
-  body.dashboard-app #internshipsList > * { transition: none !important; }
-  body.dashboard-app .dashboard-card:hover,
-  body.dashboard-app .analytics-metric:hover,
-  body.dashboard-app .course-card:hover,
-  body.dashboard-app .skill-card:hover,
-  body.dashboard-app .skill-item:hover,
-  body.dashboard-app .project-card:hover,
-  body.dashboard-app .internship-card:hover,
-  body.dashboard-app .application-card:hover,
-  body.dashboard-app .certificate-card:hover,
-  body.dashboard-app .social-post-card:hover,
-  body.dashboard-app .certificate-feed-card:hover,
-  body.dashboard-app .profile-card:hover,
-  body.dashboard-app #skillsList > *:hover,
-  body.dashboard-app #projectsList > *:hover,
-  body.dashboard-app #coursesList > *:hover,
-  body.dashboard-app #internshipsList > *:hover { transform: none !important; }
-}
-
-/* Keep selected navigation tied to the actual visible section, not a stale hash style. */
-body.dashboard-app > header nav a[aria-current="page"] {
-  color: var(--sb-ink, #172735) !important;
-  background: var(--sb-hover, #eef3f7) !important;
-  border-color: var(--sb-line, #d7e0e7) !important;
-  box-shadow: inset 3px 0 var(--focus-color, #a77b3d) !important;
+body.dashboard-app[data-theme="dark"] > header nav a {
+  color: #dbe6ee !important;
 }
 body.dashboard-app[data-theme="dark"] > header nav a[aria-current="page"] {
-  color: #f1dfbd !important;
-  background: #26343e !important;
-  border-color: #3c4b56 !important;
+  background: #29465a !important;
+  color: #ffffff !important;
   box-shadow: inset 3px 0 #d9b67a !important;
 }
-body.dashboard-app > header nav a[aria-current="page"]::before {
-  color: currentColor !important;
+body.dashboard-app[data-theme="dark"] > header nav a:hover {
+  background: #223b4d !important;
+  color: #ffffff !important;
+}
+.community-discovery-feed { margin: 22px 0 28px; }
+.community-discovery-heading { align-items: end; margin-bottom: 14px; }
+.community-discovery-heading h3 { margin: 3px 0; }
+.community-discovery-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+.community-discovery-card {
+  min-width: 0; display: flex; flex-direction: column; gap: 10px;
+  padding: 17px; border: 1px solid var(--line, #d9e1e8); border-radius: 12px;
+  background: var(--card-bg, #fff); color: var(--text-color, #243746);
+  box-shadow: 0 5px 18px rgba(23,39,53,.06);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.community-discovery-card:hover { transform: translateY(-3px); box-shadow: 0 13px 25px -16px rgba(23,39,53,.38); }
+.community-discovery-card h4 { margin: 0; color: var(--heading-color, #172735); font-size: 1.05rem; overflow-wrap: anywhere; }
+.community-discovery-card p { margin: 0; color: var(--muted, #63717b); overflow-wrap: anywhere; }
+.community-discovery-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.community-discovery-type { font-size: 10px; letter-spacing: .09em; font-weight: 800; color: #73511f; background: #f5e8cb; border-radius: 999px; padding: 5px 8px; }
+.community-discovery-date, .community-discovery-meta { font-size: 12px; color: var(--muted, #63717b); }
+.community-discovery-link { align-self: flex-start; margin-top: auto; color: var(--link-color, #235b82); font-weight: 750; text-decoration: none; }
+.community-discovery-link:hover { text-decoration: underline; }
+body.dashboard-app[data-theme="dark"] .community-discovery-card { background: #202c36; border-color: #3b4b57; color: #e3eaf0; }
+body.dashboard-app[data-theme="dark"] .community-discovery-card h4 { color: #f0f4f7; }
+body.dashboard-app[data-theme="dark"] .community-discovery-card p,
+body.dashboard-app[data-theme="dark"] .community-discovery-date,
+body.dashboard-app[data-theme="dark"] .community-discovery-meta { color: #bac7d0; }
+body.dashboard-app[data-theme="dark"] .community-discovery-type { background: #594a2f; color: #f6d99c; }
+body.dashboard-app[data-theme="dark"] .community-discovery-link { color: #9bc9ef; }
+@media (max-width: 600px) {
+  .community-discovery-heading { display: block; }
+  .community-discovery-list { grid-template-columns: minmax(0, 1fr); }
+  .community-discovery-card { padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .community-discovery-card { transition: none !important; }
+  .community-discovery-card:hover { transform: none !important; }
 }

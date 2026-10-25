@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeAdminCourseForm();
   initializeStudentAnalytics();
   initializeCommunitySearch();
+  initializeCommunityDiscoveryFeed();
   initializeDashboardQuickSearch();
 });
 
@@ -1581,10 +1582,9 @@ function initializeSectionNavigation() {
 
   function showActiveSection() {
     const requestedId = window.location.hash.slice(1);
-    const sectionId = requestedId === "socialFeed" ? "community" : requestedId;
 
     let activeSection = sections.find(
-      (section) => section.id === sectionId
+      (section) => section.id === requestedId
     );
 
     if (!activeSection) {
@@ -1603,11 +1603,6 @@ function initializeSectionNavigation() {
       section.hidden = !isActive;
       section.classList.toggle("is-active", isActive);
     });
-
-    document.querySelectorAll('body > header nav a[aria-current="page"]').forEach((item) => item.removeAttribute("aria-current"));
-    const activeNav = document.querySelector(`body > header nav a[href="#${requestedId}"]`) ||
-      document.querySelector(`body > header nav a[href="#${activeSection.id}"]`);
-    if (activeNav) activeNav.setAttribute("aria-current", "page");
 
     window.scrollTo(0, 0);
   }
@@ -1994,11 +1989,79 @@ function initializeStudentAnalytics() {
   load(); window.addEventListener("studentAnalyticsRefresh", load); window.addEventListener("profileVisibilityChanged", load); window.addEventListener("applicationsUpdated", load);
 }
 
+function initializeCommunityDiscoveryFeed() {
+  const container = document.getElementById("communityDiscoveryList");
+  if (!container) return;
+
+  const make = (tag, text, className) => {
+    const item = document.createElement(tag);
+    if (text !== undefined && text !== null) item.textContent = String(text);
+    if (className) item.className = className;
+    return item;
+  };
+  const dateValue = item => {
+    const raw = item.createdAt || item.publishedAt || item.updatedAt || item.created_at;
+    const time = raw ? new Date(raw).getTime() : 0;
+    return Number.isFinite(time) ? time : 0;
+  };
+  const summaryText = (value, fallback) => {
+    const clean = typeof value === "string" ? value.trim() : "";
+    return clean ? clean.slice(0, 220) : fallback;
+  };
+
+  async function load() {
+    container.replaceChildren(make("p", "Loading latest updates…", "analytics-loading"));
+    try {
+      const [courseResponse, internshipResponse] = await Promise.all([
+        fetch("/api/courses", { headers: { Accept: "application/json" } }),
+        fetch("/api/internships", { headers: { Accept: "application/json" } })
+      ]);
+      const courseData = courseResponse.ok ? await courseResponse.json() : {};
+      const internshipData = internshipResponse.ok ? await internshipResponse.json() : {};
+      const courses = (Array.isArray(courseData.courses) ? courseData.courses : [])
+        .filter(course => course && course.isPublished !== false)
+        .map(course => ({ kind: "course", title: course.title || "New course", description: summaryText(course.description, "Explore this learning resource."), date: dateValue(course), meta: course.category || course.level || "Learning", target: "learning" }));
+      const internships = (Array.isArray(internshipData.internships) ? internshipData.internships : [])
+        .filter(internship => internship && internship.isActive !== false)
+        .map(internship => ({ kind: "internship", title: internship.title || internship.role || "Internship opportunity", description: summaryText(internship.description, "View this active internship opportunity."), date: dateValue(internship), meta: internship.company || internship.organization || internship.location || "Opportunity", target: "internships" }));
+      const updates = [...courses, ...internships].sort((a, b) => b.date - a.date).slice(0, 6);
+      container.replaceChildren();
+      if (!updates.length) {
+        container.appendChild(make("p", "No new courses or active internships are available right now.", "analytics-loading"));
+        return;
+      }
+      updates.forEach(update => {
+        const card = make("article", undefined, `community-discovery-card community-discovery-${update.kind}`);
+        const top = make("div", undefined, "community-discovery-card-top");
+        top.append(make("span", update.kind === "course" ? "NEW COURSE" : "INTERNSHIP", "community-discovery-type"));
+        if (update.date) top.append(make("time", new Date(update.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }), "community-discovery-date"));
+        const title = make("h4", update.title);
+        const description = make("p", update.description);
+        const meta = make("small", update.meta, "community-discovery-meta");
+        const action = make("a", update.kind === "course" ? "Explore course" : "View internships", "community-discovery-link");
+        action.href = `#${update.target}`;
+        action.addEventListener("click", event => {
+          event.preventDefault();
+          navigateToAppSection(update.target);
+        });
+        card.append(top, title, description, meta, action);
+        container.appendChild(card);
+      });
+    } catch (error) {
+      container.replaceChildren(make("p", "Latest courses and internships could not be loaded. You can still browse Learning and Internships from the navigation.", "analytics-loading"));
+      console.warn("Community discovery feed could not be loaded.", error);
+    }
+  }
+
+  load();
+  window.addEventListener("studentContentUpdated", load);
+  window.addEventListener("hashchange", () => {
+    if (window.location.hash === "#socialFeed") load();
+  });
+}
+
 function navigateToAppSection(sectionId) {
-  const requestedId = String(sectionId || "dashboard").replace(/^#/, "");
-  // The sidebar's Community Feed link targets a nested section; its visible
-  // top-level panel is #community. Keep the URL and selected link meaningful.
-  const targetId = requestedId === "socialFeed" ? "community" : requestedId;
+  const targetId = String(sectionId || "dashboard").replace(/^#/, "");
   const main = document.querySelector("main");
   if (!main) return;
   const sections = Array.from(main.children).filter(el => el.tagName === "SECTION");
@@ -2012,13 +2075,12 @@ function navigateToAppSection(sectionId) {
     s.classList.toggle("is-active", active);
   });
 
-  if (window.location.hash !== `#${requestedId}`) {
-    window.history.pushState(null, "", `#${requestedId}`);
+  if (window.location.hash !== `#${targetId}`) {
+    window.history.pushState(null, "", `#${targetId}`);
   }
 
   document.querySelectorAll('body > header nav a[aria-current="page"]').forEach(item => item.removeAttribute("aria-current"));
-  const activeNav = document.querySelector(`body > header nav a[href="#${requestedId}"]`) ||
-    document.querySelector(`body > header nav a[href="#${targetId}"]`);
+  const activeNav = document.querySelector(`body > header nav a[href="#${targetId}"]`);
   if (activeNav) activeNav.setAttribute("aria-current", "page");
 
   window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });

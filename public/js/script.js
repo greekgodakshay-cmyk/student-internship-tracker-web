@@ -90,6 +90,16 @@ function initializeThemeToggle() {
   applyTheme(savedTheme === "dark" || savedTheme === "light"
     ? savedTheme : (systemPrefersDark ? "dark" : "light"));
 
+  // Follow device appearance until the user chooses a theme explicitly.
+  const systemThemeQuery = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+  if (systemThemeQuery) {
+    systemThemeQuery.addEventListener?.("change", (event) => {
+      let explicitTheme = null;
+      try { explicitTheme = localStorage.getItem(themeKey); } catch { /* Storage may be unavailable. */ }
+      if (explicitTheme !== "dark" && explicitTheme !== "light") applyTheme(event.matches ? "dark" : "light");
+    });
+  }
+
   // One delegated listener also supports a toggle inserted by another page script.
   document.addEventListener("click", (event) => {
     const control = event.target.closest("#themeToggle, .floating-theme-toggle");

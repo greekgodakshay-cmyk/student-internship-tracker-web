@@ -1,0 +1,234 @@
+/* Shared contrast layer for landing, login and dashboard. Loaded last on all three. */
+:root {
+  --theme-page: #f6f5f1;
+  --theme-surface: #ffffff;
+  --theme-surface-raised: #ffffff;
+  --theme-ink: #182831;
+  --theme-muted: #596873;
+  --theme-line: #d9dedf;
+  --theme-link: #174f83;
+  --theme-action: #183b59;
+  --theme-action-ink: #ffffff;
+  --theme-accent: #f0d18f;
+  --theme-accent-ink: #24313b;
+  color-scheme: light;
+}
+
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-page: #101820;
+  --theme-surface: #192630;
+  --theme-surface-raised: #22323e;
+  --theme-ink: #f1f5f7;
+  --theme-muted: #bdc9d0;
+  --theme-line: #40515d;
+  --theme-link: #a9d5ff;
+  --theme-action: #d9b66f;
+  --theme-action-ink: #18232b;
+  --theme-accent: #f0d18f;
+  --theme-accent-ink: #202d36;
+}
+
+/* Consistent baseline for readable text and browser-native controls. */
+body[data-theme="light"] { color-scheme: light; }
+body[data-theme="light"], body[data-theme="dark"] { color: var(--theme-ink); }
+body[data-theme="light"] #login-page,
+body[data-theme="light"] #register-page,
+body[data-theme="dark"] #login-page,
+body[data-theme="dark"] #register-page {
+  color: var(--theme-ink) !important;
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-line) !important;
+}
+body[data-theme="dark"] #login-page h1,
+body[data-theme="dark"] #login-page h2,
+body[data-theme="dark"] #register-page h1,
+body[data-theme="dark"] #register-page h2,
+body[data-theme="dark"] #login-page label,
+body[data-theme="dark"] #register-page label { color: var(--theme-ink) !important; }
+body[data-theme="dark"] #login-page > p,
+body[data-theme="dark"] #register-page > p,
+body[data-theme="dark"] .auth-footer { color: var(--theme-muted) !important; }
+body[data-theme="light"] input,
+body[data-theme="light"] textarea,
+body[data-theme="light"] select,
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+  color: var(--theme-ink) !important;
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-line) !important;
+}
+body[data-theme="light"] input::placeholder,
+body[data-theme="light"] textarea::placeholder { color: #66747c !important; opacity: 1; }
+body[data-theme="dark"] input::placeholder,
+body[data-theme="dark"] textarea::placeholder { color: #bdc9d0 !important; opacity: 1; }
+
+body[data-theme="light"] a:not(.button):not([class*="button"]),
+body[data-theme="light"] #login-page a,
+body[data-theme="light"] #register-page a { color: var(--theme-link); }
+body[data-theme="dark"] a:not(.button):not([class*="button"]),
+body[data-theme="dark"] #login-page a,
+body[data-theme="dark"] #register-page a { color: var(--theme-link); }
+
+/* Dashboard: override legacy hard-coded ivory/white surfaces in the dark theme. */
+body.dashboard-app[data-theme="dark"],
+body.dashboard-app[data-theme="dark"] main,
+body.dashboard-app[data-theme="dark"] main > section,
+body.dashboard-app[data-theme="dark"] #dashboard,
+body.dashboard-app[data-theme="dark"] .dashboard-card,
+body.dashboard-app[data-theme="dark"] .analytics-card,
+body.dashboard-app[data-theme="dark"] .analytics-metric,
+body.dashboard-app[data-theme="dark"] .profile-card,
+body.dashboard-app[data-theme="dark"] .course-card,
+body.dashboard-app[data-theme="dark"] .skill-card,
+body.dashboard-app[data-theme="dark"] .skill-item,
+body.dashboard-app[data-theme="dark"] .project-card,
+body.dashboard-app[data-theme="dark"] .internship-card,
+body.dashboard-app[data-theme="dark"] .application-card,
+body.dashboard-app[data-theme="dark"] .certificate-card,
+body.dashboard-app[data-theme="dark"] #coursesList > *,
+body.dashboard-app[data-theme="dark"] #skillsList > *,
+body.dashboard-app[data-theme="dark"] #projectsList > *,
+body.dashboard-app[data-theme="dark"] #internshipsList > *,
+body.dashboard-app[data-theme="dark"] #applicationsList > *,
+body.dashboard-app[data-theme="dark"] .social-inbox-panel,
+body.dashboard-app[data-theme="dark"] .community-panel {
+  color: var(--theme-ink) !important;
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-line) !important;
+}
+body.dashboard-app[data-theme="dark"] h1,
+body.dashboard-app[data-theme="dark"] h2,
+body.dashboard-app[data-theme="dark"] h3,
+body.dashboard-app[data-theme="dark"] h4,
+body.dashboard-app[data-theme="dark"] label,
+body.dashboard-app[data-theme="dark"] .dashboard-card p,
+body.dashboard-app[data-theme="dark"] .dashboard-card span,
+body.dashboard-app[data-theme="dark"] .dashboard-card li,
+body.dashboard-app[data-theme="dark"] .analytics-metric,
+body.dashboard-app[data-theme="dark"] .muted,
+body.dashboard-app[data-theme="dark"] small { color: var(--theme-ink) !important; }
+body.dashboard-app[data-theme="dark"] p,
+body.dashboard-app[data-theme="dark"] .description,
+body.dashboard-app[data-theme="dark"] .text-muted { color: var(--theme-muted) !important; }
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card h3 { color: #f1f5f7 !important; }
+body.dashboard-app[data-theme="dark"] #dashboard > .dashboard-card > p { color: #a9d5ff !important; }
+
+/* Buttons always have a readable foreground. Gold is used for key actions in dark mode. */
+body[data-theme="light"] #login-page button[type="submit"],
+body[data-theme="light"] #register-page button[type="submit"],
+body.dashboard-app[data-theme="light"] .dashboard-card button,
+body.dashboard-app[data-theme="light"] button.primary,
+body.dashboard-app[data-theme="light"] .btn-primary {
+  color: #ffffff !important;
+}
+body[data-theme="dark"] #login-page button[type="submit"],
+body[data-theme="dark"] #register-page button[type="submit"],
+body.dashboard-app[data-theme="dark"] .dashboard-card button,
+body.dashboard-app[data-theme="dark"] button.primary,
+body.dashboard-app[data-theme="dark"] .btn-primary,
+body.dashboard-app[data-theme="dark"] .community-search-form button,
+body.dashboard-app[data-theme="dark"] .community-action,
+body.dashboard-app[data-theme="dark"] .social-post-composer-footer button,
+body.dashboard-app[data-theme="dark"] .social-send-form button,
+body.dashboard-app[data-theme="dark"] .profile-add-certificate,
+body.dashboard-app[data-theme="dark"] .certificate-view-link,
+body.dashboard-app[data-theme="dark"] .dashboard-quick-search button {
+  color: #18232b !important;
+  background-color: #d9b66f !important;
+  border-color: #d9b66f !important;
+}
+body[data-theme="dark"] button:not(:disabled):hover,
+body[data-theme="dark"] .theme-toggle:hover { filter: brightness(1.08); }
+body[data-theme="dark"] button:disabled { color: #d0d7dc !important; opacity: .58; }
+
+/* Restore the established 3D lift and extend it consistently to every dashboard card/list item.
+   Do not alter the existing course/internship motion timing or lift amount. */
+body.dashboard-app .dashboard-card,
+body.dashboard-app .analytics-card,
+body.dashboard-app .analytics-metric,
+body.dashboard-app .course-card,
+body.dashboard-app .internship-card,
+body.dashboard-app .skill-card,
+body.dashboard-app .skill-item,
+body.dashboard-app .project-card,
+body.dashboard-app .application-card,
+body.dashboard-app .certificate-card,
+body.dashboard-app #coursesList > *,
+body.dashboard-app #skillsList > *,
+body.dashboard-app #projectsList > *,
+body.dashboard-app #internshipsList > *,
+body.dashboard-app #applicationsList > * {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  transform: translateZ(0);
+  will-change: transform;
+}
+body.dashboard-app .dashboard-card:hover,
+body.dashboard-app .analytics-card:hover,
+body.dashboard-app .analytics-metric:hover,
+body.dashboard-app .course-card:hover,
+body.dashboard-app .internship-card:hover,
+body.dashboard-app .skill-card:hover,
+body.dashboard-app .skill-item:hover,
+body.dashboard-app .project-card:hover,
+body.dashboard-app .application-card:hover,
+body.dashboard-app .certificate-card:hover,
+body.dashboard-app #coursesList > *:hover,
+body.dashboard-app #skillsList > *:hover,
+body.dashboard-app #projectsList > *:hover,
+body.dashboard-app #internshipsList > *:hover,
+body.dashboard-app #applicationsList > *:hover {
+  transform: translateY(-4px) perspective(900px) rotateX(.35deg);
+  box-shadow: 0 14px 28px -16px rgba(23,39,53,.35), 0 4px 10px -5px rgba(23,39,53,.18);
+  border-color: var(--theme-line);
+}
+body.dashboard-app .dashboard-card:focus-within,
+body.dashboard-app .analytics-card:focus-within,
+body.dashboard-app .analytics-metric:focus-within,
+body.dashboard-app .course-card:focus-within,
+body.dashboard-app .internship-card:focus-within,
+body.dashboard-app .skill-card:focus-within,
+body.dashboard-app .skill-item:focus-within,
+body.dashboard-app .project-card:focus-within,
+body.dashboard-app .application-card:focus-within,
+body.dashboard-app .certificate-card:focus-within,
+body.dashboard-app #coursesList > *:focus-within,
+body.dashboard-app #skillsList > *:focus-within,
+body.dashboard-app #projectsList > *:focus-within,
+body.dashboard-app #internshipsList > *:focus-within,
+body.dashboard-app #applicationsList > *:focus-within {
+  box-shadow: 0 0 0 2px var(--theme-link), 0 14px 28px -16px rgba(23,39,53,.3);
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dashboard-app .dashboard-card,
+  body.dashboard-app .analytics-card,
+  body.dashboard-app .analytics-metric,
+  body.dashboard-app .course-card,
+  body.dashboard-app .internship-card,
+  body.dashboard-app .skill-card,
+  body.dashboard-app .skill-item,
+  body.dashboard-app .project-card,
+  body.dashboard-app .application-card,
+  body.dashboard-app .certificate-card,
+  body.dashboard-app #coursesList > *,
+  body.dashboard-app #skillsList > *,
+  body.dashboard-app #projectsList > *,
+  body.dashboard-app #internshipsList > *,
+  body.dashboard-app #applicationsList > * { transition: none !important; }
+  body.dashboard-app .dashboard-card:hover,
+  body.dashboard-app .analytics-card:hover,
+  body.dashboard-app .analytics-metric:hover,
+  body.dashboard-app .course-card:hover,
+  body.dashboard-app .internship-card:hover,
+  body.dashboard-app .skill-card:hover,
+  body.dashboard-app .skill-item:hover,
+  body.dashboard-app .project-card:hover,
+  body.dashboard-app .application-card:hover,
+  body.dashboard-app .certificate-card:hover,
+  body.dashboard-app #coursesList > *:hover,
+  body.dashboard-app #skillsList > *:hover,
+  body.dashboard-app #projectsList > *:hover,
+  body.dashboard-app #internshipsList > *:hover,
+  body.dashboard-app #applicationsList > *:hover { transform: none !important; }
+}

@@ -37,6 +37,14 @@
     }
   };
   applyTheme(savedTheme === "dark" || savedTheme === "light" ? savedTheme : (prefersDark ? "dark" : "light"));
+  const systemThemeQuery = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+  if (systemThemeQuery) {
+    systemThemeQuery.addEventListener?.("change", (event) => {
+      let explicitTheme = null;
+      try { explicitTheme = localStorage.getItem(themeKey); } catch { /* Storage may be unavailable. */ }
+      if (explicitTheme !== "dark" && explicitTheme !== "light") applyTheme(event.matches ? "dark" : "light");
+    });
+  }
   if (themeButton) themeButton.addEventListener("click", () => {
     const next = document.body.dataset.theme === "dark" ? "light" : "dark";
     applyTheme(next);

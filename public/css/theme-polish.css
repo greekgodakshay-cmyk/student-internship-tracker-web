@@ -547,38 +547,74 @@ body.dashboard-app[data-theme="dark"] .profile-social-stats strong,
 body.dashboard-app[data-theme="dark"] #profile .profile-stat-button strong,
 body.dashboard-app[data-theme="dark"] .profile-social-stats span,
 body.dashboard-app[data-theme="dark"] #profile .profile-stat-button span { color: #edf2f5 !important; }
+/* Card hover micro-interactions: upward lift + gentle restrained jiggle on desktop mouse */
+@keyframes card-hover-lift-jiggle {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  24% {
+    transform: translateY(-4px) rotate(-0.45deg);
+  }
+  52% {
+    transform: translateY(-4px) rotate(0.35deg);
+  }
+  78% {
+    transform: translateY(-4px) rotate(-0.15deg);
+  }
+  100% {
+    transform: translateY(-4px) rotate(0deg);
+  }
+}
+
+body.dashboard-app #dashboard > .dashboard-card,
 body.dashboard-app .course-card,
 body.dashboard-app .internship-card,
 body.dashboard-app .skill-item,
+body.dashboard-app .skill-card,
 body.dashboard-app .project-card,
+body.dashboard-app .analytics-metric,
+body.dashboard-app .analytics-card,
 body.dashboard-app #coursesList > *,
 body.dashboard-app #internshipsList > *,
 body.dashboard-app #skillsList > *,
 body.dashboard-app #projectsList > *,
 body.dashboard-app #adminCoursesList > *,
 body.dashboard-app #adminInternshipsList > *,
+body.dashboard-app #applicationsList > *,
 body.dashboard-app .dashboard-card,
-body.dashboard-app .analytics-metric,
 body.dashboard-app .social-post-card,
 body.dashboard-app .certificate-feed-card {
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  transform-origin: 50% 50%;
+  will-change: transform, box-shadow;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 0.2s ease;
 }
-body.dashboard-app .course-card:hover,
-body.dashboard-app .internship-card:hover,
-body.dashboard-app .skill-item:hover,
-body.dashboard-app .project-card:hover,
-body.dashboard-app #coursesList > *:hover,
-body.dashboard-app #internshipsList > *:hover,
-body.dashboard-app #skillsList > *:hover,
-body.dashboard-app #projectsList > *:hover,
-body.dashboard-app #adminCoursesList > *:hover,
-body.dashboard-app #adminInternshipsList > *:hover,
-body.dashboard-app .dashboard-card:hover,
-body.dashboard-app .analytics-metric:hover,
-body.dashboard-app .social-post-card:hover,
-body.dashboard-app .certificate-feed-card:hover {
-  transform: translateY(-4px); box-shadow: var(--card-lift-shadow, 0 14px 28px -16px rgba(23,39,53,.32));
+
+@media (hover: hover) and (pointer: fine) {
+  body.dashboard-app #dashboard > .dashboard-card:hover,
+  body.dashboard-app .course-card:hover,
+  body.dashboard-app .internship-card:hover,
+  body.dashboard-app .skill-item:hover,
+  body.dashboard-app .skill-card:hover,
+  body.dashboard-app .project-card:hover,
+  body.dashboard-app .analytics-metric:hover,
+  body.dashboard-app .analytics-card:hover,
+  body.dashboard-app #coursesList > *:hover,
+  body.dashboard-app #internshipsList > *:hover,
+  body.dashboard-app #skillsList > *:hover,
+  body.dashboard-app #projectsList > *:hover,
+  body.dashboard-app #adminCoursesList > *:hover,
+  body.dashboard-app #adminInternshipsList > *:hover,
+  body.dashboard-app #applicationsList > *:hover,
+  body.dashboard-app .dashboard-card:hover,
+  body.dashboard-app .social-post-card:hover,
+  body.dashboard-app .certificate-feed-card:hover {
+    animation: card-hover-lift-jiggle 0.38s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    box-shadow: var(--card-lift-shadow, 0 16px 32px -12px rgba(23,39,53,.28), 0 4px 12px -4px rgba(23,39,53,.12)) !important;
+  }
 }
+
 body.dashboard-app .course-card:focus-within,
 body.dashboard-app .internship-card:focus-within,
 body.dashboard-app .skill-item:focus-within,
@@ -590,8 +626,10 @@ body.dashboard-app #projectsList > *:focus-within,
 body.dashboard-app .dashboard-card:focus-within,
 body.dashboard-app .analytics-metric:focus-within,
 body.dashboard-app .social-post-card:focus-within {
-  transform: translateY(-4px); box-shadow: 0 0 0 2px var(--focus-color), var(--card-lift-shadow);
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px var(--focus-color, #0a66c2), var(--card-lift-shadow, 0 14px 28px -16px rgba(23,39,53,.32));
 }
+
 @media (max-width: 760px) {
   body.dashboard-app .career-chart-layout { grid-template-columns: minmax(0, 1fr) !important; }
   body.dashboard-app .career-chart-panel,
@@ -603,29 +641,51 @@ body.dashboard-app .social-post-card:focus-within {
   body.dashboard-app .dashboard-quick-search input { min-width: 0; }
   body.dashboard-app > header nav a::before { opacity: 1 !important; visibility: visible !important; }
 }
+
 @media (prefers-reduced-motion: reduce) {
+  body.dashboard-app #dashboard > .dashboard-card,
   body.dashboard-app .course-card,
   body.dashboard-app .internship-card,
   body.dashboard-app .skill-item,
+  body.dashboard-app .skill-card,
   body.dashboard-app .project-card,
+  body.dashboard-app .analytics-metric,
+  body.dashboard-app .analytics-card,
   body.dashboard-app #coursesList > *,
   body.dashboard-app #internshipsList > *,
   body.dashboard-app #skillsList > *,
   body.dashboard-app #projectsList > *,
+  body.dashboard-app #adminCoursesList > *,
+  body.dashboard-app #adminInternshipsList > *,
+  body.dashboard-app #applicationsList > *,
   body.dashboard-app .dashboard-card,
-  body.dashboard-app .analytics-metric,
-  body.dashboard-app .social-post-card { transition: none !important; }
+  body.dashboard-app .social-post-card,
+  body.dashboard-app .certificate-feed-card {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  body.dashboard-app #dashboard > .dashboard-card:hover,
   body.dashboard-app .course-card:hover,
   body.dashboard-app .internship-card:hover,
   body.dashboard-app .skill-item:hover,
+  body.dashboard-app .skill-card:hover,
   body.dashboard-app .project-card:hover,
+  body.dashboard-app .analytics-metric:hover,
+  body.dashboard-app .analytics-card:hover,
   body.dashboard-app #coursesList > *:hover,
   body.dashboard-app #internshipsList > *:hover,
   body.dashboard-app #skillsList > *:hover,
   body.dashboard-app #projectsList > *:hover,
+  body.dashboard-app #adminCoursesList > *:hover,
+  body.dashboard-app #adminInternshipsList > *:hover,
+  body.dashboard-app #applicationsList > *:hover,
   body.dashboard-app .dashboard-card:hover,
-  body.dashboard-app .analytics-metric:hover,
-  body.dashboard-app .social-post-card:hover { transform: none !important; }
+  body.dashboard-app .social-post-card:hover,
+  body.dashboard-app .certificate-feed-card:hover {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 
@@ -653,6 +713,63 @@ body.dashboard-app[data-theme="dark"] .dashboard-sidebar-toggle:focus-visible {
   background: #29475d !important;
   color: #ffffff !important;
   border-color: #7894a8 !important;
+}
+body.dashboard-app[data-theme="dark"] .dashboard-icon-button,
+body.dashboard-app[data-theme="dark"] .dashboard-profile-button {
+  background: #1b3447 !important;
+  color: #e7eef4 !important;
+  border: 1px solid #4b6578 !important;
+}
+body.dashboard-app[data-theme="dark"] .dashboard-icon-button:hover,
+body.dashboard-app[data-theme="dark"] .dashboard-icon-button:active,
+body.dashboard-app[data-theme="dark"] .dashboard-icon-button:focus-visible,
+body.dashboard-app[data-theme="dark"] .dashboard-profile-button:hover,
+body.dashboard-app[data-theme="dark"] .dashboard-profile-button:active,
+body.dashboard-app[data-theme="dark"] .dashboard-profile-button:focus-visible {
+  background: #29475d !important;
+  color: #ffffff !important;
+  border-color: #7894a8 !important;
+}
+body.dashboard-app[data-theme="dark"] .dashboard-topbar .dashboard-quick-search {
+  background: #141f29 !important;
+  border: 1px solid #34434e !important;
+}
+body.dashboard-app[data-theme="dark"] .dashboard-topbar .dashboard-quick-search input {
+  color: #f1f5f9 !important;
+}
+body.dashboard-app[data-theme="dark"] .dashboard-topbar .dashboard-quick-search input::placeholder {
+  color: #8c9fae !important;
+}
+body.dashboard-app[data-theme="dark"] .dashboard-topbar .dashboard-quick-search button {
+  background: #253e54 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #3d586e !important;
+}
+body.dashboard-app:not([data-theme="dark"]) .dashboard-sidebar-toggle,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-icon-button,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-profile-button,
+body.dashboard-app[data-theme="light"] .dashboard-sidebar-toggle,
+body.dashboard-app[data-theme="light"] .dashboard-icon-button,
+body.dashboard-app[data-theme="light"] .dashboard-profile-button {
+  background: #f4f7f9 !important;
+  border: 1px solid #cbd7e0 !important;
+  color: #1a2a36 !important;
+}
+body.dashboard-app:not([data-theme="dark"]) .dashboard-sidebar-toggle:hover,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-sidebar-toggle:active,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-icon-button:hover,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-icon-button:active,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-profile-button:hover,
+body.dashboard-app:not([data-theme="dark"]) .dashboard-profile-button:active,
+body.dashboard-app[data-theme="light"] .dashboard-sidebar-toggle:hover,
+body.dashboard-app[data-theme="light"] .dashboard-sidebar-toggle:active,
+body.dashboard-app[data-theme="light"] .dashboard-icon-button:hover,
+body.dashboard-app[data-theme="light"] .dashboard-icon-button:active,
+body.dashboard-app[data-theme="light"] .dashboard-profile-button:hover,
+body.dashboard-app[data-theme="light"] .dashboard-profile-button:active {
+  background: #eaf1f6 !important;
+  border-color: #a8bccb !important;
+  color: #0b1c28 !important;
 }
 body.dashboard-app[data-theme="dark"].sidebar-collapsed > header,
 body.dashboard-app[data-theme="dark"].mobile-nav-open > header {

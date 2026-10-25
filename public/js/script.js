@@ -90,16 +90,6 @@ function initializeThemeToggle() {
   applyTheme(savedTheme === "dark" || savedTheme === "light"
     ? savedTheme : (systemPrefersDark ? "dark" : "light"));
 
-  // Follow device appearance until the user chooses a theme explicitly.
-  const systemThemeQuery = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
-  if (systemThemeQuery) {
-    systemThemeQuery.addEventListener?.("change", (event) => {
-      let explicitTheme = null;
-      try { explicitTheme = localStorage.getItem(themeKey); } catch { /* Storage may be unavailable. */ }
-      if (explicitTheme !== "dark" && explicitTheme !== "light") applyTheme(event.matches ? "dark" : "light");
-    });
-  }
-
   // One delegated listener also supports a toggle inserted by another page script.
   document.addEventListener("click", (event) => {
     const control = event.target.closest("#themeToggle, .floating-theme-toggle");
@@ -2067,7 +2057,9 @@ function initializeDashboardQuickSearch() {
   const saveRecent = value => { const items = [value, ...readRecent().filter(x => x.toLowerCase() !== value.toLowerCase())].slice(0, 6); try { localStorage.setItem(RECENT_KEY, JSON.stringify(items)); } catch (_) {} renderRecent(); };
   const renderRecent = () => {
     if (!recentWrap || !recentItems) return;
-    const items = readRecent(); recentItems.replaceChildren(); recentWrap.hidden = !items.length;
+    const items = readRecent();
+    recentItems.replaceChildren();
+    recentWrap.hidden = true; // Recent searches are opt-in: open only on an intentional click.
     items.forEach(value => { const b = document.createElement("button"); b.type = "button"; b.className = "recent-search-item"; b.textContent = "⌕  " + value; b.addEventListener("click", () => { if (quickInput) quickInput.value = value; if (recentWrap) recentWrap.hidden = true; runSearch(value); }); recentItems.appendChild(b); });
   };
   const openSearchResultsPage = () => {
@@ -2103,8 +2095,14 @@ function initializeDashboardQuickSearch() {
     runSearch((quickInput?.value || "").trim());
   });
   if (quickInput) {
-    quickInput.addEventListener("focus", () => { renderRecent(); if (recentWrap && readRecent().length) recentWrap.hidden = false; });
+    // Clicking the search field explicitly opens history; keyboard focus alone does not.
+    quickInput.addEventListener("click", () => {
+      renderRecent();
+      if (recentWrap && readRecent().length) recentWrap.hidden = false;
+    });
+    quickInput.addEventListener("focus", () => { if (recentWrap) recentWrap.hidden = true; });
     quickInput.addEventListener("input", () => { quickInput.setCustomValidity(""); if (recentWrap) recentWrap.hidden = true; });
+    quickInput.addEventListener("keydown", event => { if (event.key === "Escape" && recentWrap) recentWrap.hidden = true; });
   }
   if (clearRecent) clearRecent.addEventListener("click", () => { try { localStorage.removeItem(RECENT_KEY); } catch (_) {} renderRecent(); });
   document.addEventListener("click", event => { if (recentWrap && !recentWrap.contains(event.target) && !form.contains(event.target)) recentWrap.hidden = true; });

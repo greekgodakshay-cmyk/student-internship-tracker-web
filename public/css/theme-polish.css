@@ -277,204 +277,231 @@ body.dashboard-app #internshipsList > *:focus-within {
     transform: none !important;
   }
 }
-/* Contrast + interaction patch (CSS only; no backend or markup changes). */
-body.dashboard-app .dashboard-card,
-body.dashboard-app .course-card,
-body.dashboard-app .skill-item,
-body.dashboard-app .project-card,
-body.dashboard-app .internship-card,
-body.dashboard-app #coursesList > *,
-body.dashboard-app #skillsList > *,
-body.dashboard-app #projectsList > *,
-body.dashboard-app #internshipsList > *,
-body.dashboard-app #adminCoursesList > *,
-body.dashboard-app #adminInternshipsList > * {
-  color:var(--ink,#1d2a36); background-color:var(--surface,#fff);
-  border-color:var(--line,#e3e0d6);
+/* ==========================================================================
+   Cross-page dashboard theme integrity patch
+   These scoped overrides are deliberately last so older inline declarations
+   cannot leave isolated bright panels or low-contrast controls behind.
+   ========================================================================== */
+body.dashboard-app[data-theme="light"] {
+  color-scheme: light;
+  background: #f3f6f8 !important;
+  color: #1f2933 !important;
+  --bg: #f3f6f8; --surface: #ffffff; --surface-soft: #eef3f7;
+  --ink: #1f2933; --text: #1f2933; --muted: #52616d; --line: #d7e0e7;
 }
-body.dashboard-app .dashboard-card h1, body.dashboard-app .dashboard-card h2,
-body.dashboard-app .dashboard-card h3, body.dashboard-app .dashboard-card h4,
-body.dashboard-app .course-card h1, body.dashboard-app .course-card h2,
-body.dashboard-app .course-card h3, body.dashboard-app .course-card h4,
-body.dashboard-app .skill-item h1, body.dashboard-app .skill-item h2,
-body.dashboard-app .skill-item h3, body.dashboard-app .skill-item h4,
-body.dashboard-app .project-card h1, body.dashboard-app .project-card h2,
-body.dashboard-app .project-card h3, body.dashboard-app .project-card h4,
-body.dashboard-app .internship-card h1, body.dashboard-app .internship-card h2,
-body.dashboard-app .internship-card h3, body.dashboard-app .internship-card h4 {
-  color:var(--heading,#172735);
+body.dashboard-app[data-theme="light"] main,
+body.dashboard-app[data-theme="light"] main > section,
+body.dashboard-app[data-theme="light"] .dashboard-card,
+body.dashboard-app[data-theme="light"] .profile-card,
+body.dashboard-app[data-theme="light"] .analytics-card,
+body.dashboard-app[data-theme="light"] .student-analytics,
+body.dashboard-app[data-theme="light"] .community-panel,
+body.dashboard-app[data-theme="light"] .career-chart-panel,
+body.dashboard-app[data-theme="light"] .career-radar-wrap,
+body.dashboard-app[data-theme="light"] .career-bars-wrap,
+body.dashboard-app[data-theme="light"] .social-post-card,
+body.dashboard-app[data-theme="light"] .profile-details-card,
+body.dashboard-app[data-theme="light"] .profile-terminal-card,
+body.dashboard-app[data-theme="light"] .social-inbox-panel,
+body.dashboard-app[data-theme="light"] #coursesList > *,
+body.dashboard-app[data-theme="light"] #skillsList > *,
+body.dashboard-app[data-theme="light"] #projectsList > *,
+body.dashboard-app[data-theme="light"] #internshipsList > *,
+body.dashboard-app[data-theme="light"] #adminCoursesList > *,
+body.dashboard-app[data-theme="light"] #adminInternshipsList > * {
+  background-color: #ffffff !important;
+  color: #1f2933 !important;
+  border-color: #d7e0e7 !important;
 }
-body.dashboard-app .dashboard-card p, body.dashboard-app .course-card p,
-body.dashboard-app .skill-item p, body.dashboard-app .project-card p,
-body.dashboard-app .internship-card p, body.dashboard-app #coursesList > * p,
-body.dashboard-app #skillsList > * p, body.dashboard-app #projectsList > * p,
-body.dashboard-app #internshipsList > * p { color:var(--muted,#5b6670); }
-
-body.dashboard-app button:not(.dashboard-icon-button):not(.dashboard-profile-button):not(#logoutButton):not([class*="primary"]):not([class*="danger"]):not([type="submit"]),
-body.dashboard-app .button-secondary, body.dashboard-app #manageApplicationsButton,
-body.dashboard-app #skillsList button, body.dashboard-app #projectsList button,
-body.dashboard-app #coursesList button, body.dashboard-app #internshipsList button,
-body.dashboard-app #adminCoursesList button, body.dashboard-app #adminInternshipsList button {
-  background-color:var(--surface,#fff); color:var(--ink,#1d2a36);
-  border-color:var(--line-strong,#cdc8b9);
+body.dashboard-app[data-theme="light"] h1,
+body.dashboard-app[data-theme="light"] h2,
+body.dashboard-app[data-theme="light"] h3,
+body.dashboard-app[data-theme="light"] h4,
+body.dashboard-app[data-theme="light"] .career-chart-heading h3,
+body.dashboard-app[data-theme="light"] .profile-stat-button strong,
+body.dashboard-app[data-theme="light"] .profile-social-stats strong { color: #173b57 !important; }
+body.dashboard-app[data-theme="light"] p,
+body.dashboard-app[data-theme="light"] label,
+body.dashboard-app[data-theme="light"] small,
+body.dashboard-app[data-theme="light"] .profile-stat-button span,
+body.dashboard-app[data-theme="light"] .profile-social-stats span { color: #52616d; }
+body.dashboard-app[data-theme="light"] input,
+body.dashboard-app[data-theme="light"] textarea,
+body.dashboard-app[data-theme="light"] select,
+body.dashboard-app[data-theme="light"] .dashboard-quick-search {
+  background-color: #ffffff !important; color: #1f2933 !important; border-color: #9fb0bc !important;
 }
-body.dashboard-app button:not(:disabled):hover,
-body.dashboard-app #skillsList button:not(:disabled):hover,
-body.dashboard-app #projectsList button:not(:disabled):hover,
-body.dashboard-app #coursesList button:not(:disabled):hover,
-body.dashboard-app #internshipsList button:not(:disabled):hover {
-  background-color:var(--surface-hover,#ecebe4); color:var(--heading,#172735);
-  border-color:var(--accent,#a77b3d);
+body.dashboard-app[data-theme="light"] input::placeholder,
+body.dashboard-app[data-theme="light"] textarea::placeholder { color: #657785 !important; opacity: 1; }
+body.dashboard-app[data-theme="light"] .dashboard-topbar { background: rgba(243,246,248,.97) !important; }
+body.dashboard-app[data-theme="light"] .dashboard-icon-button,
+body.dashboard-app[data-theme="light"] .dashboard-profile-button { color: #173b57 !important; }
+body.dashboard-app[data-theme="light"] .dashboard-icon-button svg,
+body.dashboard-app[data-theme="light"] .dashboard-icon-button i { color: currentColor; stroke: currentColor; }
+body.dashboard-app[data-theme="light"] .profile-add-certificate,
+body.dashboard-app[data-theme="light"] #socialPostSubmit {
+  background: #e7b94f !important; border-color: #d6a638 !important; color: #202a32 !important;
 }
-body.dashboard-app input, body.dashboard-app select, body.dashboard-app textarea {
-  background-color:var(--surface,#fff); color:var(--ink,#1d2a36);
-  border-color:var(--line-strong,#cdc8b9);
+body.dashboard-app[data-theme="dark"] {
+  color-scheme: dark;
+  background: #111820 !important; color: #edf2f5 !important;
+  --bg: #111820; --surface: #19232d; --surface-soft: #202d38;
+  --ink: #edf2f5; --text: #edf2f5; --muted: #b0bdc5; --line: #34434e;
 }
-body.dashboard-app input::placeholder, body.dashboard-app textarea::placeholder {
-  color:var(--muted,#5b6670); opacity:1;
-}
-
-/* Explicit dark theme: stable readable text, buttons, fields and cards. */
+body.dashboard-app[data-theme="dark"] main,
+body.dashboard-app[data-theme="dark"] main > section,
 body.dashboard-app[data-theme="dark"] .dashboard-card,
-body.dashboard-app[data-theme="dark"] .course-card,
-body.dashboard-app[data-theme="dark"] .skill-item,
-body.dashboard-app[data-theme="dark"] .project-card,
-body.dashboard-app[data-theme="dark"] .internship-card,
+body.dashboard-app[data-theme="dark"] .profile-card,
+body.dashboard-app[data-theme="dark"] .analytics-card,
+body.dashboard-app[data-theme="dark"] .student-analytics,
+body.dashboard-app[data-theme="dark"] .community-panel,
+body.dashboard-app[data-theme="dark"] .career-chart-panel,
+body.dashboard-app[data-theme="dark"] .career-radar-wrap,
+body.dashboard-app[data-theme="dark"] .career-bars-wrap,
+body.dashboard-app[data-theme="dark"] .social-post-card,
+body.dashboard-app[data-theme="dark"] .profile-details-card,
+body.dashboard-app[data-theme="dark"] .profile-terminal-card,
+body.dashboard-app[data-theme="dark"] .social-inbox-panel,
 body.dashboard-app[data-theme="dark"] #coursesList > *,
 body.dashboard-app[data-theme="dark"] #skillsList > *,
 body.dashboard-app[data-theme="dark"] #projectsList > *,
 body.dashboard-app[data-theme="dark"] #internshipsList > *,
 body.dashboard-app[data-theme="dark"] #adminCoursesList > *,
 body.dashboard-app[data-theme="dark"] #adminInternshipsList > * {
-  background-color:#161e25; color:#e7e3da; border-color:#34434e;
+  background-color: #19232d !important; color: #edf2f5 !important; border-color: #34434e !important;
 }
-body.dashboard-app[data-theme="dark"] .dashboard-card h1,
-body.dashboard-app[data-theme="dark"] .dashboard-card h2,
-body.dashboard-app[data-theme="dark"] .dashboard-card h3,
-body.dashboard-app[data-theme="dark"] .dashboard-card h4,
-body.dashboard-app[data-theme="dark"] .course-card h1,
-body.dashboard-app[data-theme="dark"] .course-card h2,
-body.dashboard-app[data-theme="dark"] .course-card h3,
-body.dashboard-app[data-theme="dark"] .course-card h4,
-body.dashboard-app[data-theme="dark"] .skill-item h1,
-body.dashboard-app[data-theme="dark"] .skill-item h2,
-body.dashboard-app[data-theme="dark"] .skill-item h3,
-body.dashboard-app[data-theme="dark"] .skill-item h4,
-body.dashboard-app[data-theme="dark"] .project-card h1,
-body.dashboard-app[data-theme="dark"] .project-card h2,
-body.dashboard-app[data-theme="dark"] .project-card h3,
-body.dashboard-app[data-theme="dark"] .project-card h4,
-body.dashboard-app[data-theme="dark"] .internship-card h1,
-body.dashboard-app[data-theme="dark"] .internship-card h2,
-body.dashboard-app[data-theme="dark"] .internship-card h3,
-body.dashboard-app[data-theme="dark"] .internship-card h4 { color:#f2eee6; }
-body.dashboard-app[data-theme="dark"] .dashboard-card p,
-body.dashboard-app[data-theme="dark"] .course-card p,
-body.dashboard-app[data-theme="dark"] .skill-item p,
-body.dashboard-app[data-theme="dark"] .project-card p,
-body.dashboard-app[data-theme="dark"] .internship-card p,
-body.dashboard-app[data-theme="dark"] #coursesList > * p,
-body.dashboard-app[data-theme="dark"] #skillsList > * p,
-body.dashboard-app[data-theme="dark"] #projectsList > * p,
-body.dashboard-app[data-theme="dark"] #internshipsList > * p { color:#b7c2ca; }
-body.dashboard-app[data-theme="dark"] button:not(.dashboard-icon-button):not(.dashboard-profile-button):not(#logoutButton):not([class*="primary"]):not([class*="danger"]):not([type="submit"]),
-body.dashboard-app[data-theme="dark"] .button-secondary,
-body.dashboard-app[data-theme="dark"] #manageApplicationsButton,
-body.dashboard-app[data-theme="dark"] #skillsList button,
-body.dashboard-app[data-theme="dark"] #projectsList button,
-body.dashboard-app[data-theme="dark"] #coursesList button,
-body.dashboard-app[data-theme="dark"] #internshipsList button,
-body.dashboard-app[data-theme="dark"] #adminCoursesList button,
-body.dashboard-app[data-theme="dark"] #adminInternshipsList button {
-  background-color:#202b34; color:#eef3f6; border-color:#53616b;
+body.dashboard-app[data-theme="dark"] .career-chart-panel,
+body.dashboard-app[data-theme="dark"] .career-radar-wrap,
+body.dashboard-app[data-theme="dark"] .career-bars-wrap { box-shadow: none !important; }
+body.dashboard-app[data-theme="dark"] .career-chart-panel svg text,
+body.dashboard-app[data-theme="dark"] .career-radar-chart text,
+body.dashboard-app[data-theme="dark"] .career-bar-chart text { fill: #d7e0e7 !important; }
+body.dashboard-app[data-theme="dark"] .career-chart-panel svg line,
+body.dashboard-app[data-theme="dark"] .career-chart-panel svg path[stroke] { stroke: #465762; }
+body.dashboard-app[data-theme="dark"] .site-footer,
+body.dashboard-app[data-theme="dark"] body > footer.site-footer {
+  background: #121c24 !important; color: #c7d2d8 !important; border-top-color: #2a3945 !important;
 }
-body.dashboard-app[data-theme="dark"] input,
-body.dashboard-app[data-theme="dark"] select,
-body.dashboard-app[data-theme="dark"] textarea {
-  background-color:#161e25; color:#eef3f6; border-color:#53616b;
+body.dashboard-app[data-theme="dark"] .site-footer .footer-brand strong,
+body.dashboard-app[data-theme="dark"] .site-footer nav a { color: #e9eef1 !important; }
+body.dashboard-app[data-theme="dark"] .site-footer .footer-disclaimer,
+body.dashboard-app[data-theme="dark"] .site-footer .footer-brand span { color: #aab8c0 !important; }
+body.dashboard-app[data-theme="dark"] .dashboard-quick-search,
+body.dashboard-app[data-theme="dark"] .dashboard-quick-search input,
+body.dashboard-app[data-theme="dark"] #dashboardRecentSearches,
+body.dashboard-app[data-theme="dark"] .community-search-form input,
+body.dashboard-app[data-theme="dark"] .network-search input,
+body.dashboard-app[data-theme="dark"] input[type="search"] {
+  background: #19232d !important; color: #edf2f5 !important; border-color: #465762 !important;
 }
 body.dashboard-app[data-theme="dark"] input::placeholder,
-body.dashboard-app[data-theme="dark"] textarea::placeholder { color:#b0bdc6; }
-
-/* Match the existing course/internship card lift for skills and projects. */
-body.dashboard-app .skill-item, body.dashboard-app .project-card,
-body.dashboard-app #skillsList > *, body.dashboard-app #projectsList > * {
-  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+body.dashboard-app[data-theme="dark"] textarea::placeholder { color: #aab8c0 !important; opacity: 1; }
+body.dashboard-app[data-theme="dark"] .dashboard-recent-searches {
+  background: #19232d !important; color: #edf2f5 !important; border-color: #465762 !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
 }
-body.dashboard-app .skill-item:hover, body.dashboard-app .project-card:hover,
-body.dashboard-app #skillsList > *:hover, body.dashboard-app #projectsList > *:hover {
-  transform:translateY(-4px);
-  box-shadow:var(--card-lift-shadow,0 10px 24px rgba(0,0,0,.12));
-  border-color:var(--accent,#a77b3d);
+body.dashboard-app[data-theme="dark"] .recent-searches-title,
+body.dashboard-app[data-theme="dark"] .recent-search-item,
+body.dashboard-app[data-theme="dark"] .clear-recent-searches { color: #edf2f5 !important; }
+body.dashboard-app[data-theme="dark"] .recent-search-item:hover,
+body.dashboard-app[data-theme="dark"] .recent-search-item:focus-visible { background: #263b4a !important; }
+body.dashboard-app[data-theme="light"] #dashboardRecentSearches {
+  background: #ffffff !important; color: #1f2933 !important; border-color: #d7e0e7 !important;
 }
-body.dashboard-app .skill-item:focus-within, body.dashboard-app .project-card:focus-within,
-body.dashboard-app #skillsList > *:focus-within, body.dashboard-app #projectsList > *:focus-within {
-  transform:translateY(-4px);
-  box-shadow:0 0 0 2px var(--focus-color,#1f4fbf),var(--card-lift-shadow,0 10px 24px rgba(0,0,0,.12));
+body.dashboard-app[data-theme="light"] .recent-searches-title,
+body.dashboard-app[data-theme="light"] .recent-search-item,
+body.dashboard-app[data-theme="light"] .clear-recent-searches { color: #1f2933 !important; }
+body.dashboard-app[data-theme="light"] .profile-add-certificate,
+body.dashboard-app[data-theme="light"] #socialPostSubmit,
+body.dashboard-app[data-theme="dark"] .profile-add-certificate,
+body.dashboard-app[data-theme="dark"] #socialPostSubmit {
+  background: #e7b94f !important; border-color: #d6a638 !important; color: #202a32 !important;
 }
-@media (prefers-reduced-motion:reduce) {
-  body.dashboard-app .skill-item, body.dashboard-app .project-card,
-  body.dashboard-app #skillsList > *, body.dashboard-app #projectsList > *,
-  body.dashboard-app .skill-item:hover, body.dashboard-app .project-card:hover,
-  body.dashboard-app #skillsList > *:hover, body.dashboard-app #projectsList > *:hover,
-  body.dashboard-app .skill-item:focus-within, body.dashboard-app .project-card:focus-within,
-  body.dashboard-app #skillsList > *:focus-within, body.dashboard-app #projectsList > *:focus-within {
-    transition:none!important; transform:none!important;
-  }
+body.dashboard-app .profile-social-stats strong,
+body.dashboard-app #profile .profile-stat-button strong,
+body.dashboard-app .profile-social-stats span,
+body.dashboard-app #profile .profile-stat-button span { color: #202a32 !important; }
+body.dashboard-app[data-theme="dark"] .profile-social-stats strong,
+body.dashboard-app[data-theme="dark"] #profile .profile-stat-button strong,
+body.dashboard-app[data-theme="dark"] .profile-social-stats span,
+body.dashboard-app[data-theme="dark"] #profile .profile-stat-button span { color: #edf2f5 !important; }
+body.dashboard-app .course-card,
+body.dashboard-app .internship-card,
+body.dashboard-app .skill-item,
+body.dashboard-app .project-card,
+body.dashboard-app #coursesList > *,
+body.dashboard-app #internshipsList > *,
+body.dashboard-app #skillsList > *,
+body.dashboard-app #projectsList > *,
+body.dashboard-app #adminCoursesList > *,
+body.dashboard-app #adminInternshipsList > *,
+body.dashboard-app .dashboard-card,
+body.dashboard-app .analytics-metric,
+body.dashboard-app .social-post-card,
+body.dashboard-app .certificate-feed-card {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-
-/* OS-selected dark theme (when no explicit light preference is set). */
-@media (prefers-color-scheme:dark) {
-  body.dashboard-app:not([data-theme="light"]) .dashboard-card,
-  body.dashboard-app:not([data-theme="light"]) .course-card,
-  body.dashboard-app:not([data-theme="light"]) .skill-item,
-  body.dashboard-app:not([data-theme="light"]) .project-card,
-  body.dashboard-app:not([data-theme="light"]) .internship-card,
-  body.dashboard-app:not([data-theme="light"]) #coursesList > *,
-  body.dashboard-app:not([data-theme="light"]) #skillsList > *,
-  body.dashboard-app:not([data-theme="light"]) #projectsList > *,
-  body.dashboard-app:not([data-theme="light"]) #internshipsList > * {
-    background-color:#161e25;color:#e7e3da;border-color:#34434e;
-  }
-  body.dashboard-app:not([data-theme="light"]) .dashboard-card h1,
-  body.dashboard-app:not([data-theme="light"]) .dashboard-card h2,
-  body.dashboard-app:not([data-theme="light"]) .dashboard-card h3,
-  body.dashboard-app:not([data-theme="light"]) .dashboard-card h4,
-  body.dashboard-app:not([data-theme="light"]) .course-card h1,
-  body.dashboard-app:not([data-theme="light"]) .course-card h2,
-  body.dashboard-app:not([data-theme="light"]) .course-card h3,
-  body.dashboard-app:not([data-theme="light"]) .course-card h4,
-  body.dashboard-app:not([data-theme="light"]) .skill-item h1,
-  body.dashboard-app:not([data-theme="light"]) .skill-item h2,
-  body.dashboard-app:not([data-theme="light"]) .skill-item h3,
-  body.dashboard-app:not([data-theme="light"]) .skill-item h4,
-  body.dashboard-app:not([data-theme="light"]) .project-card h1,
-  body.dashboard-app:not([data-theme="light"]) .project-card h2,
-  body.dashboard-app:not([data-theme="light"]) .project-card h3,
-  body.dashboard-app:not([data-theme="light"]) .project-card h4,
-  body.dashboard-app:not([data-theme="light"]) .internship-card h1,
-  body.dashboard-app:not([data-theme="light"]) .internship-card h2,
-  body.dashboard-app:not([data-theme="light"]) .internship-card h3,
-  body.dashboard-app:not([data-theme="light"]) .internship-card h4 {color:#f2eee6;}
-  body.dashboard-app:not([data-theme="light"]) .dashboard-card p,
-  body.dashboard-app:not([data-theme="light"]) .course-card p,
-  body.dashboard-app:not([data-theme="light"]) .skill-item p,
-  body.dashboard-app:not([data-theme="light"]) .project-card p,
-  body.dashboard-app:not([data-theme="light"]) .internship-card p {color:#b7c2ca;}
-  body.dashboard-app:not([data-theme="light"]) button:not(.dashboard-icon-button):not(.dashboard-profile-button):not(#logoutButton):not([class*="primary"]):not([class*="danger"]):not([type="submit"]),
-  body.dashboard-app:not([data-theme="light"]) .button-secondary,
-  body.dashboard-app:not([data-theme="light"]) #manageApplicationsButton,
-  body.dashboard-app:not([data-theme="light"]) #skillsList button,
-  body.dashboard-app:not([data-theme="light"]) #projectsList button,
-  body.dashboard-app:not([data-theme="light"]) #coursesList button,
-  body.dashboard-app:not([data-theme="light"]) #internshipsList button {
-    background-color:#202b34;color:#eef3f6;border-color:#53616b;
-  }
-  body.dashboard-app:not([data-theme="light"]) input,
-  body.dashboard-app:not([data-theme="light"]) select,
-  body.dashboard-app:not([data-theme="light"]) textarea {
-    background-color:#161e25;color:#eef3f6;border-color:#53616b;
-  }
-  body.dashboard-app:not([data-theme="light"]) input::placeholder,
-  body.dashboard-app:not([data-theme="light"]) textarea::placeholder {color:#b0bdc6;}
+body.dashboard-app .course-card:hover,
+body.dashboard-app .internship-card:hover,
+body.dashboard-app .skill-item:hover,
+body.dashboard-app .project-card:hover,
+body.dashboard-app #coursesList > *:hover,
+body.dashboard-app #internshipsList > *:hover,
+body.dashboard-app #skillsList > *:hover,
+body.dashboard-app #projectsList > *:hover,
+body.dashboard-app #adminCoursesList > *:hover,
+body.dashboard-app #adminInternshipsList > *:hover,
+body.dashboard-app .dashboard-card:hover,
+body.dashboard-app .analytics-metric:hover,
+body.dashboard-app .social-post-card:hover,
+body.dashboard-app .certificate-feed-card:hover {
+  transform: translateY(-4px); box-shadow: var(--card-lift-shadow, 0 14px 28px -16px rgba(23,39,53,.32));
+}
+body.dashboard-app .course-card:focus-within,
+body.dashboard-app .internship-card:focus-within,
+body.dashboard-app .skill-item:focus-within,
+body.dashboard-app .project-card:focus-within,
+body.dashboard-app #coursesList > *:focus-within,
+body.dashboard-app #internshipsList > *:focus-within,
+body.dashboard-app #skillsList > *:focus-within,
+body.dashboard-app #projectsList > *:focus-within,
+body.dashboard-app .dashboard-card:focus-within,
+body.dashboard-app .analytics-metric:focus-within,
+body.dashboard-app .social-post-card:focus-within {
+  transform: translateY(-4px); box-shadow: 0 0 0 2px var(--focus-color), var(--card-lift-shadow);
+}
+@media (max-width: 760px) {
+  body.dashboard-app .career-chart-layout { grid-template-columns: minmax(0, 1fr) !important; }
+  body.dashboard-app .career-chart-panel,
+  body.dashboard-app .student-analytics,
+  body.dashboard-app .community-panel { padding: 16px !important; }
+  body.dashboard-app .career-radar-wrap,
+  body.dashboard-app .career-bars-wrap { min-width: 0; padding: 12px !important; }
+  body.dashboard-app .dashboard-quick-search { min-width: 0; }
+  body.dashboard-app .dashboard-quick-search input { min-width: 0; }
+  body.dashboard-app > header nav a::before { opacity: 1 !important; visibility: visible !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dashboard-app .course-card,
+  body.dashboard-app .internship-card,
+  body.dashboard-app .skill-item,
+  body.dashboard-app .project-card,
+  body.dashboard-app #coursesList > *,
+  body.dashboard-app #internshipsList > *,
+  body.dashboard-app #skillsList > *,
+  body.dashboard-app #projectsList > *,
+  body.dashboard-app .dashboard-card,
+  body.dashboard-app .analytics-metric,
+  body.dashboard-app .social-post-card { transition: none !important; }
+  body.dashboard-app .course-card:hover,
+  body.dashboard-app .internship-card:hover,
+  body.dashboard-app .skill-item:hover,
+  body.dashboard-app .project-card:hover,
+  body.dashboard-app #coursesList > *:hover,
+  body.dashboard-app #internshipsList > *:hover,
+  body.dashboard-app #skillsList > *:hover,
+  body.dashboard-app #projectsList > *:hover,
+  body.dashboard-app .dashboard-card:hover,
+  body.dashboard-app .analytics-metric:hover,
+  body.dashboard-app .social-post-card:hover { transform: none !important; }
 }

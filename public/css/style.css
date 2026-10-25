@@ -2161,3 +2161,71 @@ body > header nav a.sidebar-profile-link::before {
     will-change: auto;
   }
 }
+
+/* Explicit page-level tokens override OS defaults after the user makes a choice. */
+body[data-theme="light"] {
+  color-scheme: light;
+  --page: #f6f5f1; --bg: #f6f5f1; --surface: #ffffff; --surface-soft: #f3f2ed; --surface-hover: #ecebe4;
+  --ink: #1d2a36; --text: #1d2a36; --heading: #172735; --navy: #172735; --navy-soft: #243a4d; --on-navy: #ffffff;
+  --muted: #5b6670; --text-secondary: #5b6670; --line: #e3e0d6; --border: #e3e0d6; --line-strong: #cdc8b9;
+  --accent: #a77b3d; --accent-ink: #7a5628; --link: #7a5628;
+  background: #f6f5f1; color: #1d2a36;
+}
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0f151b; --bg: #0f151b; --surface: #161e25; --surface-soft: #202d38; --surface-hover: #263b4a;
+  --ink: #edf2f5; --text: #edf2f5; --heading: #f0f4f6; --navy: #edf2f5; --navy-soft: #cdd8de; --on-navy: #14202a;
+  --muted: #b0bdc5; --text-secondary: #b0bdc5; --line: #34434e; --border: #34434e; --line-strong: #6b7b87;
+  --accent: #d6ad72; --accent-ink: #e0bd85; --link: #e0bd85;
+  background: #0f151b; color: #edf2f5;
+}
+
+/* Theme integrity patch: shared auth surfaces and responsive controls. */
+body[data-theme="light"] #login-page,
+body[data-theme="light"] #register-page {
+  background: #ffffff !important;
+  color: #1d2a36 !important;
+  border-color: #d7e0e7 !important;
+  box-shadow: 0 8px 28px rgba(23, 59, 87, .09) !important;
+}
+body[data-theme="light"] #login-page h1,
+body[data-theme="light"] #login-page h2,
+body[data-theme="light"] #register-page h1,
+body[data-theme="light"] #register-page h2,
+body[data-theme="light"] #login-page label,
+body[data-theme="light"] #register-page label {
+  color: #173b57 !important;
+}
+body[data-theme="light"] #login-page > p,
+body[data-theme="light"] #register-page > p,
+body[data-theme="light"] .auth-footer,
+body[data-theme="light"] .auth-footer span {
+  color: #52616d !important;
+}
+body[data-theme="light"] #login-page input,
+body[data-theme="light"] #register-page input,
+body[data-theme="light"] #login-page select,
+body[data-theme="light"] #register-page select {
+  background: #ffffff !important;
+  color: #1f2933 !important;
+  border-color: #9fb0bc !important;
+}
+body[data-theme="light"] #login-page input::placeholder,
+body[data-theme="light"] #register-page input::placeholder { color: #657785 !important; opacity: 1; }
+body[data-theme="light"] #login-page a,
+body[data-theme="light"] #register-page a { color: #174d78 !important; }
+body[data-theme="light"] #login-page button[type="submit"],
+body[data-theme="light"] #register-page button[type="submit"] {
+  background: #173b57 !important; border-color: #173b57 !important; color: #ffffff !important;
+}
+body[data-theme="light"] .floating-theme-toggle {
+  background: #ffffff; color: #173b57; border: 1px solid #c7d2da; box-shadow: 0 3px 12px rgba(20, 42, 58, .16);
+}
+body[data-theme="dark"] .floating-theme-toggle {
+  background: #19232d; color: #f1d08e; border: 1px solid #455560; box-shadow: 0 3px 14px rgba(0, 0, 0, .35);
+}
+@media (max-width: 480px) {
+  #login-page, #register-page { width: calc(100% - 24px); padding: 22px 18px; margin: 24px auto; }
+  .auth-brand { gap: 10px; }
+  .auth-footer { display: flex; flex-wrap: wrap; gap: 6px 9px; }
+}

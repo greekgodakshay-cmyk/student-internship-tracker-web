@@ -1,0 +1,53 @@
+[1mdiff --git a/public/css/landing.css b/public/css/landing.css[m
+[1mindex 3b6f44d..fe96993 100644[m
+[1m--- a/public/css/landing.css[m
+[1m+++ b/public/css/landing.css[m
+[36m@@ -69,32 +69,19 @@[m
+ }[m
+ [m
+ [m
+[31m-/* Theme and scroll-reveal enhancements */[m
+[31m-.theme-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;padding:8px 11px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}[m
+[31m-.reveal-on-scroll{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.65,.25,1);will-change:opacity,transform}[m
+[31m-.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}[m
+[31m-body[data-theme="dark"]{color-scheme:dark;--paper:#111820;--white:#19232d;--ink:#edf2f5;--navy:#e8eef2;--muted:#b0bdc5;--line:#34434e;--accent:#d6ad72;--mint:#243a32;--blue:#9bc4ce;background:var(--paper);color:var(--ink)}[m
+[31m-body[data-theme="dark"] .site-header{background:rgba(17,24,32,.96);border-color:var(--line)}[m
+[31m-body[data-theme="dark"] .brand-name span{color:#b0bdc5}[m
+[31m-body[data-theme="dark"] .button{background:#d6ad72;border-color:#d6ad72;color:#17232c}[m
+[31m-body[data-theme="dark"] .button:hover{background:#e6c18a}[m
+[31m-body[data-theme="dark"] .hero-art,[m
+[31m-body[data-theme="dark"] .feature-visual,[m
+[31m-body[data-theme="dark"] .feature-card,[m
+[31m-body[data-theme="dark"] .step-card,[m
+[31m-body[data-theme="dark"] .about-mark,[m
+[31m-body[data-theme="dark"] .quote-card{border-color:var(--line)}[m
+[31m-body[data-theme="dark"] .feature-card,[m
+[31m-body[data-theme="dark"] .step-card,[m
+[31m-body[data-theme="dark"] .quote-card{background:var(--white);color:var(--ink)}[m
+[31m-body[data-theme="dark"] .hero-description,[m
+[31m-body[data-theme="dark"] .section-intro,[m
+[31m-body[data-theme="dark"] .feature-card p,[m
+[31m-body[data-theme="dark"] .step-card p,[m
+[31m-body[data-theme="dark"] footer{color:var(--muted)}[m
+[31m-body[data-theme="dark"] .site-footer{background:#0d151c;color:#edf2f5}[m
+[31m-body[data-theme="dark"] .site-footer a{color:#d6ad72}[m
+[31m-body[data-theme="dark"] .menu-toggle span{background:var(--ink)}[m
+[31m-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal-on-scroll{opacity:1;transform:none}}[m
+[31m-[m
+[31m-.theme-toggle svg{display:block;flex:none}.theme-toggle{border-radius:12px;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}.theme-toggle:hover{transform:translateY(-1px)}.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}[m
+[32m+[m[32m/* Scroll reveal classes used by landing.js. */[m
+[32m+[m[32m.reveal-on-scroll {[m
+[32m+[m[32m  opacity: 0 !important;[m
+[32m+[m[32m  transform: translate3d(0, 20px, 0) !important;[m
+[32m+[m[32m  transition: opacity 620ms ease, transform 620ms cubic-bezier(.2,.65,.25,1) !important;[m
+[32m+[m[32m  will-change: opacity, transform;[m
+[32m+[m[32m}[m
+[32m+[m[32m.reveal-on-scroll.is-visible {[m
+[32m+[m[32m  opacity: 1 !important;[m
+[32m+[m[32m  transform: translate3d(0, 0, 0) !important;[m
+[32m+[m[32m}[m
+[32m+[m[32m@media (prefers-reduced-motion: reduce) {[m
+[32m+[m[32m  .reveal-on-scroll, .reveal-on-scroll.is-visible {[m
+[32m+[m[32m    opacity: 1 !important; transform: none !important; transition: none !important; will-change: auto;[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m

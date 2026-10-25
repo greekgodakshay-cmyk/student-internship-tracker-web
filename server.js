@@ -101,7 +101,7 @@ app.use(
   "/api",
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 100,
+    limit: 600,
     standardHeaders: "draft-7",
     legacyHeaders: false,
     message: { message: "Too many requests. Please try again later." }
@@ -111,14 +111,14 @@ app.use(
 // Additional controls for endpoints that trigger database fan-out or social writes.
 app.use("/api/community", rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 60,
+  limit: 300,
   standardHeaders: "draft-7",
   legacyHeaders: false,
   message: { message: "Too many community requests. Please try again later." }
 }));
 app.use("/api/social", rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 60,
+  limit: 300,
   standardHeaders: "draft-7",
   legacyHeaders: false,
   message: { message: "Too many social requests. Please try again later." }

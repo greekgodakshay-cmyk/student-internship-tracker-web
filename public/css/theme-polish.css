@@ -640,3 +640,87 @@ body.dashboard-app[data-theme="light"] .dashboard-card,
 body.dashboard-app[data-theme="light"] .analytics-card { color: #203442 !important; }
 body.dashboard-app[data-theme="light"] #dashboard > p,
 body.dashboard-app[data-theme="light"] .dashboard-card .muted { color: #52616d !important; }
+
+
+/* Warm, professional light theme. Scoped to light mode so dark-mode tokens and rules remain untouched. */
+body.dashboard-app[data-theme="light"] {
+  --page-bg: #f3f1eb;
+  --card-bg: #fffdf8;
+  --text-color: #243746;
+  --heading-color: #172735;
+  --muted: #596b78;
+  --line: #d9d5ca;
+  background: #f3f1eb !important;
+  color: #243746;
+}
+body.dashboard-app[data-theme="light"] main { background: transparent; }
+body.dashboard-app[data-theme="light"] #dashboard,
+body.dashboard-app[data-theme="light"] .student-analytics,
+body.dashboard-app[data-theme="light"] .community-panel,
+body.dashboard-app[data-theme="light"] .social-feed-section,
+body.dashboard-app[data-theme="light"] .profile-content,
+body.dashboard-app[data-theme="light"] .profile-action-rail {
+  color: #243746;
+}
+body.dashboard-app[data-theme="light"] .dashboard-card,
+body.dashboard-app[data-theme="light"] .analytics-card,
+body.dashboard-app[data-theme="light"] .analytics-metric,
+body.dashboard-app[data-theme="light"] .community-panel,
+body.dashboard-app[data-theme="light"] .student-analytics,
+body.dashboard-app[data-theme="light"] .social-post-composer-card,
+body.dashboard-app[data-theme="light"] .social-post-card,
+body.dashboard-app[data-theme="light"] .community-discovery-card,
+body.dashboard-app[data-theme="light"] #coursesList > *,
+body.dashboard-app[data-theme="light"] #skillsList > *,
+body.dashboard-app[data-theme="light"] #projectsList > *,
+body.dashboard-app[data-theme="light"] #internshipsList > *,
+body.dashboard-app[data-theme="light"] #applicationsList > * {
+  background-color: #fffdf8;
+  border-color: #d9d5ca;
+  color: #243746;
+  box-shadow: 0 2px 5px rgba(34, 49, 59, .045), 0 12px 28px -23px rgba(34, 49, 59, .32);
+}
+body.dashboard-app[data-theme="light"] main h1,
+body.dashboard-app[data-theme="light"] main h2,
+body.dashboard-app[data-theme="light"] main h3,
+body.dashboard-app[data-theme="light"] main h4,
+body.dashboard-app[data-theme="light"] .dashboard-card h3,
+body.dashboard-app[data-theme="light"] .community-discovery-card h4 {
+  color: #172735;
+}
+body.dashboard-app[data-theme="light"] main p,
+body.dashboard-app[data-theme="light"] .dashboard-card p,
+body.dashboard-app[data-theme="light"] .analytics-card p,
+body.dashboard-app[data-theme="light"] .community-discovery-card p,
+body.dashboard-app[data-theme="light"] .community-discovery-date,
+body.dashboard-app[data-theme="light"] .community-discovery-meta {
+  color: #596b78;
+}
+body.dashboard-app[data-theme="light"] input,
+body.dashboard-app[data-theme="light"] textarea,
+body.dashboard-app[data-theme="light"] select {
+  color: #243746;
+  background-color: #fffefa;
+  border-color: #c9c5ba;
+}
+body.dashboard-app[data-theme="light"] input::placeholder,
+body.dashboard-app[data-theme="light"] textarea::placeholder { color: #6b7881; opacity: 1; }
+body.dashboard-app[data-theme="light"] .community-discovery-type {
+  color: #65471f;
+  background: #f2e4c9;
+}
+body.dashboard-app[data-theme="light"] .community-discovery-link { color: #175b83; }
+body.dashboard-app[data-theme="light"] .social-post-composer-footer button,
+body.dashboard-app[data-theme="light"] .community-search-form button,
+body.dashboard-app[data-theme="light"] .community-action {
+  color: #fffdf8;
+  background: #203b4e;
+  border-color: #203b4e;
+}
+body.dashboard-app[data-theme="light"] .social-post-composer-footer button:hover,
+body.dashboard-app[data-theme="light"] .community-search-form button:hover,
+body.dashboard-app[data-theme="light"] .community-action:hover { background: #31556a; border-color: #31556a; }
+body.dashboard-app[data-theme="light"] > header { background-color: #203746; }
+@media (prefers-reduced-motion: reduce) {
+  body.dashboard-app[data-theme="light"] *, body.dashboard-app[data-theme="light"] *::before, body.dashboard-app[data-theme="light"] *::after { scroll-behavior: auto !important; }
+}

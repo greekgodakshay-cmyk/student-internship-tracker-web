@@ -243,22 +243,24 @@ app.get("/connections.html", requireAuth, (req, res) => {
   res.sendFile(path.join(publicPath, "connections.html"));
 });
 
-// Direct Android APK download endpoints with clean attachment filename
+const GITHUB_RELEASE_BASE = "https://github.com/greekgodakshay-cmyk/student-internship-tracker-web/releases/download/v1.0.0";
+
+// Direct Android APK download endpoints
 app.get(["/download/android", "/downloads/Locked-In.apk", "/Locked-In.apk"], (req, res) => {
   const apkPath = path.join(publicPath, "downloads", "Locked-In.apk");
-  if (!fs.existsSync(apkPath)) {
-    return res.status(404).send("APK download currently unavailable.");
+  if (fs.existsSync(apkPath)) {
+    return res.download(apkPath, "Locked-In.apk");
   }
-  res.download(apkPath, "Locked-In.apk");
+  res.redirect(`${GITHUB_RELEASE_BASE}/Locked-In.apk`);
 });
 
 // Direct Windows desktop app download endpoints
 app.get(["/download/windows", "/downloads/Locked-In-Setup.exe", "/Locked-In-Setup.exe"], (req, res) => {
   const exePath = path.join(publicPath, "downloads", "Locked-In-Setup.exe");
-  if (!fs.existsSync(exePath)) {
-    return res.status(404).send("Windows desktop app download currently unavailable.");
+  if (fs.existsSync(exePath)) {
+    return res.download(exePath, "Locked-In-Setup.exe");
   }
-  res.download(exePath, "Locked-In-Setup.exe");
+  res.redirect(`${GITHUB_RELEASE_BASE}/Locked-In-Setup.exe`);
 });
 
 // Serve CSS and JavaScript assets

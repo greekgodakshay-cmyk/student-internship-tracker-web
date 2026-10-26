@@ -335,14 +335,44 @@ a:focus-visible, button:focus-visible {
   box-shadow: 0 14px 26px -10px rgba(24, 87, 242, 0.65);
 }
 
+.button-windows {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -10px rgba(15, 23, 42, 0.45);
+}
+
+.button-windows:hover {
+  background: #1e293b;
+  border-color: #1e293b;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px -10px rgba(15, 23, 42, 0.55);
+}
+
+.hero-download-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-download-col .button {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 13.5px;
+}
+
 .button-android svg,
 .button-android-light svg,
+.button-windows svg,
+.button-windows-light svg,
 .nav-download-link svg {
   display: block;
   flex: none;
 }
 
-.button-android-light {
+.button-android-light,
+.button-windows-light {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -359,7 +389,8 @@ a:focus-visible, button:focus-visible {
   transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
 }
 
-.button-android-light:hover {
+.button-android-light:hover,
+.button-windows-light:hover {
   background: rgba(255, 255, 255, 0.22);
   border-color: #ffffff;
   color: #ffffff !important;

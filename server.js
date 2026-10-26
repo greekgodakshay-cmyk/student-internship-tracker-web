@@ -252,6 +252,15 @@ app.get(["/download/android", "/downloads/Locked-In.apk", "/Locked-In.apk"], (re
   res.download(apkPath, "Locked-In.apk");
 });
 
+// Direct Windows desktop app download endpoints
+app.get(["/download/windows", "/downloads/Locked-In-Setup.exe", "/Locked-In-Setup.exe"], (req, res) => {
+  const exePath = path.join(publicPath, "downloads", "Locked-In-Setup.exe");
+  if (!fs.existsSync(exePath)) {
+    return res.status(404).send("Windows desktop app download currently unavailable.");
+  }
+  res.download(exePath, "Locked-In-Setup.exe");
+});
+
 // Serve CSS and JavaScript assets
 app.use(express.static(publicPath, { index: false }));
 

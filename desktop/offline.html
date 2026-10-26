@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locked-In — Connection Offline</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f6f5f1;
+      color: #172b37;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .offline-card {
+      background: #ffffff;
+      border: 1px solid rgba(18, 48, 86, 0.12);
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(18, 48, 86, 0.08);
+      max-width: 480px;
+      width: 100%;
+      padding: 40px 32px;
+      text-align: center;
+    }
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(24, 87, 242, 0.25);
+      display: block;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111e2e;
+      margin-bottom: 8px;
+    }
+    .tagline {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1857F2;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4a5c68;
+      margin-bottom: 24px;
+    }
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #1857F2;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 8px 18px -6px rgba(24, 87, 242, 0.5);
+    }
+    .btn-retry:hover {
+      background: #0f45cc;
+      transform: translateY(-1px);
+    }
+    .btn-retry:active {
+      transform: translateY(0);
+    }
+    .pulse-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+    .status-text {
+      font-size: 12px;
+      color: #718292;
+      margin-top: 18px;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #0c141d; color: #e6edf3; }
+      .offline-card {
+        background: #152232;
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+      }
+      h1 { color: #f0f6fc; }
+      p { color: #8b9baa; }
+      .status-text { color: #5d7182; }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-card">
+    <img src="assets/logo.png" alt="Locked-In" class="logo">
+    <h1>Unable to connect</h1>
+    <div class="tagline">Locked-In Cloud Workspace</div>
+    <p>We could not reach the server. Please check your internet connection, or if the service is waking up, wait a few moments and try again.</p>
+    <button id="retryBtn" class="btn-retry" type="button">
+      <span>Retry Connection</span>
+    </button>
+    <div class="status-text">
+      <span class="pulse-dot"></span><span id="statusMessage">Waiting for network...</span>
+    </div>
+  </div>
+
+  <script>
+    const retryBtn = document.getElementById('retryBtn');
+    const statusMessage = document.getElementById('statusMessage');
+
+    function attemptReconnect() {
+      statusMessage.textContent = 'Reconnecting to Locked-In...';
+      const target = window.__LOCKED_IN_TARGET__ || 'https://student-internship-tracker-web.onrender.com/';
+      window.location.href = target;
+    }
+
+    retryBtn.addEventListener('click', attemptReconnect);
+
+    window.addEventListener('online', () => {
+      statusMessage.textContent = 'Connection restored! Reconnecting...';
+      setTimeout(attemptReconnect, 1000);
+    });
+  </script>
+</body>
+</html>

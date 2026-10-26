@@ -369,8 +369,8 @@ function initializeProfileEditor(user) {
   let photoData = user.photoData || "";
 
   const initialsFor = (name) => {
-    const parts = String(name || "Student Tracker").trim().split(/\s+/).filter(Boolean);
-    return parts.slice(0, 2).map(part => part[0].toUpperCase()).join("") || "ST";
+    const parts = String(name || "Locked-In").trim().split(/\s+/).filter(Boolean);
+    return parts.slice(0, 2).map(part => part[0].toUpperCase()).join("") || "LI";
   };
 
   const updatePhoto = (data) => {
@@ -2388,7 +2388,7 @@ function initializeCommunitySearch() {
 
   async function shareText(text) {
     try {
-      if (navigator.share) await navigator.share({ title: 'Student Tracker', url: text });
+      if (navigator.share) await navigator.share({ title: 'Locked-In — Student Internship & Skill Tracker', url: text });
       else if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(text); message.textContent = 'Share link copied to clipboard.'; }
       else window.prompt('Copy this link', text);
     } catch (e) { if (e.name !== 'AbortError') { try { window.prompt('Copy this link', text); } catch {} } }
@@ -2494,7 +2494,7 @@ function initializeCommunitySearch() {
       const summaryCopy = node('div', undefined, 'profile-summary-copy');
       summaryCopy.appendChild(node('h3', d.user.name || 'Public profile'));
       const headline = [d.user.degree, d.user.college, d.user.studyYear, d.user.fieldOfStudy, d.user.location].filter(Boolean).join(' · ');
-      summaryCopy.appendChild(node('p', headline || 'Student Tracker Member'));
+      summaryCopy.appendChild(node('p', headline || 'Locked-In Member'));
       if (d.user.bio) summaryCopy.appendChild(node('p', d.user.bio));
 
       const statsBar = node('div', undefined, 'profile-social-stats profile-social-stats-inline');

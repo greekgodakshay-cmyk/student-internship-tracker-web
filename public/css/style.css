@@ -472,6 +472,27 @@ input:focus-visible, textarea:focus-visible, select:focus-visible,
   max-width: 190px;
 }
 
+.auth-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-brand-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  line-height: 1.15;
+}
+
+.auth-brand-sub {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.25;
+  margin-top: 2px;
+}
+
 .auth-footer {
   display: flex;
   flex-wrap: wrap;
@@ -769,6 +790,32 @@ input:focus-visible, textarea:focus-visible, select:focus-visible,
   border-radius: 50%;
   background: #08090b;
   box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.dashboard-brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dashboard-brand-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.dashboard-brand-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 175px;
 }
 
 body > header nav a.sidebar-profile-link {

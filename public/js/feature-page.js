@@ -29,7 +29,7 @@
   const params = new URLSearchParams(window.location.search);
   const topic = topics[params.get("topic")] ? params.get("topic") : "learning";
   const data = topics[topic];
-  document.title = `${data.title} | Student Internship & Skill Tracker`;
+  document.title = `${data.title} | Locked-In — Student Internship & Skill Tracker`;
   document.getElementById("feature-title").textContent = data.title;
   document.getElementById("feature-kicker").textContent = data.kicker;
   document.getElementById("feature-image").src = data.image;

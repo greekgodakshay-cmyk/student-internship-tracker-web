@@ -282,6 +282,10 @@ body.dashboard-app[data-theme="dark"] > header {
   border-right: 1px solid var(--sb-line) !important;
 }
 body.dashboard-app[data-theme="dark"] > header h1 { color: #9bc9ef !important; }
+body.dashboard-app[data-theme="dark"] .dashboard-brand-title { color: #f0efe9 !important; }
+body.dashboard-app[data-theme="dark"] .dashboard-brand-subtitle { color: #9fb3c2 !important; }
+body.dashboard-app:not([data-theme="dark"]) .dashboard-brand-title { color: #172735 !important; }
+body.dashboard-app:not([data-theme="dark"]) .dashboard-brand-subtitle { color: #5f6c77 !important; }
 body.dashboard-app[data-theme="dark"] > header::after { color: #a8b4bd !important; }
 body.dashboard-app[data-theme="dark"] > header nav a { color: #dbe6ee !important; }
 body.dashboard-app[data-theme="dark"] > header nav a::before { color: var(--sb-nav-icon) !important; }

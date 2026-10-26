@@ -243,6 +243,15 @@ app.get("/connections.html", requireAuth, (req, res) => {
   res.sendFile(path.join(publicPath, "connections.html"));
 });
 
+// Direct Android APK download endpoints with clean attachment filename
+app.get(["/download/android", "/downloads/Locked-In.apk", "/Locked-In.apk"], (req, res) => {
+  const apkPath = path.join(publicPath, "downloads", "Locked-In.apk");
+  if (!fs.existsSync(apkPath)) {
+    return res.status(404).send("APK download currently unavailable.");
+  }
+  res.download(apkPath, "Locked-In.apk");
+});
+
 // Serve CSS and JavaScript assets
 app.use(express.static(publicPath, { index: false }));
 

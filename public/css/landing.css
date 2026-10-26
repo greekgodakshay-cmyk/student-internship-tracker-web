@@ -182,21 +182,23 @@ a:focus-visible, button:focus-visible {
 }
 
 .brand-name {
-  max-width: 235px;
+  max-width: 260px;
   color: var(--ink);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -.01em;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.02em;
 }
 
 .brand-name span {
   display: block;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 14px;
-  font-weight: 400;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--muted);
+  margin-top: 2px;
 }
 
 .primary-nav {
@@ -317,6 +319,84 @@ a:focus-visible, button:focus-visible {
   border-color: #ffffff;
   color: #172b37;
 }
+
+.button-android {
+  background: #1857F2;
+  border-color: #1857F2;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -10px rgba(24, 87, 242, 0.55);
+}
+
+.button-android:hover {
+  background: #0f45cc;
+  border-color: #0f45cc;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px -10px rgba(24, 87, 242, 0.65);
+}
+
+.button-android svg,
+.button-android-light svg,
+.nav-download-link svg {
+  display: block;
+  flex: none;
+}
+
+.button-android-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.button-android-light:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: #ffffff;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.nav-download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1857F2;
+  background: rgba(24, 87, 242, 0.08);
+  border: 1px solid rgba(24, 87, 242, 0.25);
+  transition: all .2s ease;
+}
+
+.nav-download-link:hover {
+  background: #1857F2;
+  color: #ffffff !important;
+  border-color: #1857F2;
+}
+
+body[data-theme="dark"] .nav-download-link {
+  color: #7baaff;
+  background: rgba(123, 170, 255, 0.12);
+  border-color: rgba(123, 170, 255, 0.3);
+}
+
+body[data-theme="dark"] .nav-download-link:hover {
+  background: #1857F2;
+  color: #ffffff !important;
+}
+
 
 .text-link {
   display: inline-flex;

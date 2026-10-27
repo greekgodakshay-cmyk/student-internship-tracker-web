@@ -1,10 +1,14 @@
 
 
-require("dotenv").config();
+const fs = require("fs");
+if (fs.existsSync(".env.local")) {
+  require("dotenv").config({ path: ".env.local" });
+} else {
+  require("dotenv").config();
+}
 
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
 const { randomUUID } = require("crypto");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
@@ -246,13 +250,52 @@ app.get("/connections.html", requireAuth, (req, res) => {
 
 const GITHUB_RELEASE_BASE = "https://github.com/greekgodakshay-cmyk/student-internship-tracker-web/releases/download/v1.0.0";
 
-// Direct Android APK download endpoints (redirects to GitHub Release asset)
-app.get(["/download/android", "/downloads/Locked-In.apk", "/Locked-In.apk"], (req, res) => {
+// Direct Android APK download endpoints with direct file streaming or proxy
+app.get(["/download/android", "/downloads/Lock-in.apk", "/downloads/Locked-In.apk", "/Lock-in.apk", "/Locked-In.apk"], async (req, res) => {
+  const localCandidates = [
+    path.join(publicPath, "downloads", "Lock-in.apk"),
+    path.join(publicPath, "downloads", "Locked-In.apk")
+  ];
+  for (const candidate of localCandidates) {
+    if (fs.existsSync(candidate)) {
+      res.setHeader("Content-Type", "application/vnd.android.package-archive");
+      return res.download(candidate, "Lock-in.apk");
+    }
+  }
+
+  // If local file is not present on cloud hosting, stream the GitHub Release asset
+  try {
+    for (const upstreamName of ["Lock-in.apk", "Locked-In.apk"]) {
+      const upstreamUrl = `${GITHUB_RELEASE_BASE}/${upstreamName}`;
+      const upstreamRes = await fetch(upstreamUrl, { redirect: "follow" });
+      if (upstreamRes.ok && upstreamRes.body) {
+        res.setHeader("Content-Type", "application/vnd.android.package-archive");
+        res.setHeader("Content-Disposition", 'attachment; filename="Lock-in.apk"');
+        const contentLength = upstreamRes.headers.get("content-length");
+        if (contentLength) res.setHeader("Content-Length", contentLength);
+        const { Readable } = require("stream");
+        return Readable.fromWeb(upstreamRes.body).pipe(res);
+      }
+    }
+  } catch (err) {
+    console.error("Upstream APK fetch failed:", err.message);
+  }
+
   res.redirect(`${GITHUB_RELEASE_BASE}/Locked-In.apk`);
 });
 
-// Direct Windows desktop app download endpoints (redirects to GitHub Release asset)
-app.get(["/download/windows", "/downloads/Locked-In-Setup.exe", "/Locked-In-Setup.exe"], (req, res) => {
+// Direct Windows desktop app download endpoints
+app.get(["/download/windows", "/downloads/Lock-in-Setup.exe", "/downloads/Locked-In-Setup.exe", "/Lock-in-Setup.exe", "/Locked-In-Setup.exe"], (req, res) => {
+  const localCandidates = [
+    path.join(publicPath, "downloads", "Lock-in-Setup.exe"),
+    path.join(publicPath, "downloads", "Locked-In-Setup.exe")
+  ];
+  for (const candidate of localCandidates) {
+    if (fs.existsSync(candidate)) {
+      return res.download(candidate, "Lock-in-Setup.exe");
+    }
+  }
+
   res.redirect(`${GITHUB_RELEASE_BASE}/Locked-In-Setup.exe`);
 });
 

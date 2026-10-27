@@ -378,3 +378,96 @@ body[data-theme="dark"] #ai-chat-input::placeholder {
     transition: none;
   }
 }
+
+
+/* Explicit light theme styles */
+body[data-theme="light"] #ai-chat-panel,
+:root[data-theme="light"] #ai-chat-panel {
+  background: #ffffff !important;
+  color: #172735 !important;
+  border-color: #dcdcd5 !important;
+}
+
+body[data-theme="light"] .ai-chat-header,
+:root[data-theme="light"] .ai-chat-header {
+  background: #f6f5f1 !important;
+  border-color: #e3e0d6 !important;
+}
+
+body[data-theme="light"] .ai-chat-header strong,
+:root[data-theme="light"] .ai-chat-header strong,
+body[data-theme="light"] .ai-chat-faq-title,
+:root[data-theme="light"] .ai-chat-faq-title {
+  color: #172735 !important;
+}
+
+body[data-theme="light"] .ai-chat-header p,
+:root[data-theme="light"] .ai-chat-header p,
+body[data-theme="light"] #ai-chat-status,
+:root[data-theme="light"] #ai-chat-status {
+  color: #5d6b71 !important;
+}
+
+body[data-theme="light"] #ai-chat-close,
+:root[data-theme="light"] #ai-chat-close {
+  background: #ffffff !important;
+  color: #172735 !important;
+  border-color: #dcdcd5 !important;
+}
+
+body[data-theme="light"] #ai-chat-messages,
+:root[data-theme="light"] #ai-chat-messages {
+  background: #ffffff !important;
+}
+
+body[data-theme="light"] .ai-chat-bot,
+:root[data-theme="light"] .ai-chat-bot {
+  background: #f3f2ed !important;
+  color: #172735 !important;
+  border: 1px solid #e3e0d6 !important;
+}
+
+body[data-theme="light"] .ai-chat-user,
+:root[data-theme="light"] .ai-chat-user {
+  background: #173b57 !important;
+  color: #ffffff !important;
+  border: 1px solid #173b57 !important;
+}
+
+body[data-theme="light"] .ai-chat-faq,
+:root[data-theme="light"] .ai-chat-faq {
+  background: #ffffff !important;
+  border-color: #ecebe4 !important;
+}
+
+body[data-theme="light"] .ai-chat-faq-button,
+:root[data-theme="light"] .ai-chat-faq-button {
+  background: #ffffff !important;
+  color: #172735 !important;
+  border-color: #dcdcd5 !important;
+}
+
+body[data-theme="light"] #ai-chat-form,
+:root[data-theme="light"] #ai-chat-form {
+  background: #ffffff !important;
+  border-color: #e3e0d6 !important;
+}
+
+body[data-theme="light"] #ai-chat-input,
+:root[data-theme="light"] #ai-chat-input {
+  background: #ffffff !important;
+  color: #172735 !important;
+  border-color: #c6c9c0 !important;
+}
+
+body[data-theme="light"] #ai-chat-input::placeholder,
+:root[data-theme="light"] #ai-chat-input::placeholder {
+  color: #5d6b71 !important;
+}
+
+body[data-theme="light"] #ai-chat-send,
+:root[data-theme="light"] #ai-chat-send {
+  background: #173b57 !important;
+  color: #ffffff !important;
+  border-color: #173b57 !important;
+}

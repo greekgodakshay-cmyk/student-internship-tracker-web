@@ -97,7 +97,7 @@
     share.addEventListener('click', async () => {
       const url = profileUrl(post.author?.id);
       try {
-        if (navigator.share) await navigator.share({ title: `${post.author?.name || 'Student'} on Locked-In`, text: post.content, url });
+        if (navigator.share) await navigator.share({ title: `${post.author?.name || 'Student'} on Lock-in`, text: post.content, url });
         else if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(url); share.textContent = 'Link copied'; }
         else window.prompt('Copy this profile link', url);
       } catch (error) { if (error.name !== 'AbortError') share.title = 'Unable to open sharing options.'; }

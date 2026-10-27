@@ -1385,8 +1385,9 @@ body > header nav a.sidebar-profile-link::before {
 
 .social-message.mine {
   align-self: flex-end;
-  border-color: transparent;
-  background: var(--info-soft);
+  border-color: #173b57;
+  background: #173b57;
+  color: #ffffff !important;
 }
 
 .social-send-form {

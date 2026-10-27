@@ -111,13 +111,13 @@ function buildMenu() {
         },
         { type: 'separator' },
         {
-          label: 'About Locked-In',
+          label: 'About Lock-in',
           click: () => {
             const { dialog } = require('electron');
             dialog.showMessageBox(mainWindow, {
               type: 'info',
-              title: 'About Locked-In',
-              message: 'Locked-In — Student Internship & Skill Tracker',
+              title: 'About Lock-in',
+              message: 'Lock-in — Student Internship & Skill Tracker',
               detail: 'Version 1.0.0 (Windows x64)\nA unified career workspace for learning, skills, projects, and internship opportunities.\n\nRunning on Electron & Chromium.',
               buttons: ['OK'],
               icon: path.join(__dirname, 'assets', 'icon.ico')
@@ -140,7 +140,7 @@ function createWindow() {
     height: 820,
     minWidth: 960,
     minHeight: 640,
-    title: 'Locked-In — Student Internship & Skill Tracker',
+    title: 'Lock-in — Student Internship & Skill Tracker',
     icon: iconPath,
     backgroundColor: '#f6f5f1',
     webPreferences: {

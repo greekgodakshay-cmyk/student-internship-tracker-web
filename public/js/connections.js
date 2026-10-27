@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   description.textContent = type === "followers"
     ? "People who follow your profile."
     : "People you follow.";
-  document.title = `${title.textContent} | Locked-In — Student Internship & Skill Tracker`;
+  document.title = `${title.textContent} | Lock-in — Student Internship & Skill Tracker`;
   back.href = "/index.html#profile";
 
   const element = (tag, text, className) => {
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const avatar = element("span", name.charAt(0).toUpperCase(), "connection-avatar");
       avatar.setAttribute("aria-hidden", "true");
       const details = element("div", undefined, "connection-user-details");
-      details.append(element("strong", name), element("span", "Locked-In member"));
+      details.append(element("strong", name), element("span", "Lock-in member"));
       row.append(avatar, details);
       list.append(row);
     });

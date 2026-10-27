@@ -1,9 +1,9 @@
 {
-  "name": "locked-in-desktop",
+  "name": "lock-in-desktop",
   "version": "1.0.0",
-  "description": "Locked-In — Student Internship & Skill Tracker Desktop App",
+  "description": "Lock-in — Student Internship & Skill Tracker Desktop App",
   "main": "main.js",
-  "author": "Locked-In",
+  "author": "Lock-in",
   "license": "ISC",
   "scripts": {
     "start": "electron .",
@@ -11,9 +11,9 @@
     "dist": "electron-builder --win nsis --x64"
   },
   "build": {
-    "appId": "com.lockedin.desktop",
-    "productName": "Locked-In",
-    "copyright": "Copyright © 2026 Locked-In",
+    "appId": "com.lockin.desktop",
+    "productName": "Lock-in",
+    "copyright": "Copyright © 2026 Lock-in",
     "directories": {
       "output": "dist"
     },
@@ -40,9 +40,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Locked-In",
-      "artifactName": "Locked-In-Setup.${ext}",
-      "uninstallDisplayName": "Locked-In — Student Internship & Skill Tracker"
+      "shortcutName": "Lock-in",
+      "artifactName": "Lock-in-Setup.${ext}",
+      "uninstallDisplayName": "Lock-in — Student Internship & Skill Tracker"
     }
   },
   "devDependencies": {

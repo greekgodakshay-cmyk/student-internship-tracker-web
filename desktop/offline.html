@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Locked-In — Connection Offline</title>
+  <title>Lock-in — Connection Offline</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -113,9 +113,9 @@
 </head>
 <body>
   <div class="offline-card">
-    <img src="assets/logo.png" alt="Locked-In" class="logo">
+    <img src="assets/logo.png" alt="Lock-in" class="logo">
     <h1>Unable to connect</h1>
-    <div class="tagline">Locked-In Cloud Workspace</div>
+    <div class="tagline">Lock-in Cloud Workspace</div>
     <p>We could not reach the server. Please check your internet connection, or if the service is waking up, wait a few moments and try again.</p>
     <button id="retryBtn" class="btn-retry" type="button">
       <span>Retry Connection</span>
@@ -130,8 +130,8 @@
     const statusMessage = document.getElementById('statusMessage');
 
     function attemptReconnect() {
-      statusMessage.textContent = 'Reconnecting to Locked-In...';
-      const target = window.__LOCKED_IN_TARGET__ || 'https://student-internship-tracker-web.onrender.com/';
+      statusMessage.textContent = 'Reconnecting to Lock-in...';
+      const target = window.__LOCK_IN_TARGET__ || window.__LOCKED_IN_TARGET__ || 'https://student-internship-tracker-web.onrender.com/';
       window.location.href = target;
     }
 

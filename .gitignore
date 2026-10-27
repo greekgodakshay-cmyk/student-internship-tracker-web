@@ -7,3 +7,4 @@ desktop/dist/
 public/downloads/
 *.apk
 *.exe
+*.pem

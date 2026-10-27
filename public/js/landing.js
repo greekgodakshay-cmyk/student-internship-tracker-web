@@ -5,7 +5,9 @@
   try { savedTheme = localStorage.getItem(themeKey); } catch { /* Storage may be unavailable. */ }
   const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   const applyTheme = (theme) => {
+    document.documentElement.dataset.theme = theme;
     document.body.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
     if (themeButton) {
       const dark = theme === "dark";
       const ns = "http://www.w3.org/2000/svg";

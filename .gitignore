@@ -4,7 +4,7 @@
 node_modules/
 desktop/node_modules/
 desktop/dist/
-public/downloads/
-*.apk
+public/downloads/*.exe
+!public/downloads/*.apk
 *.exe
 *.pem

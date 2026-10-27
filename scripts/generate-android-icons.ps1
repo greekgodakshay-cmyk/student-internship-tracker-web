@@ -13,6 +13,8 @@ if (-not (Test-Path $fullSrc)) {
 
 $srcImg = [System.Drawing.Image]::FromFile($fullSrc)
 
+$brandBg = [System.Drawing.Color]::FromArgb(255, 24, 87, 242)
+
 function Resize-Image($src, $w, $h) {
     $bmp = New-Object System.Drawing.Bitmap($w, $h, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $g = [System.Drawing.Graphics]::FromImage($bmp)
@@ -20,7 +22,7 @@ function Resize-Image($src, $w, $h) {
     $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
     $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
     $g.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
-    $g.Clear([System.Drawing.Color]::Transparent)
+    $g.Clear($brandBg)
     $g.DrawImage($src, 0, 0, $w, $h)
     $g.Dispose()
     return $bmp
@@ -34,6 +36,10 @@ function Create-RoundImage($src, $size) {
     $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
     $g.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
     $g.Clear([System.Drawing.Color]::Transparent)
+
+    $brush = New-Object System.Drawing.SolidBrush($brandBg)
+    $g.FillEllipse($brush, 0, 0, $size, $size)
+    $brush.Dispose()
 
     $path = New-Object System.Drawing.Drawing2D.GraphicsPath
     $path.AddEllipse(0, 0, $size, $size)
@@ -51,7 +57,7 @@ function Create-ForegroundImage($src, $canvasSize, $contentSize) {
     $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
     $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
     $g.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
-    $g.Clear([System.Drawing.Color]::Transparent)
+    $g.Clear($brandBg)
 
     $offset = [int](($canvasSize - $contentSize) / 2)
     $g.DrawImage($src, $offset, $offset, $contentSize, $contentSize)
